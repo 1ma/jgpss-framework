@@ -16,39 +16,44 @@
  * AUTHORIZES YOU TO USE THE SOFTWARE IN ACCORDANCE WITH THE TERMS SET OUT IN
  * THE LICENSE AGREEMENT.
  */
-
 package jgpss;
+
+import java.util.HashMap;
 
 /**
  * A class representing the GENERATE block.
+ *
  * @author Pau Fonseca i Casas
  * @version 1
- * @see     <a href="http://www-eio.upc.es/~Pau/index.php?q=node/28">Project website</a>
+ * @see     <a href="http://www-eio.upc.es/~Pau/index.php?q=node/28">Project
+ * website</a>
  * @serialData
  */
-public class Leave extends Bloc{
+public class Leave extends Bloc {
+
     private String A;
     private int B;
-    
+
     /**
      * Creates a new instance of Leave
+     *
      * @param comentari the comment of the block.
      * @param label the label of the block.
      * @param A the name of the STORAGE.
      * @param B the number of instances of the STORAGE to free.
      */
-    public Leave( String comentari, String label, String A, int B) {
-        
-       this.setId(Constants.idLeave);
-       this.setLabel(label);
-       this.setComentari(comentari);
+    public Leave(String comentari, String label, String A, int B) {
+
+        this.setId(Constants.idLeave);
+        this.setLabel(label);
+        this.setComentari(comentari);
         this.A = A;
         this.B = B;
     }
-    
 
     /**
      * To obtain the name of the STORAGE.
+     *
      * @return the name of the STORAGE.
      */
     public String getA() {
@@ -57,6 +62,7 @@ public class Leave extends Bloc{
 
     /**
      * To modify the name of the STORAGE.
+     *
      * @param A the new name of the STORAGE.
      */
     public void setA(String A) {
@@ -65,6 +71,7 @@ public class Leave extends Bloc{
 
     /**
      * To get the number of instances of the STORAGE to free.
+     *
      * @return the number of instances of the STORAGE to free.
      */
     public int getB() {
@@ -73,15 +80,36 @@ public class Leave extends Bloc{
 
     /**
      * To modify the number of instances of the STORAGE to free.
+     *
      * @param B the new number of instances of the STORAGE to free.
      */
     public void setB(int B) {
         this.B = B;
     }
 
+    /**
+     * The method that executes the Block
+     *
+     * @param tr tr the transaction that cross the block.
+     * @return this method returns the next block of the transaction active
+     */
     @Override
     public Bloc execute(Xact tr) {
-        throw new UnsupportedOperationException("Not supported yet.");
+
+        HashMap<String, Integer> facilities = this.getModel().getFacilities();
+
+        int decrement = 1;
+        if (this.B > 0) {
+            decrement = this.B;
+        }        
+        
+        facilities.put(this.A, facilities.get(this.A) + decrement);
+
+        // Retrieve a blocked transaction from BEC and put it again in the CEC
+        if (this.getModel().getBEC().get(this.A) != null && !this.getModel().getBEC().get(this.A).isEmpty()) {
+            Xact trBlocked = getModel().getBEC().get(this.A).poll();
+            getModel().getCEC().add(trBlocked);
+        }
+        return nextBloc(tr);
     }
-    
 }

@@ -16,7 +16,6 @@
  * AUTHORIZES YOU TO USE THE SOFTWARE IN ACCORDANCE WITH THE TERMS SET OUT IN
  * THE LICENSE AGREEMENT.
  */
-
 package jgpss;
 
 import java.io.Serializable;
@@ -24,13 +23,15 @@ import java.util.*;
 
 /**
  * A class representing the model elements.
+ *
  * @author Pau Fonseca i Casas
  * @version 1
- * @see     <a href="http://www-eio.upc.es/~Pau/index.php?q=node/28">Project website</a>
+ * @see     <a href="http://www-eio.upc.es/~Pau/index.php?q=node/28">Project
+ * website</a>
  * @serialData
  */
 public class Model implements Serializable {
-    
+
     private String nomModel;
     private String DescripModel;
     //private int id;
@@ -43,6 +44,8 @@ public class Model implements Serializable {
     private PriorityQueue FEC;
     private HashMap<String, PriorityQueue<Xact>> BEC;
     private HashMap<String, Integer> facilities;
+    private HashMap<String, ArrayList> queues;
+
     /**
      * The transaction counter.
      */
@@ -62,7 +65,7 @@ public class Model implements Serializable {
     /**
      * The GNA of the model.
      */
-    public GNA MyRandom=new GNA();
+    public GNA MyRandom = new GNA();
 
     /**
      * Creates a new instance of Model.
@@ -71,35 +74,45 @@ public class Model implements Serializable {
         //inicialitzem a una array buida ja que no tenim encara processos
         this.setProces(new ArrayList());
         this.setStorages(new ArrayList());
-        
+
         CEC = new PriorityQueue<Xact>(1000, this.getPriorityComparator());
         FEC = new PriorityQueue<Xact>(1000, this.getTimeComparator());
         BEC = new HashMap<String, PriorityQueue<Xact>>();
         facilities = new HashMap<String, Integer>();
+        queues = new HashMap<String, ArrayList>();
     }
 
     public Comparator<Xact> getPriorityComparator() {
         return new Comparator<Xact>() {
             public int compare(Xact o1, Xact o2) {
-                if (o1.getPriority() > o2.getPriority()) return -1;
-                else if (o1.getPriority() == o2.getPriority()) return 0;
-                else return 1;
+                if (o1.getPriority() > o2.getPriority()) {
+                    return -1;
+                } else if (o1.getPriority() == o2.getPriority()) {
+                    return 0;
+                } else {
+                    return 1;
+                }
             }
         };
     }
-    
+
     public Comparator<Xact> getTimeComparator() {
         return new Comparator<Xact>() {
             public int compare(Xact o1, Xact o2) {
-                if (o1.getMoveTime() < o2.getMoveTime()) return -1;
-                else if (o1.getMoveTime() == o2.getMoveTime()) return 0;
-                else return 1;
+                if (o1.getMoveTime() < o2.getMoveTime()) {
+                    return -1;
+                } else if (o1.getMoveTime() == o2.getMoveTime()) {
+                    return 0;
+                } else {
+                    return 1;
+                }
             }
         };
     }
-    
+
     /**
      * To obtaint the CEC.
+     *
      * @return the CEC.
      */
     public PriorityQueue getCEC() {
@@ -108,30 +121,34 @@ public class Model implements Serializable {
 
     /**
      * To obtain the FEC.
+     *
      * @return
      */
     public PriorityQueue getFEC() {
         return FEC;
     }
-    
+
     /**
      * To obtain the BEC.
+     *
      * @return
      */
     public HashMap<String, PriorityQueue<Xact>> getBEC() {
         return BEC;
     }
-    
+
     /**
      * To obtain the resources set.
+     *
      * @return
      */
-    public HashMap<String,Integer> getFacilities() {
+    public HashMap<String, Integer> getFacilities() {
         return facilities;
     }
 
     /**
      * To obtain the processes (now an arraylist).
+     *
      * @return
      */
     public ArrayList getProces() {
@@ -140,6 +157,7 @@ public class Model implements Serializable {
 
     /**
      * To set the proceses (now an arraylist).
+     *
      * @param proces
      */
     public void setProces(ArrayList proces) {
@@ -148,6 +166,7 @@ public class Model implements Serializable {
 
     /**
      * To obtain the name of the model.
+     *
      * @return the name.
      */
     public String getNomModel() {
@@ -156,6 +175,7 @@ public class Model implements Serializable {
 
     /**
      * To set the name of the model.
+     *
      * @param nomModel the new name.
      */
     public void setNomModel(String nomModel) {
@@ -164,6 +184,7 @@ public class Model implements Serializable {
 
     /**
      * To obtain the description of the model.
+     *
      * @return the description.
      */
     public String getDescripModel() {
@@ -172,6 +193,7 @@ public class Model implements Serializable {
 
     /**
      * To set the description of the model.
+     *
      * @param DescripModel the description.
      */
     public void setDescripModel(String DescripModel) {
@@ -180,6 +202,7 @@ public class Model implements Serializable {
 
     /**
      * To obtain the array list containing the STORAGES.
+     *
      * @return the arraylist.
      */
     public ArrayList getStorages() {
@@ -188,10 +211,19 @@ public class Model implements Serializable {
 
     /**
      * To set the array list containing the STORAGES.
+     *
      * @param storages the new arraylist.
      */
     public void setStorages(ArrayList storages) {
         this.storages = storages;
+    }
+    
+    /**
+     * To obtain the HashMap containing the QUEUES
+     * @return the HashMap queues
+     */
+    public HashMap<String, ArrayList> getQueues() {
+        return this.queues;
     }
 
     /**
@@ -202,17 +234,17 @@ public class Model implements Serializable {
     }
 
     /**
-     * To initialize the GENERATE block.
-     * This method can be used as a template for other initialization procedures.
+     * To initialize the GENERATE block. This method can be used as a template
+     * for other initialization procedures.
      */
-    void InitializeGenerateBocs(){
+    void InitializeGenerateBocs() {
         for (int j = 0; j < proces.size(); j++) {
             Proces p = (Proces) proces.get(j);
 
             for (int k = 0; k < p.getBlocs().size(); k++) {
                 Bloc b = ((Bloc) (p.getBlocs().get(k)));
-                if (b.getId()==Constants.idGenerate) {
-                    ((Generate)b).execute(null);
+                if (b.getId() == Constants.idGenerate) {
+                    ((Generate) b).execute(null);
                 }
             }
         }
@@ -220,14 +252,18 @@ public class Model implements Serializable {
 
     /**
      * To execute the simulation model.
+     *
      * @param b if true we execute the simulation step by step.
      */
     void execute(boolean b) {
-        relativeClock=0;
-        absoluteClock=0;
+        relativeClock = 0;
+        absoluteClock = 0;
         InitializeGenerateBocs();
-        if(!b) executeAll();
-        else executeStep();
+        if (!b) {
+            executeAll();
+        } else {
+            executeStep();
+        }
     }
 
     /**
@@ -244,10 +280,10 @@ public class Model implements Serializable {
                 do {
                     b.execute(xact);
                     b = b.nextBloc(xact);
-                } while(b != null);
+                } while (b != null);
                 xact = (Xact) CEC.poll();
             }
-            
+
             // CLOCK UPDATE PHASE
             xact = (Xact) FEC.poll();
             if (xact != null) {
@@ -262,12 +298,12 @@ public class Model implements Serializable {
     }
 
     /**
-     * To execute a single step of the simulation model.
-     * Executes untin a new CLOCK UPDATE PHASE.
+     * To execute a single step of the simulation model. Executes untin a new
+     * CLOCK UPDATE PHASE.
      */
     void executeStep() {
         Xact xact;
-        //Motor central de simulació.
+        //Motor central de simulaciï¿½.
         if (TC > 0) {
             //TODO 1: First XACT.
             //TODO 2: Move the XACT as far as we can.

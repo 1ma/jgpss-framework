@@ -34,6 +34,24 @@ public class Enter extends Bloc {
 
     private String A;
     private int B;
+    private int maxCapacity;
+
+    /**
+     * Finds the storage with titol name
+     *
+     * @param titol the name of the storage
+     * @return a Storage instance
+     */
+    private int findStorageMaxCapacity(String titol) {
+        Storage st;
+        for (int i = 0; ((i < VarGlobals.model.getStorages().size())); i++) {
+            st = (Storage) VarGlobals.model.getStorages().get(i);
+            if (st.getNom().equals(titol)) {
+                return ((Storage) VarGlobals.model.getStorages().get(i)).getValor();
+            }
+        }
+        return 1;
+    }
 
     /**
      * Creates a new instance of Enter
@@ -50,6 +68,7 @@ public class Enter extends Bloc {
         this.setComentari(comentari);
         this.A = A;
         this.B = B;
+        this.maxCapacity = this.findStorageMaxCapacity(A);
     }
 
     /**
@@ -97,14 +116,15 @@ public class Enter extends Bloc {
      */
     @Override
     public Bloc execute(Xact tr) {
+
         HashMap<String, Integer> facilities = this.getModel().getFacilities();
         if (facilities.get(this.A) == null) {
             // La facility encara no s'ha utilitzat mai i esta lliure
-            facilities.put(this.A, 1);
+            facilities.put(this.A, this.maxCapacity);
             return nextBloc(tr);
-        } else if (facilities.get(this.A) < this.B) {
+        } else if ((facilities.get(this.A) - this.B) >= 0) {
             // La facility esta lliure
-            facilities.put(this.A, facilities.get(this.A) + this.B);
+            facilities.put(this.A, facilities.get(this.A) - this.B);
             return nextBloc(tr);
         } else {
             // La facility esta ocupada

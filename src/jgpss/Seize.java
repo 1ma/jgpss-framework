@@ -16,7 +16,6 @@
  * AUTHORIZES YOU TO USE THE SOFTWARE IN ACCORDANCE WITH THE TERMS SET OUT IN
  * THE LICENSE AGREEMENT.
  */
-
 package jgpss;
 
 import java.util.HashMap;
@@ -25,48 +24,55 @@ import javax.annotation.Resources;
 
 /**
  * A class representing the SEIZE block.
+ *
  * @author Pau Fonseca i Casas
  * @version 1
- * @see     <a href="http://www-eio.upc.es/~Pau/index.php?q=node/28">Project website</a>
+ * @see     <a href="http://www-eio.upc.es/~Pau/index.php?q=node/28">Project
+ * website</a>
  * @serialData
  */
 public class Seize extends Bloc {
+
     private String A;
-    
-    /** Creates a new instance of Seize
+
+    /**
+     * Creates a new instance of Seize
+     *
      * @param comentari the comment of the block.
      * @param label the label of the block.
      * @param A the name of the SEIZE.
      */
-     public Seize(String comentari, String label, String A) {
-        
-       this.setId(Constants.idSeize);
-       this.setLabel(label);
-       this.setComentari(comentari);
-    //   this.id_model= id_model;
+    public Seize(String comentari, String label, String A) {
+
+        this.setId(Constants.idSeize);
+        this.setLabel(label);
+        this.setComentari(comentari);
+        //   this.id_model= id_model;
         this.A = A;
     }
 
-     /**
-      * To obtain the name of the SEIZE.
-      * @return the name.
-      */
-     public String getA() {
+    /**
+     * To obtain the name of the SEIZE.
+     *
+     * @return the name.
+     */
+    public String getA() {
         return A;
     }
 
-     /**
-      * To modify the name of the SEIZE.
-      * @param A the nanme.
-      */
-     public void setA(String A) {
+    /**
+     * To modify the name of the SEIZE.
+     *
+     * @param A the name.
+     */
+    public void setA(String A) {
         this.A = A;
     }
 
     @Override
     public Bloc execute(Xact tr) {
         HashMap<String, Integer> facilities = this.getModel().getFacilities();
-        if(facilities.get(this.A) == null || facilities.get(this.A) == 0) {
+        if (facilities.get(this.A) == null || facilities.get(this.A) == 0) {
             facilities.put(this.A, 1);
             return nextBloc(tr);
         } else {
@@ -79,5 +85,4 @@ public class Seize extends Bloc {
             return null;
         }
     }
-    
 }

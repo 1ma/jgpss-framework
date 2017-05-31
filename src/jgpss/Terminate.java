@@ -61,7 +61,13 @@ public class Terminate extends Bloc {
 
     @Override
     public Bloc execute(Xact tr) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-    
+        
+        int decrement = 1;
+        if (getA() > 0) {
+            decrement = getA();
+        }        
+        getModel().getCEC().remove(tr);
+        getModel().TC -= decrement;  
+        return null;
+    }    
 }
