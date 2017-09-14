@@ -21,6 +21,8 @@ package persistence;
 import utils.Constants;
 import utils.VarGlobals;
 import java.io.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.Model;
 
 /**
@@ -80,6 +82,17 @@ public class DGestorDisco implements Serializable {
         } catch (Exception e) {
             throw e;
         }
+    }
+    
+    
+    public Model loadModel(String path) {
+        
+        try {
+            return (Model) gD.recuperaObjeto(path);
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+            return null;
+        }           
     }
 
     /**
