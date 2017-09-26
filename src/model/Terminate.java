@@ -50,7 +50,7 @@ public class Terminate extends Bloc {
      */
     public Terminate(String comentari, String label, int A) {
         super(Constants.idTerminate, label, comentari);
-        this.A = A;
+        this.A = A == 0 ? 1 : A;
     }    
 
     @Override

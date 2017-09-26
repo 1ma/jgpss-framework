@@ -18,9 +18,11 @@
  */
 package model;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.*;
 import lombok.Data;
+import model.interfaces.Report;
 import utils.Constants;
 
 /**
@@ -40,7 +42,7 @@ public final class Model implements Serializable {
     private String DescripModel;
     private ArrayList<Proces> proces;
     private ArrayList<Storage> storages;
-    
+
     /**
      * Current Event Chain
      */
@@ -55,7 +57,7 @@ public final class Model implements Serializable {
      * Blocked Event Chain
      */
     private HashMap<String, PriorityQueue<Xact>> BEC;
-    
+
     /**
      * Preempted Xacts
      */
@@ -401,9 +403,8 @@ public final class Model implements Serializable {
                 } while (xact != null && xact.getMoveTime() == relativeClock);
             }
         }
-        
-        report();
-        // SIM REPORT ???
+        System.out.println("Simulation terminated");
+        report(new TxtReport(this));
     }
 
     /**
@@ -423,18 +424,9 @@ public final class Model implements Serializable {
         }
     }
 
-    private void report() {
-        System.out.println("Simulation finalized");
-        
-        this.proces.forEach(p -> {
-        
-            p.getBlocs().forEach(b -> {
-            
-                System.out.println(b.getLabel() + ": " + b.getXactCounter());
-            
-            });
-            
-        });
-        
+    private void report(Report report) throws IOException {
+
+        System.out.println("Init report");        
+        report.createReport();
     }
 }
