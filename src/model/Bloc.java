@@ -44,7 +44,8 @@ public abstract class Bloc {
     private Model model;
     private Proces proces;
     private int pos;
-    private int xactCounter;
+    private int entryCount;
+    private int retry;
 
     /**
      * Match chain used for blocks MATCH, GATHER, ASSEMBLE
@@ -56,24 +57,23 @@ public abstract class Bloc {
      *
      */
     public Bloc(int id, String label, String comentari, Model model) {
-        this.id = id;
-        this.label = label;
-        this.comentari = comentari;
+        
+        this(id,label,comentari);       
         this.model = model;
-        xactCounter = 0;
-        matchChain = new PriorityQueue<>();
     }
 
     public Bloc(int id, String label, String comentari) {
         this.id = id;
         this.label = label;
         this.comentari = comentari;
-        xactCounter = 0;
+        entryCount = 0;
+        retry = 0;
         matchChain = new PriorityQueue<>();
     }
 
     public Bloc() {
-        xactCounter = 0;
+        entryCount = 0;
+        retry = 0;
         matchChain = new PriorityQueue<>();
     }
 
@@ -81,7 +81,11 @@ public abstract class Bloc {
      * Increases the transaction that have entered the block
      */
     public void incTrans() {
-        this.xactCounter++;
+        entryCount++;
+    }
+    
+    public void incRetry() {
+        retry++;
     }
 
     /**
@@ -119,7 +123,7 @@ public abstract class Bloc {
             int mida = bls.size();
             int posicio = nextBloc.pos + 1;
             if (posicio < mida) {
-                nextBloc = (Bloc) bls.get(posicio);
+                nextBloc = bls.get(posicio);
             } else {
                 nextBloc = null;
             }

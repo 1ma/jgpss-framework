@@ -77,7 +77,7 @@ public class Leave extends Bloc {
 
         // Realises B transactions from the server
         facilities.get(A).release(B, tr);
-        PriorityQueue BEC = getModel().getBEC().get(A);
+        PriorityQueue<Xact> BEC = getModel().getBEC().get(A);
 
         /**
          *

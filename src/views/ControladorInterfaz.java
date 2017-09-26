@@ -55,7 +55,7 @@ public class ControladorInterfaz extends javax.swing.JFrame implements Serializa
         //s'inicialitza a fals pq encara no hem guardat cap modelm
         VarGlobals.esGuardat = false;
         VarGlobals.esModificat = false;
-        this.setTitle(Constants.tituloPrincipal);
+        setTitle(Constants.tituloPrincipal);
 
     }
 
@@ -450,13 +450,9 @@ public class ControladorInterfaz extends javax.swing.JFrame implements Serializa
 
     private void ConfigurationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConfigurationActionPerformed
 
-        //TODO: you must complete the execution of this part of the code.
-        mostrarDialogo("Ok", "Cancel", "This optinon is not implemented. Refer the JGPSS manual.", "Warning");
-
         PantallaConfiguration Pant = new PantallaConfiguration(this, true);
         Pant.setLocationRelativeTo(this);
-        Pant.setVisible(true);
-        //Pant.dispose();
+        Pant.setVisible(true);        
     }//GEN-LAST:event_ConfigurationActionPerformed
 
     private void FunctionsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FunctionsActionPerformed
@@ -506,7 +502,7 @@ public class ControladorInterfaz extends javax.swing.JFrame implements Serializa
 
         VarGlobals.limpiarGlobales();
 
-// cridem a la Pantalla per crear un nou modelm
+        // cridem a la Pantalla per crear un nou modelm
         PantallaOpenNewModel pOpenModel = new PantallaOpenNewModel();
         pOpenModel.setLocationRelativeTo(this);
         pOpenModel.setVisible(true);

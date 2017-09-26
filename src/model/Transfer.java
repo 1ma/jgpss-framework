@@ -441,9 +441,10 @@ public class Transfer extends Bloc {
                 }
             }
             // Remaining blocks
+            
             while (k < getProces().getBlocs().size()) {
 
-                Bloc b = ((Bloc) (getProces().getBlocs().get(k)));
+                Bloc b = getProces().getBlocs().get(k);
 
                 if (b.getLabel().equals(C)) {
                     if (b.test(tr)) {
@@ -457,7 +458,7 @@ public class Transfer extends Bloc {
             }
         } // If C is not specified, only one block is tested
         else if (index != -1 && index + 1 < getProces().getBlocs().size()) {
-            Bloc b = (Bloc) getProces().getBlocs().get(index + 1);
+            Bloc b = getProces().getBlocs().get(index + 1);
             if (b.test(tr)) {
                 return b;
             }
@@ -468,7 +469,7 @@ public class Transfer extends Bloc {
     private int blocIndex(String B) {
 
         for (int k = 0; k < getProces().getBlocs().size(); k++) {
-            Bloc b = ((Bloc) (getProces().getBlocs().get(k)));
+            Bloc b = getProces().getBlocs().get(k);
             if (b.getLabel().equals(B)) {
                 return k;
             }

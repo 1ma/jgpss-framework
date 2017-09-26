@@ -96,7 +96,7 @@ public class Enter extends Bloc {
         } else {
             // The facility is bussy
             if (this.getModel().getBEC().get(this.A) == null) {
-                this.getModel().getBEC().put(this.A, new PriorityQueue(1000, this.getModel().getPriorityComparator()));
+                this.getModel().getBEC().put(this.A, new PriorityQueue<>(1000, this.getModel().getPriorityComparator()));
             }
             this.getModel().getBEC().get(this.A).add(tr);
         }

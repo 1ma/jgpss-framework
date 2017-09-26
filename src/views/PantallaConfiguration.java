@@ -18,6 +18,7 @@
  */
 package views;
 
+import model.Model;
 import utils.VarGlobals;
 
 /**
@@ -72,6 +73,12 @@ public class PantallaConfiguration extends javax.swing.JDialog {
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
+            }
+        });
+
+        jTextFieldTC.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldTCActionPerformed(evt);
             }
         });
 
@@ -142,7 +149,7 @@ public class PantallaConfiguration extends javax.swing.JDialog {
         jCheckBox3.setText("Graphical representation *");
         jCheckBox3.setActionCommand("graphic");
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 10));
+        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
         jLabel2.setText("** Not recomended.");
 
         warning.setText("Warnings file");
@@ -153,7 +160,7 @@ public class PantallaConfiguration extends javax.swing.JDialog {
 
         ErrAsWarning.setText("Errors as warnings **");
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 10));
+        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
         jLabel3.setText("* May slow the model execution.");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -212,7 +219,7 @@ public class PantallaConfiguration extends javax.swing.JDialog {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 408, Short.MAX_VALUE)
+                    .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 408, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabelTC)
@@ -269,25 +276,11 @@ public class PantallaConfiguration extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextFieldReplicationNumberActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    @SuppressWarnings("Convert2Lambda")
-    public static void main(String args[]) {
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                PantallaConfiguration dialog = new PantallaConfiguration(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
-    }
+    private void jTextFieldTCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldTCActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldTCActionPerformed
+
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox ErrAsWarning;

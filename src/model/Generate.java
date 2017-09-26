@@ -123,7 +123,7 @@ public class Generate extends Bloc {
         } else {
             System.out.println("Creation limit reached.");
         }
-        //La xact que ha entrat en el GENERATE continua al seg�ent bloc.
+        //La xact que ha entrat en el GENERATE continua al seguent bloc.
         return nextBloc(tr);
     }
 

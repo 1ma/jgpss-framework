@@ -96,13 +96,13 @@ public final class Model implements Serializable {
 
     public Model() {
 
-        this.proces = new ArrayList();
-        this.storages = new ArrayList();
+        this.proces = new ArrayList<>();
+        this.storages = new ArrayList<>();
 
-        CEC = new PriorityQueue(1000, this.getPriorityComparator());
-        FEC = new PriorityQueue(1000, this.getTimeComparator());
-        BEC = new HashMap();
-        preemptedXacts = new HashMap();
+        CEC = new PriorityQueue<>(1000, this.getPriorityComparator());
+        FEC = new PriorityQueue<>(1000, this.getTimeComparator());
+        BEC = new HashMap<>();
+        preemptedXacts = new HashMap<>();
 
         facilities = new HashMap<>();
         queues = new HashMap<>();
@@ -149,7 +149,8 @@ public final class Model implements Serializable {
 
         while (preemptedXacts.entrySet().iterator().hasNext()) {
 
-            Map.Entry pair = (Map.Entry) preemptedXacts.entrySet().iterator().next();
+            Map.Entry pair;
+            pair = (Map.Entry) preemptedXacts.entrySet().iterator().next();
             PriorityQueue<Xact> preempted = (PriorityQueue<Xact>) pair.getValue();
 
             if (preempted.contains(relatedXact)) {
@@ -167,10 +168,10 @@ public final class Model implements Serializable {
      */
     public int getStorageMaxCapacity(String name) {
         Storage st;
-        for (int i = 0; ((i < storages.size())); i++) {
-            st = (Storage) storages.get(i);
+        for (int i = 0; i < storages.size(); i++) {
+            st = storages.get(i);
             if (st.getNom().equals(name)) {
-                return ((Storage) storages.get(i)).getValor();
+                return storages.get(i).getValor();
             }
         }
         return 1;
@@ -210,7 +211,7 @@ public final class Model implements Serializable {
             return String.valueOf(tr.getPriority());
         } // Block entry count
         else if (A.startsWith("N$")) {
-            _A = String.valueOf(findBloc(tr.getBloc().getLabel()).getXactCounter());
+            _A = String.valueOf(findBloc(tr.getBloc().getLabel()).getEntryCount());
         } // Transaction parameter
         else if (A.startsWith("P$")) {
             String parameterName = A.split("P$")[1];
@@ -317,10 +318,10 @@ public final class Model implements Serializable {
      */
     public void InitializeGenerateBocs() {
         for (int j = 0; j < proces.size(); j++) {
-            Proces p = (Proces) proces.get(j);
+            Proces p = proces.get(j);
 
             for (int k = 0; k < p.getBlocs().size(); k++) {
-                Bloc b = ((Bloc) (p.getBlocs().get(k)));
+                Bloc b = p.getBlocs().get(k);
                 if (b.getId() == Constants.idGenerate) {
                     ((Generate) b).execute(null);
                 }
@@ -331,7 +332,7 @@ public final class Model implements Serializable {
     public int blocIndex(String bloc, Proces proces) {
 
         for (int k = 0; k < proces.getBlocs().size(); k++) {
-            Bloc b = ((Bloc) (proces.getBlocs().get(k)));
+            Bloc b = proces.getBlocs().get(k);
             if (b.getLabel().equals(bloc)) {
                 return k;
             }
@@ -348,9 +349,9 @@ public final class Model implements Serializable {
     public Bloc findBloc(String label) {
 
         for (int j = 0; j < proces.size(); j++) {
-            Proces p = (Proces) proces.get(j);
+            Proces p = proces.get(j);
             for (int k = 0; k < p.getBlocs().size(); k++) {
-                Bloc b = ((Bloc) (p.getBlocs().get(k)));
+                Bloc b = p.getBlocs().get(k);
                 if (b.getLabel().equals(label)) {
                     return b;
                 }
@@ -383,24 +384,23 @@ public final class Model implements Serializable {
         //Simulation engine loop.
         while (TC > 0) {
             // SCAN PHASE
-            xact = (Xact) CEC.poll();
+            xact = CEC.poll();
             while (xact != null) {
                 Bloc b = xact.getBloc();
                 do {
                     b = b.execute(xact);
-                    //b = b.nextBloc(xact);
                 } while (b != null);
-                xact = (Xact) CEC.poll();
+                xact = CEC.poll();
             }
 
             // CLOCK UPDATE PHASE
-            xact = (Xact) FEC.poll();
+            xact = FEC.poll();
             if (xact != null) {
                 relativeClock = xact.getMoveTime();
                 do {
                     CEC.add(xact);
-                    xact = (Xact) FEC.poll();
-                } while (xact != null && xact.getMoveTime() == relativeClock);
+                    xact = FEC.poll();
+                } while (xact != null);
             }
         }
         System.out.println("Simulation terminated");

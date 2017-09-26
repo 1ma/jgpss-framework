@@ -1,5 +1,0 @@
-JGPSS model report - generate
-2017-09-25 20:02:44.532
-
-START TIME   END TIME     BLOCKS      FACILITIES   STORAGES
-  0,000000   0,000000          2               0          0

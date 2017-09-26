@@ -69,10 +69,11 @@ public class Advance extends Bloc {
      * situation).
      */
     @Override
-    public Bloc execute(Xact tr) {
+    public Bloc execute(Xact tr) {        
         
-        //Adding a new transaction to the FEC.
         incTrans();
+        
+        System.err.println("advance");
 
         if (tr.getParameter("residual-time") != null) {
             tr.setMoveTime(getModel().getRelativeClock() + (Float) tr.getParameter("residual-time"));
