@@ -69,7 +69,7 @@ public class Release extends Bloc {
         facilities.get(A).release(tr);
 
         // Once the transaction releases the seize, we have to update the transaction move times from the BEC        
-        PriorityQueue BEC = getModel().getBEC().get(A);
+        PriorityQueue<Xact> BEC = getModel().getBEC().get(A);
 
         /**
          *
@@ -77,7 +77,7 @@ public class Release extends Bloc {
          * or the FEC is the restore flag is set
          */
         if (!BEC.isEmpty() && facilities.get(A).isAvailable()) {
-            Xact trBlocked = (Xact) BEC.poll();
+            Xact trBlocked = BEC.poll();
 
             if (trBlocked.restoreToFEC()) {
 

@@ -39,7 +39,7 @@ public class Transfer extends Bloc {
     private String B;
     private String C;
     private String D;
-    private final PriorityQueue BloquedXacts;
+    private final PriorityQueue<Xact> BloquedXacts;
 
     /**
      * String identifying Both TRANSFERs.
@@ -282,7 +282,7 @@ public class Transfer extends Bloc {
                 java.util.Random rnd = new java.util.Random();
                 int randomIndex = rnd.nextInt((lastPlace - firstPlace)) + firstPlace;
 
-                nextBlock = (Bloc) getProces().getBlocs().get(randomIndex);
+                nextBlock = getProces().getBlocs().get(randomIndex);
             }
 
         } /**
@@ -309,7 +309,7 @@ public class Transfer extends Bloc {
             } else if (parameter > getProces().getBlocs().size()) {
                 getModel().registerError("Transaction parameter " + B + " with value out of bounds");
             } else {
-                nextBlock = (Bloc) getProces().getBlocs().get(Math.round(parameter));
+                nextBlock = getProces().getBlocs().get(Math.round(parameter));
             }
 
         } /**
@@ -406,7 +406,7 @@ public class Transfer extends Bloc {
             return tr;
         }
         BloquedXacts.add(tr);
-        return (Xact) BloquedXacts.poll();
+        return BloquedXacts.poll();
     }
 
     /**
@@ -428,8 +428,8 @@ public class Transfer extends Bloc {
         // Tests all blocks between B && C
         if (index != -1 && !C.isEmpty()) {
             int k;
-            for (k = index; k < getProces().getBlocs().size() && !((Bloc) getProces().getBlocs().get(k)).getLabel().equals(C); k += increment) {
-                Bloc b = ((Bloc) (getProces().getBlocs().get(k)));
+            for (k = index; k < getProces().getBlocs().size() && !(getProces().getBlocs().get(k)).getLabel().equals(C); k += increment) {
+                Bloc b = (getProces().getBlocs().get(k));
 
                 if (b.getLabel().equals(C)) {
                     if (b.test(tr)) {

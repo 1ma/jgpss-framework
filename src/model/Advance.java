@@ -71,9 +71,7 @@ public class Advance extends Bloc {
     @Override
     public Bloc execute(Xact tr) {        
         
-        incTrans();
-        
-        System.err.println("advance");
+        incTrans();        
 
         if (tr.getParameter("residual-time") != null) {
             tr.setMoveTime(getModel().getRelativeClock() + (Float) tr.getParameter("residual-time"));

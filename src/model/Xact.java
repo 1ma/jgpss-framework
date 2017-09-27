@@ -32,7 +32,9 @@ import java.util.HashMap;
  */
 public class Xact implements Serializable, Cloneable {
 
-    //Proc�s al que pertany la XACT.
+    static final long serialVersionUID = 42L;
+    
+    //Proces al que pertany la XACT.
     private Proces proces;
     //Bloc en el que es troba la XACT.
     private Bloc bloc;

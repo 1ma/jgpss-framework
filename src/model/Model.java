@@ -38,6 +38,8 @@ import utils.Constants;
 @Data
 public final class Model implements Serializable {
 
+    static final long serialVersionUID = 42L;
+    
     private String nomModel;
     private String DescripModel;
     private ArrayList<Proces> proces;
@@ -149,9 +151,9 @@ public final class Model implements Serializable {
 
         while (preemptedXacts.entrySet().iterator().hasNext()) {
 
-            Map.Entry pair;
-            pair = (Map.Entry) preemptedXacts.entrySet().iterator().next();
-            PriorityQueue<Xact> preempted = (PriorityQueue<Xact>) pair.getValue();
+            Map.Entry<String, PriorityQueue<Xact>> pair;
+            pair = preemptedXacts.entrySet().iterator().next();
+            PriorityQueue<Xact> preempted = pair.getValue();
 
             if (preempted.contains(relatedXact)) {
                 return true;
@@ -261,7 +263,7 @@ public final class Model implements Serializable {
         else if (A.startsWith("QZ$")) {
             String queue = A.split("QZ$")[1];
             _A = String.valueOf(queues.get(queue).getZeroEntries());
-        } //ﬁﬁ Available storage capacity
+        } // Available storage capacity
         else if (A.startsWith("R$")) {
             String storage = A.split("R$")[1];
             _A = String.valueOf(facilities.get(storage).getAvailableCapacity());

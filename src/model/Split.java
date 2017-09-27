@@ -115,7 +115,7 @@ public class Split extends Bloc {
         while (A > 0) {
 
             try {
-                Xact newXact = (Xact) tr.clone();
+                Xact newXact = tr.clone();
                 tr.setBloc(destinationBlock);
                 serialNumber++;
                 if (!C.isEmpty()) {

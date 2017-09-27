@@ -29,6 +29,7 @@ import utils.VarGlobals;
  *
  * @author M.Dolores
  */
+@SuppressWarnings({"unchecked", "rawtypes"})
 public class PanelModelGpss extends javax.swing.JPanel {
     
     private static final long serialVersionUID = 1L;

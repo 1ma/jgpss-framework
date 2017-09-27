@@ -30,8 +30,8 @@ public class FacilityState {
         captureCount = 0;
         maxUsage = 0;
         available = true;
-        holdingTimeRecords = new CustomArrayList();
-        unavailTimeRecords = new CustomArrayList();
+        holdingTimeRecords = new CustomArrayList<>();
+        unavailTimeRecords = new CustomArrayList<>();
     }
 
     /**

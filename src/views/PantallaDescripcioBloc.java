@@ -28,6 +28,7 @@ import utils.VarGlobals;
  *
  * @author M.Dolores
  */
+@SuppressWarnings("unchecked")
 public class PantallaDescripcioBloc extends javax.swing.JDialog {
 
     private static final long serialVersionUID = 1L;
@@ -39,6 +40,7 @@ public class PantallaDescripcioBloc extends javax.swing.JDialog {
     //aquesta variable serveix per guardar si volem modificar consultar o crear un bloc
     int queFem = 0;
 
+    @SuppressWarnings("OverridableMethodCallInConstructor")
     public PantallaDescripcioBloc(Bloc bloc, int caso) {
         this.setModal(true);
         initComponents();

@@ -89,7 +89,7 @@ public class VarGlobals implements Serializable {
      */
     public static DGestorDisco dg = new DGestorDisco(model);
     /**
-     * Transaction counter.ﬁ
+     * Transaction counter.
      */
     public static int TC;
 
