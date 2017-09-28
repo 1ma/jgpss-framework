@@ -65,7 +65,7 @@ public final class Model implements Serializable {
      */
     private HashMap<String, PriorityQueue<Xact>> preemptedXacts;
 
-    private HashMap<String, FacilityState> facilities;
+    private HashMap<String, Facility> facilities;
     private HashMap<String, QueueReport> queues;
     private HashMap<String, Float> saveValue;
     private HashMap<String, Matrix<Float>> mSaveValue;

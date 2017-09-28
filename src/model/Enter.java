@@ -71,7 +71,7 @@ public class Enter extends Bloc {
     @Override
     public Bloc execute(Xact tr) {
 
-        HashMap<String, FacilityState> facilities = this.getModel().getFacilities();
+        HashMap<String, Facility> facilities = this.getModel().getFacilities();
         Bloc _nextBloc = null;
 
         if (B == 0) {
@@ -82,7 +82,7 @@ public class Enter extends Bloc {
 
             // The facility has never been used yet and it is available
             // Now we take B free spaces from the capacity 
-            FacilityState fs = new FacilityState();
+            Facility fs = new Facility();
             fs.setMaxCapacity(getModel().getStorageMaxCapacity(A));
             fs.capture(B, tr);
             facilities.put(A, fs);
@@ -106,10 +106,10 @@ public class Enter extends Bloc {
     @Override
     public boolean test(Xact tr) {
 
-        HashMap<String, FacilityState> facilities = this.getModel().getFacilities();
+        HashMap<String, Facility> facilities = this.getModel().getFacilities();
 
         if (facilities.get(A) == null) {
-            FacilityState fs = new FacilityState();
+            Facility fs = new Facility();
             fs.setMaxCapacity(getModel().getStorageMaxCapacity(A));
             facilities.put(A, fs);
         }

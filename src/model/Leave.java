@@ -69,7 +69,7 @@ public class Leave extends Bloc {
     @Override
     public Bloc execute(Xact tr) {
 
-        HashMap<String, FacilityState> facilities = getModel().getFacilities();
+        HashMap<String, Facility> facilities = getModel().getFacilities();
 
         if (B == 0) {
             B = 1;

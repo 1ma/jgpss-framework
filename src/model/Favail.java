@@ -81,7 +81,7 @@ public class Favail extends Bloc {
         PriorityQueue<Xact> CEC = getModel().getCEC();
 
         if (getModel().getFacilities().get(facilityName) == null) {
-            getModel().getFacilities().put(facilityName, new FacilityState());
+            getModel().getFacilities().put(facilityName, new Facility());
         }
 
         if (getModel().getFacilities().get(facilityName).isAvailable()) {

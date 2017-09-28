@@ -69,37 +69,36 @@ public class Seize extends Bloc {
 
     @Override
     public Bloc execute(Xact tr) {
-        HashMap<String, FacilityState> facilities = this.getModel().getFacilities();
+        HashMap<String, Facility> facilities = this.getModel().getFacilities();
 
         Bloc nextBloc;
-        if (facilities.get(this.A) == null) {
-            FacilityState fs = new FacilityState();
-            fs.capture(tr);
+        if (facilities.get(A) == null) {
+            Facility fs = new Facility();
             facilities.put(this.A, fs);
-            nextBloc = nextBloc(tr);
-
-        } // Attempt to capture the seize
-        else if (facilities.get(A).capture(tr)) {
-            nextBloc = nextBloc(tr);
-        } // The facility is bussy
-        else {
-            this.getModel().getCEC().remove(tr);
-            if (this.getModel().getBEC().get(this.A) == null) {
-                this.getModel().getBEC().put(this.A, new PriorityQueue<>(1000, this.getModel().getPriorityComparator()));
-            }
-            this.getModel().getBEC().get(this.A).add(tr);
-            nextBloc = null;
         }
-        return nextBloc;
+
+        // Attempt to capture the seize
+        if (facilities.get(A).capture(tr)) {
+            return nextBloc(tr);
+        }
+        
+        // The facility is not available
+        if (getModel().getBEC().get(A) == null) {
+            getModel().getBEC().put(A, new PriorityQueue<>(1000, this.getModel().getPriorityComparator()));
+        }
+        
+        // The Xacts remains on the block event chain 
+        getModel().getBEC().get(A).add(tr);
+        return null;
     }
 
     @Override
     public boolean test(Xact tr) {
 
-        HashMap<String, FacilityState> facilities = this.getModel().getFacilities();
+        HashMap<String, Facility> facilities = this.getModel().getFacilities();
 
         if (facilities.get(A) == null) {
-            FacilityState fs = new FacilityState();
+            Facility fs = new Facility();
             facilities.put(A, fs);
         }
 

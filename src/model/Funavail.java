@@ -139,7 +139,7 @@ public class Funavail extends Bloc {
     public Bloc execute(Xact tr) throws Exception {
 
         String facilityName = getModel().evaluateExpression(A, tr);
-        FacilityState facilityState = getModel().getFacilities().get(facilityName);
+        Facility facilityState = getModel().getFacilities().get(facilityName);
         facilityState.setAvailable(false, getModel().getRelativeClock());
 
         Xact owningXact = facilityState.getOwningXact();

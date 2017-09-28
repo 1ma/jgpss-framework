@@ -116,7 +116,7 @@ public class Gate extends Bloc {
         Bloc nextBlock = null;
         Bloc blockB = getProces().findBloc(B);
 
-        FacilityState facility = getModel().getFacilities().get(A);
+        Facility facility = getModel().getFacilities().get(A);
 
         boolean gateType = x.equals(U)
                 || x.equals(NU)

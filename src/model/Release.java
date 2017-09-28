@@ -53,7 +53,7 @@ public class Release extends Bloc {
 
         super(Constants.idRelease, label, comentari);
         this.A = A;
-    }   
+    }
 
     /**
      * The method that executes the Block
@@ -64,45 +64,27 @@ public class Release extends Bloc {
     @Override
     public Bloc execute(Xact tr) {
 
-        HashMap<String, FacilityState> facilities = getModel().getFacilities();
+        HashMap<String, Facility> facilities = getModel().getFacilities();
 
         facilities.get(A).release(tr);
 
-        // Once the transaction releases the seize, we have to update the transaction move times from the BEC        
         PriorityQueue<Xact> BEC = getModel().getBEC().get(A);
 
         /**
          *
          * Retrieve a blocked transaction from BEC and put it again in the CEC
-         * or the FEC is the restore flag is set
+         * or the FEC if the restore flag is set
          */
-        if (!BEC.isEmpty() && facilities.get(A).isAvailable()) {
+        if (!BEC.isEmpty()) {
             Xact trBlocked = BEC.poll();
 
             if (trBlocked.restoreToFEC()) {
-
                 getModel().getFEC().add(trBlocked);
 
             } else {
-                trBlocked.setPriority(trBlocked.getPriority() + 1);
                 getModel().getCEC().add(trBlocked);
             }
         }
-
-        /*if (BEC != null) {
-            Iterator<Xact> it = BEC.iterator();
-            while (it.hasNext()) {
-                Xact xact = it.next();
-                xact.setMoveTime(xact.getMoveTime() + tr.getMoveTime());
-            }
-
-            // Retrieve a blocked transaction from BEC and put it again in the CEC
-            if (!BEC.isEmpty() && facilities.get(A).isAvailable()) {
-                Xact trBlocked = getModel().getBEC().get(A).poll();
-                trBlocked.setPriority(trBlocked.getPriority()+1);
-                getModel().getCEC().add(trBlocked);
-            }
-        }*/
         return nextBloc(tr);
     }
 

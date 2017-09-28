@@ -9,9 +9,9 @@ package model;
 /**
  * Represents the state of a facility
  *
- * @author eZe
+ * @author Ezequiel Andujar Montes
  */
-public class FacilityState {
+public class Facility {
 
     private int capturingTransactions;
     private int counterCount;
@@ -23,7 +23,7 @@ public class FacilityState {
     private final CustomArrayList<Float> unavailTimeRecords;
     private Xact owningXact;    
 
-    public FacilityState() {
+    public Facility() {
         capturingTransactions = 0;
         counterCount = 0;
         maxCapacity = 1;
@@ -260,4 +260,12 @@ public class FacilityState {
     public float avgUnavailTime() {
         return this.unavailTimeRecords.avg();
     }
+    
+    /**
+     * Returns the total utilization time during the simulation
+     */
+    public double getUtilizationTime() {
+        return holdingTimeRecords.stream().mapToDouble(ht -> ht.doubleValue()).sum();
+    }
+    
 }

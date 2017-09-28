@@ -54,21 +54,38 @@ public class TxtReport implements Report {
         writer.println(String.format("%-12s %-12s %-10s %-15s %-10s", "START TIME", "END TIME", "BLOCKS", "FACILITIES", "STORAGES"));
         writer.println(String.format("%-12f %-12f %-10d %-15d %-10d", 0.000f, model.getAbsoluteClock(), totalBlocks, model.getFacilities().size(), model.getStorages().size()));
         writer.println("\n");
-        
+
         // Block Information
         model.getProces().forEach(p -> {
 
             writer.println("PROCESS: " + p.getDescpro() + "\n");
             writer.println(String.format("%-12s %-6s %-12s %-14s %-10s", "LABEL", "LOC", "BLOCK TYPE", "ENTRY COUNT", "RETRY"));
 
-            p.getBlocs().forEach(b  -> {
+            p.getBlocs().forEach(b -> {
 
                 writer.println(String.format("%-12s %-6d %-12s %-14d %-10d", b.getLabel(), b.getPos(), b.getClass().getName().split("model.")[1], b.getEntryCount(), b.getRetry()));
 
             });
 
             writer.println();
+        });
+
+        writer.println();
+
+        // Facilities Information
+        model.getFacilities().keySet().forEach((String fn) -> {
+
+            Facility facility = model.getFacilities().get(fn);
+
+            writer.println(String.format("%-12s %-12s %-10s %-15s %-10s %-10s %-10s %-10s",
+                    "FACILITY", "ENTRIES", "UTIL.", "AVE. TIME", "AVAIL.", "OWNER", "INTER", "DELAY"));
+            
+            writer.println(String.format("%-12s %-12s %-10s %-15s %-10s %-10s %-10s %-10s",
+                    fn, facility.getCounterCount(), facility.getUtilizationTime() / model.getAbsoluteClock(), facility.avgHoldingTime(), 
+                    facility.isAvailable() ? 1 : 0, facility.getOwningXact().getID(),
+                    model.getPreemptedXacts().get(fn).size(), model.getBEC().get(fn).size()));
 
         });
+
     }
 }

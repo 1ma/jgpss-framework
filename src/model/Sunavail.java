@@ -58,12 +58,12 @@ public class Sunavail extends Bloc {
         String facilityName = getModel().evaluateExpression(A, tr);
 
         if (getModel().getFacilities().get(facilityName) == null) {
-            getModel().getFacilities().put(facilityName, new FacilityState());
+            getModel().getFacilities().put(facilityName, new Facility());
         } else {
             getModel().registerError("Storage " + facilityName + "not found");
         }
 
-        FacilityState facilityState = getModel().getFacilities().get(facilityName);
+        Facility facilityState = getModel().getFacilities().get(facilityName);
         facilityState.setAvailable(false, getModel().getRelativeClock());
 
         return nextBloc(tr);

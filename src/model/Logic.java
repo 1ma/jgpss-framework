@@ -74,10 +74,10 @@ public class Logic extends Bloc {
 
     @Override
     public Bloc execute(Xact tr) {
-        HashMap<String, FacilityState> facilities = this.getModel().getFacilities();
+        HashMap<String, Facility> facilities = this.getModel().getFacilities();
         if (facilities.get(this.A) == null) {
 
-            FacilityState fs = new FacilityState();
+            Facility fs = new Facility();
             facilities.put(this.A, fs);
         }
         if (this.x.equals(S)) {
