@@ -1,5 +1,5 @@
 JGPSS model report - Museu
-2017-09-27 23:24:25.369
+2017-09-29 00:27:53.728
 
 START TIME   END TIME     BLOCKS     FACILITIES      STORAGES  
 0,000000     0,000000     3          0               0         
@@ -8,8 +8,8 @@ START TIME   END TIME     BLOCKS     FACILITIES      STORAGES
 PROCESS: Arribades
 
 LABEL        LOC    BLOCK TYPE   ENTRY COUNT    RETRY     
-             0      Generate     7              0         
-demo         1      Advance      6              0         
-             2      Terminate    5              0         
+             0      Generate     4              0         
+demo         1      Advance      3              0         
+             2      Terminate    2              0         
 
 

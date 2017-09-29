@@ -38,7 +38,7 @@ public class TxtReport implements Report {
     }
 
     @Override
-    public void createReport() throws FileNotFoundException {
+    public void createReport() throws Exception {
 
         File file = new File("resources/reports/" + model.getNomModel() + ".txt");
 
@@ -73,19 +73,30 @@ public class TxtReport implements Report {
         writer.println();
 
         // Facilities Information
-        model.getFacilities().keySet().forEach((String fn) -> {
+        model.getFacilities().forEach((key, value) -> {
 
-            Facility facility = model.getFacilities().get(fn);
+            System.err.println("facility");
 
-            writer.println(String.format("%-12s %-12s %-10s %-15s %-10s %-10s %-10s %-10s",
+            Facility facility = value;
+            String fn = key;
+
+            writer.println(String.format("%-12s%-12s%-10s%-15s%-10s%-10s%-10s %-10s",
                     "FACILITY", "ENTRIES", "UTIL.", "AVE. TIME", "AVAIL.", "OWNER", "INTER", "DELAY"));
-            
-            writer.println(String.format("%-12s %-12s %-10s %-15s %-10s %-10s %-10s %-10s",
-                    fn, facility.getCounterCount(), facility.getUtilizationTime() / model.getAbsoluteClock(), facility.avgHoldingTime(), 
-                    facility.isAvailable() ? 1 : 0, facility.getOwningXact().getID(),
-                    model.getPreemptedXacts().get(fn).size(), model.getBEC().get(fn).size()));
 
+            String facilityName = fn;
+            int facilityCounter = facility.getCounterCount();
+            float utilizationTime = model.getRelativeClock() != 0 ? facility.getUtilizationTime() / model.getRelativeClock() : 0;
+            float avgTime = facility.avgHoldingTime();
+            int available = facility.isAvailable() ? 1 : 0;
+            int ownXactID = facility.getOwningXact() != null ? facility.getOwningXact().getID() : -1;
+            int premptXacts = model.getPreemptedXacts().get(fn) != null ? model.getPreemptedXacts().get(fn).size() : 0;
+            int blockedXacts = model.getBEC().get(fn) != null ? model.getBEC().get(fn).size() : 0;            
+
+            String f = String.format("%-12s%-12d%-10f%-15f%-10d%-10d%-10d%-10d",
+                    fn, facilityCounter, utilizationTime, avgTime, available,
+                    ownXactID, premptXacts, blockedXacts);
+
+            writer.println(f);
         });
-
     }
 }

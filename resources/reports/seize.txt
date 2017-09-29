@@ -1,0 +1,18 @@
+JGPSS model report - seize
+2017-09-29 00:38:33.677
+
+START TIME   END TIME     BLOCKS     FACILITIES      STORAGES  
+0,000000     0,000000     4          1               0         
+
+
+PROCESS: p1
+
+LABEL        LOC    BLOCK TYPE   ENTRY COUNT    RETRY     
+             0      Generate     5              0         
+             1      Seize        4              0         
+             2      Release      4              0         
+             3      Terminate    4              0         
+
+
+FACILITY    ENTRIES     UTIL.     AVE. TIME      AVAIL.    OWNER     INTER      DELAY     
+s           4           0,000000  0,000000       1         -1        0         0         

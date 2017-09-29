@@ -64,27 +64,13 @@ public class Release extends Bloc {
     @Override
     public Bloc execute(Xact tr) {
 
+        incTrans();
+        
         HashMap<String, Facility> facilities = getModel().getFacilities();
 
         facilities.get(A).release(tr);
-
         PriorityQueue<Xact> BEC = getModel().getBEC().get(A);
 
-        /**
-         *
-         * Retrieve a blocked transaction from BEC and put it again in the CEC
-         * or the FEC if the restore flag is set
-         */
-        if (!BEC.isEmpty()) {
-            Xact trBlocked = BEC.poll();
-
-            if (trBlocked.restoreToFEC()) {
-                getModel().getFEC().add(trBlocked);
-
-            } else {
-                getModel().getCEC().add(trBlocked);
-            }
-        }
         return nextBloc(tr);
     }
 

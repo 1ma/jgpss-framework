@@ -65,11 +65,11 @@ public class Xact implements Serializable, Cloneable {
      * Constructor
      */
     public Xact() {
-        transactionParameters = new HashMap<String, Object>();
+        transactionParameters = new HashMap<>();
         delay = false;
         restore = false;
         blockRoute = null;
-        ownershipGranted = true;
+        ownershipGranted = false;
         counter = 0;
     }
     

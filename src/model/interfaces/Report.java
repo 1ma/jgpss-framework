@@ -18,7 +18,6 @@
  */
 package model.interfaces;
 
-import java.io.FileNotFoundException;
 
 
 /**
@@ -27,6 +26,6 @@ import java.io.FileNotFoundException;
  */
 public interface Report {
     
-    void createReport() throws FileNotFoundException;
+    void createReport() throws Exception;
     
 }

@@ -5,6 +5,7 @@
  */
 package model;
 
+import java.util.ArrayList;
 
 /**
  * Represents the state of a facility
@@ -19,9 +20,9 @@ public class Facility {
     private int captureCount;
     private int maxUsage;
     private boolean available;
-    private final CustomArrayList<Float> holdingTimeRecords;
-    private final CustomArrayList<Float> unavailTimeRecords;
-    private Xact owningXact;    
+    private final ArrayList<Float> holdingTimeRecords;
+    private final ArrayList<Float> unavailTimeRecords;
+    private Xact owningXact;
 
     public Facility() {
         capturingTransactions = 0;
@@ -97,7 +98,7 @@ public class Facility {
      */
     public boolean capture(Xact tr) {
 
-        if (capturingTransactions + 1 == maxCapacity || !available || (!available && !tr.ownershipGranted())) {
+        if (capturingTransactions == maxCapacity || !available || (!available && !tr.ownershipGranted())) {
             return false;
         }
         owningXact = tr;
@@ -163,17 +164,16 @@ public class Facility {
      * @param time
      */
     public void setAvailable(boolean available, float time) {
-        
+
         this.available = available;
-        
-        if (this.available && !available ) {
+
+        if (this.available && !available) {
             this.registerUnavailStartTime(time);
-        }
-        else if (!this.available && available) {
-            this.registerUnavailEndsTime(time);            
+        } else if (!this.available && available) {
+            this.registerUnavailEndsTime(time);
         }
     }
-    
+
     /**
      * Return true if the storage is empty, false otherwise
      *
@@ -194,6 +194,7 @@ public class Facility {
 
     /**
      * Realeases the facility from the owning transaction
+     *
      * @param tr The transaction that releases the facility
      */
     public void release(Xact tr) {
@@ -229,7 +230,7 @@ public class Facility {
      * @param time
      */
     private void registerEndHoldTime(float time) {
-        Float startHoldTime = holdingTimeRecords.lastItem();
+        Float startHoldTime = holdingTimeRecords.get(holdingTimeRecords.size() - 1);
         holdingTimeRecords.set(holdingTimeRecords.indexOf(startHoldTime), time - startHoldTime);
     }
 
@@ -239,7 +240,7 @@ public class Facility {
 
     private void registerUnavailEndsTime(float time) {
 
-        Float startUnavailTime = unavailTimeRecords.lastItem();
+        Float startUnavailTime = unavailTimeRecords.get(unavailTimeRecords.size() - 1);
         unavailTimeRecords.set(unavailTimeRecords.indexOf(startUnavailTime), time - startUnavailTime);
     }
 
@@ -249,7 +250,7 @@ public class Facility {
      * @return
      */
     public float avgHoldingTime() {
-        return holdingTimeRecords.avg();
+        return holdingTimeRecords.stream().reduce(0f, (x, y) -> x + y) / holdingTimeRecords.size();
     }
 
     /**
@@ -258,14 +259,14 @@ public class Facility {
      * @return
      */
     public float avgUnavailTime() {
-        return this.unavailTimeRecords.avg();
+        return unavailTimeRecords.stream().reduce(0f, (x, y) -> x + y) / unavailTimeRecords.size();
     }
-    
+
     /**
      * Returns the total utilization time during the simulation
      */
-    public double getUtilizationTime() {
-        return holdingTimeRecords.stream().mapToDouble(ht -> ht.doubleValue()).sum();
+    public float getUtilizationTime() {
+        return holdingTimeRecords.stream().reduce(0f, (x, y) -> x + y);
     }
-    
+
 }

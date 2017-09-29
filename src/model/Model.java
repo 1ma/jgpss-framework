@@ -39,7 +39,7 @@ import utils.Constants;
 public final class Model implements Serializable {
 
     static final long serialVersionUID = 42L;
-    
+
     private String nomModel;
     private String DescripModel;
     private ArrayList<Proces> proces;
@@ -404,6 +404,23 @@ public final class Model implements Serializable {
                     xact = FEC.poll();
                 } while (xact != null);
             }
+
+            BEC.forEach((name, bloquedXacts) -> {
+
+                Xact xactB = bloquedXacts.poll();
+
+                do {
+
+                    if (xactB.restoreToFEC()) {
+                        FEC.add(xactB);
+                    } else {
+                        CEC.add(xactB);
+                    }
+                    xactB = bloquedXacts.poll();
+
+                } while (xactB != null);
+
+            });
         }
         System.out.println("Simulation terminated");
         report(new TxtReport(this));
@@ -426,9 +443,11 @@ public final class Model implements Serializable {
         }
     }
 
-    private void report(Report report) throws IOException {
+    private void report(Report report) throws Exception {
 
-        System.out.println("Init report");        
+        System.out.println("Init report");
         report.createReport();
+        System.out.println("Finished report");
+
     }
 }
