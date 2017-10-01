@@ -39,7 +39,7 @@ public class Enter extends Bloc {
     @Getter
     @Setter
     private String A;
-    
+
     @Getter
     @Setter
     private int B;
@@ -56,10 +56,8 @@ public class Enter extends Bloc {
 
         super(Constants.idDepart, label, comentari);
         this.A = A;
-        this.B = B;
+        this.B = B > 0 ? B : 0;
     }
-
-    
 
     /**
      * To execute the block
@@ -72,35 +70,25 @@ public class Enter extends Bloc {
     public Bloc execute(Xact tr) {
 
         HashMap<String, Facility> facilities = this.getModel().getFacilities();
-        Bloc _nextBloc = null;
-
-        if (B == 0) {
-            B = 1;
-        }
 
         if (facilities.get(A) == null) {
+            int maxCapacity = getModel().getStorageMaxCapacity(A);
+            facilities.put(A, new Facility(getModel(), maxCapacity));
+        }
 
-            // The facility has never been used yet and it is available
-            // Now we take B free spaces from the capacity 
-            Facility fs = new Facility();
-            fs.setMaxCapacity(getModel().getStorageMaxCapacity(A));
-            fs.capture(B, tr);
-            facilities.put(A, fs);
-            _nextBloc = nextBloc(tr);
+        if (getModel().getBEC().get(A) == null) {
+            getModel().getBEC().put(A, new PriorityQueue<>(1000, getModel().getPriorityComparator()));
+        }
 
-        } else if (facilities.get(A).capture(B, tr)) {
+        if (facilities.get(A).capture(B, tr)) {
 
-            // The facility has space for B transactions
-            _nextBloc = nextBloc(tr);
+            return nextBloc(tr);
 
         } else {
-            // The facility is bussy
-            if (this.getModel().getBEC().get(this.A) == null) {
-                this.getModel().getBEC().put(this.A, new PriorityQueue<>(1000, this.getModel().getPriorityComparator()));
-            }
-            this.getModel().getBEC().get(this.A).add(tr);
+
+            getModel().getBEC().get(A).add(tr);
+            return null;
         }
-        return _nextBloc;
     }
 
     @Override
@@ -109,9 +97,12 @@ public class Enter extends Bloc {
         HashMap<String, Facility> facilities = this.getModel().getFacilities();
 
         if (facilities.get(A) == null) {
-            Facility fs = new Facility();
-            fs.setMaxCapacity(getModel().getStorageMaxCapacity(A));
-            facilities.put(A, fs);
+            int maxCapacity = getModel().getStorageMaxCapacity(A);
+            facilities.put(A, new Facility(getModel(), maxCapacity));
+        }
+
+        if (getModel().getBEC().get(A) == null) {
+            getModel().getBEC().put(A, new PriorityQueue<>(1000, getModel().getPriorityComparator()));
         }
 
         boolean available = facilities.get(A).isAvailable();
@@ -120,5 +111,10 @@ public class Enter extends Bloc {
             tr.setDelay(true);
         }
         return available;
+    }
+
+    @Override
+    public int getCurrentCount() {
+        return getModel().getBEC().get(A).size();
     }
 }

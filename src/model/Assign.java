@@ -99,7 +99,7 @@ public class Assign extends Bloc {
     @Override
     public Bloc execute(Xact tr) {
 
-        incTrans();
+        incTrans(tr);
         HashMap<String, Object> transactionParameters = tr.getTransactionParameters();
 
         if (transactionParameters.get(A) == null) {
@@ -117,10 +117,6 @@ public class Assign extends Bloc {
             }
         }
         return nextBloc(tr);
-    }
-
-    @Override
-    public boolean test(Xact tr) {
-        return true;
-    }
+    }  
+   
 }

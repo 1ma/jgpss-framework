@@ -69,26 +69,24 @@ public class Seize extends Bloc {
 
     @Override
     public Bloc execute(Xact tr) {
-        
-        incTrans();
-        
+
+        incTrans(tr);
+
         HashMap<String, Facility> facilities = this.getModel().getFacilities();
 
         if (facilities.get(A) == null) {
-            Facility fs = new Facility();
-            facilities.put(A, fs);
+            facilities.put(A, new Facility(getModel()));
+        }
+        
+        if (getModel().getBEC().get(A) == null) {
+            getModel().getBEC().put(A, new PriorityQueue<>(1000, getModel().getPriorityComparator()));
         }
 
         // Attempt to capture the seize
         if (facilities.get(A).capture(tr)) {
             return nextBloc(tr);
         }
-        
-        // The facility is not available
-        if (getModel().getBEC().get(A) == null) {
-            getModel().getBEC().put(A, new PriorityQueue<>(1000, getModel().getPriorityComparator()));
-        }
-        
+
         // The Xacts remains on the block event chain 
         getModel().getBEC().get(A).add(tr);
         return null;
@@ -100,7 +98,7 @@ public class Seize extends Bloc {
         HashMap<String, Facility> facilities = this.getModel().getFacilities();
 
         if (facilities.get(A) == null) {
-            Facility fs = new Facility();
+            Facility fs = new Facility(getModel());
             facilities.put(A, fs);
         }
 
@@ -110,5 +108,5 @@ public class Seize extends Bloc {
             tr.setDelay(true);
         }
         return available;
-    }
+    }  
 }

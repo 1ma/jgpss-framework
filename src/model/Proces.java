@@ -42,8 +42,10 @@ import lombok.Data;
  * @serialData
  */
 @Data
+@SuppressWarnings("FieldMayBeFinal")
 public class Proces implements Serializable {
 
+    private final static long serialVersionUID = 1L;
     private ArrayList<Bloc> blocs;
     private Model GPSSmodel;
     private String descpro;
@@ -55,14 +57,14 @@ public class Proces implements Serializable {
     /**
      * Creates a new instance of Proces
      *
-     * @param Descripcio description of the process.
+     * @param descripcio description of the process
      * @param model the model of the process.
      */
     public Proces(String descripcio, Model model) {
 
         this.descpro = descripcio;
         this.GPSSmodel = model;
-        this.blocs = new ArrayList();
+        this.blocs = new ArrayList<>();
     }
 
     /**
@@ -70,11 +72,12 @@ public class Proces implements Serializable {
      *
      * @param blocs the new array.
      */
-    public void setBlocs(ArrayList blocs) {
+    public void setBlocs(ArrayList<Bloc> blocs) {
+
         for (int i = 0; i < blocs.size(); i++) {
-            ((Bloc) blocs.get(i)).setProces(this);
-            ((Bloc) blocs.get(i)).setModel(GPSSmodel);
-            ((Bloc) blocs.get(i)).setPos(i);
+            blocs.get(i).setProces(this);
+            blocs.get(i).setModel(GPSSmodel);
+            blocs.get(i).setPos(i);
         }
         this.blocs = blocs;
     }

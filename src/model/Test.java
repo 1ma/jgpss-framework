@@ -99,7 +99,7 @@ public class Test extends Bloc {
     @Override
     public Bloc execute(Xact tr) {
 
-        incTrans();
+        incTrans(tr);
 
         Float _A = Float.parseFloat(getModel().evaluateExpression(this.A, tr));
         Float _B = Float.parseFloat(getModel().evaluateExpression(this.B, tr));
@@ -123,10 +123,5 @@ public class Test extends Bloc {
             nextBloc = null;
         }
         return nextBloc;
-    }
-
-    @Override
-    public boolean test(Xact tr) {
-        return true;
-    }
+    }    
 }

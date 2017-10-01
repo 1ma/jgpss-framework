@@ -35,12 +35,13 @@ import utils.Constants;
  * @serialData
  */
 @NoArgsConstructor
+@SuppressWarnings("FieldMayBeFinal")
 public class Logic extends Bloc {
 
     @Getter
-    @Setter    
+    @Setter
     private String x;
-    
+
     @Getter
     @Setter
     private String A;
@@ -56,7 +57,7 @@ public class Logic extends Bloc {
     /**
      * Logic INVERT.
      */
-    public static final String I = "I";    
+    public static final String I = "I";
 
     /**
      * Creates a new instance of Logic.
@@ -67,31 +68,29 @@ public class Logic extends Bloc {
      * @param A the name of the logic.
      */
     public Logic(String comentari, String label, String x, String A) {
-        super(Constants.idLogic, label, comentari);        
+        super(Constants.idLogic, label, comentari);
         this.A = A;
         this.x = x;
-    }    
+    }
 
     @Override
     public Bloc execute(Xact tr) {
+       
+        incTrans(tr);
+       
         HashMap<String, Facility> facilities = this.getModel().getFacilities();
-        if (facilities.get(this.A) == null) {
+        if (facilities.get(A) == null) {
 
-            Facility fs = new Facility();
-            facilities.put(this.A, fs);
+            Facility fs = new Facility(getModel());
+            facilities.put(A, fs);
         }
         if (this.x.equals(S)) {
-            facilities.get(this.A).capture(tr);
-        } else if (this.x.equals(R)) {
-            facilities.get(this.A).release(tr);
+            facilities.get(A).capture(tr);
+        } else if (x.equals(R)) {
+            facilities.get(A).release(tr);
         } else if (!facilities.get(A).isAvailable()) {
             facilities.get(A).capture(tr);
         } //facilities.put(this.A, (facilities.get(this.A) == 1) ? 0 : 1);
         return nextBloc(tr);
-    }
-
-    @Override
-    public boolean test(Xact tr) {
-        return true;
-    }
+    }   
 }

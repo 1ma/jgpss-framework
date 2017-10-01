@@ -56,10 +56,6 @@ public class Buffer extends Bloc {
     public Bloc execute(Xact tr) {
         //TODO.
         return null;
-    }
-
-    @Override
-    public boolean test(Xact tr) {
-        return true;
-    }
+    }  
+   
 }

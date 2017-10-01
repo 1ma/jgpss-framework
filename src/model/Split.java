@@ -38,6 +38,7 @@ import utils.Constants;
  *
  */
 @NoArgsConstructor
+@SuppressWarnings("FieldMayBeFinal")
 public class Split extends Bloc {
 
     @Getter
@@ -129,10 +130,5 @@ public class Split extends Bloc {
             A--;
         }
         return destinationBlock;
-    }
-
-    @Override
-    public boolean test(Xact tr) {
-        return true;
-    }
+    }   
 }

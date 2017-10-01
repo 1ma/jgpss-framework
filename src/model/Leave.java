@@ -39,8 +39,9 @@ public class Leave extends Bloc {
 
     @Getter
     @Setter
+    @SuppressWarnings("FieldMayBeFinal")
     private String A;
-    
+
     @Getter
     @Setter
     private int B;
@@ -57,8 +58,8 @@ public class Leave extends Bloc {
 
         super(Constants.idLeave, label, comentari);
         this.A = A;
-        this.B = B;
-    }    
+        this.B = B == 0 ? 1 : B;
+    }
 
     /**
      * The method that executes the Block
@@ -71,53 +72,10 @@ public class Leave extends Bloc {
 
         HashMap<String, Facility> facilities = getModel().getFacilities();
 
-        if (B == 0) {
-            B = 1;
-        }
-
         // Realises B transactions from the server
         facilities.get(A).release(B, tr);
         PriorityQueue<Xact> BEC = getModel().getBEC().get(A);
 
-        /**
-         *
-         * Retrieve a blocked transaction from the BEC and put it back to the
-         * CEC or the FEC if the restore flag is set
-         *
-         */
-        if (!BEC.isEmpty() && facilities.get(A).isAvailable()) {
-            Xact trBlocked = getModel().getBEC().get(this.A).poll();
-
-            if (trBlocked.restoreToFEC()) {
-
-                getModel().getFEC().add(trBlocked);
-
-            } else {
-                trBlocked.setPriority(trBlocked.getPriority() + 1);
-                getModel().getCEC().add(trBlocked);
-            }
-        }
-
-        /*
-        // Once the transaction releases the server, we have to update the transaction move times from the BEC        
-        if (BEC != null) {
-            
-            Iterator<Xact> it = BEC.iterator();
-            while (it.hasNext()) {
-                Xact xact = it.next();
-                xact.setMoveTime(xact.getMoveTime() + (getModel().relativeClock - tr.getMoveTime()));
-            }            
-            // Retrieve a blocked transaction from the BEC and put it back to the CEC
-            if (!BEC.isEmpty() && facilities.get(A).isAvailable()) {
-                Xact trBlocked = getModel().getBEC().get(this.A).poll();
-                getModel().getCEC().add(trBlocked);
-            }
-        }*/
         return nextBloc(tr);
-    }
-
-    @Override
-    public boolean test(Xact tr) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    }     
 }

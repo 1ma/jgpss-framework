@@ -40,6 +40,7 @@ public class Release extends Bloc {
 
     @Getter
     @Setter
+    @SuppressWarnings("FieldMayBeFinal")
     private String A;
 
     /**
@@ -64,7 +65,7 @@ public class Release extends Bloc {
     @Override
     public Bloc execute(Xact tr) {
 
-        incTrans();
+        incTrans(tr);
         
         HashMap<String, Facility> facilities = getModel().getFacilities();
 
@@ -72,10 +73,5 @@ public class Release extends Bloc {
         PriorityQueue<Xact> BEC = getModel().getBEC().get(A);
 
         return nextBloc(tr);
-    }
-
-    @Override
-    public boolean test(Xact tr) {
-        return true;
-    }
+    }   
 }

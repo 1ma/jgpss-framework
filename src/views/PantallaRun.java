@@ -34,6 +34,8 @@ import model.Model;
  */
 public class PantallaRun extends javax.swing.JDialog {
 
+    static final long serialVersionUID = 1L;
+    
     @Getter
     @Setter
     private Model model;

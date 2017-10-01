@@ -38,6 +38,7 @@ public class Terminate extends Bloc {
 
     @Getter
     @Setter
+    @SuppressWarnings("FieldMayBeFinal")
     private int A;
 
     /**
@@ -56,13 +57,8 @@ public class Terminate extends Bloc {
     @Override
     public Bloc execute(Xact tr) {      
         
-        incTrans();        
+        incTrans(tr);        
         getModel().setTC(getModel().getTC() - A);
         return null;
-    }
-
-    @Override
-    public boolean test(Xact tr) {
-        return true;
-    }
+    }   
 }

@@ -21,8 +21,6 @@ package persistence;
 import utils.Constants;
 import utils.VarGlobals;
 import java.io.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import model.Model;
 
 /**

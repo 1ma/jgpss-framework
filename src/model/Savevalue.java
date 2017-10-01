@@ -46,6 +46,7 @@ import utils.Constants;
  *
  */
 @NoArgsConstructor
+@SuppressWarnings("FieldMayBeFinal")
 public class Savevalue extends Bloc {
 
     @Getter
@@ -77,7 +78,8 @@ public class Savevalue extends Bloc {
      */
     @Override
     public Bloc execute(Xact tr) {
-
+        
+        incTrans(tr);
         float value = getModel().getSaveValue().get(A);
 
         if (B.endsWith("-")) {
@@ -91,10 +93,5 @@ public class Savevalue extends Bloc {
             getModel().getSaveValue().put(A, sValue);
         }
         return nextBloc(tr);
-    }
-
-    @Override
-    public boolean test(Xact tr) {
-        return true;
-    }
+    }   
 }

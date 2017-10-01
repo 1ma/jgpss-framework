@@ -19,7 +19,10 @@
 package model;
 
 import java.util.HashMap;
+import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import utils.Constants;
 
 /**
@@ -32,9 +35,15 @@ import utils.Constants;
  * @serialData
  */
 @NoArgsConstructor
+@SuppressWarnings("FieldMayBeFinal")
 public class Depart extends Bloc {
 
+    @Getter
+    @Setter
     private String A;
+
+    @Getter
+    @Setter
     private int B;
 
     /**
@@ -49,43 +58,8 @@ public class Depart extends Bloc {
 
         super(Constants.idDepart, label, comentari);
         this.A = A;
-        this.B = B;
-    }
+        this.B = B > 0 ? B : 1;
 
-    /**
-     * To obtain the QUEUE.
-     *
-     * @return the name of the QUEUE.
-     */
-    public String getA() {
-        return A;
-    }
-
-    /**
-     * To set the name of the QUEUE.
-     *
-     * @param A the name of the QUEUE.
-     */
-    public void setA(String A) {
-        this.A = A;
-    }
-
-    /**
-     * To obtain the number of elements that leave the QUEUE.
-     *
-     * @return the number of elements that leave the QUEUE.
-     */
-    public int getB() {
-        return B;
-    }
-
-    /**
-     * To set the number of elements that leave the QUEUE.
-     *
-     * @param B the number of elements that leave the QUEUE.
-     */
-    public void setB(int B) {
-        this.B = B;
     }
 
     /**
@@ -98,22 +72,18 @@ public class Depart extends Bloc {
     @Override
     public Bloc execute(Xact tr) {
 
+        incTrans(tr);
+
         HashMap<String, QueueReport> queues = this.getModel().getQueues();
 
-        int increment = 1;
-
-        if (this.B > 0) {
-            increment = this.B;
-        }
-
-        QueueReport queueStatistics = queues.get(this.A);        
+        QueueReport queueStatistics = queues.get(this.A);
         queueStatistics.regAvgTime(tr.getMoveTime());
-        queueStatistics.decCurrentCount(increment);
+        queueStatistics.decCurrentCount(B);
 
         if (tr.getMoveTime() == 0.0) {
             queueStatistics.incZeroEntries();
         } else {
-            queueStatistics.incMaxCount(increment);
+            queueStatistics.incMaxCount(B);
         }
 
         return nextBloc(tr);

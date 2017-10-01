@@ -38,6 +38,7 @@ public class Priority extends Bloc {
 
     @Getter
     @Setter
+    @SuppressWarnings("FieldMayBeFinal")
     private int A;    
 
     /**
@@ -68,14 +69,10 @@ public class Priority extends Bloc {
     @Override
     public Bloc execute(Xact tr) {        
             
+        incTrans(tr);
         tr.setPriority(A);        
         getModel().getCEC().add(tr);
         nextBloc(tr);        
         return null;
-    }
-
-    @Override
-    public boolean test(Xact tr) {
-        return true;
     }
 }

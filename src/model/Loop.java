@@ -32,22 +32,22 @@ package model;
  * A LOOP Block modifies a Parameter and controls the destination of the Active
  * Transaction based on the result.
  */
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import utils.Constants;
 
 @NoArgsConstructor
+@SuppressWarnings("FieldMayBeFinal")
 public class Loop extends Bloc {
 
     @Getter
     @Setter
     private String A;
-    
+
     @Getter
     @Setter
-    private String B;    
+    private String B;
 
     /**
      * Creates a new instance of Loop.
@@ -58,10 +58,10 @@ public class Loop extends Bloc {
      * @param B the label to go if A > 0.
      */
     public Loop(String comentari, String label, String A, String B) {
-        super(Constants.idLoop, label, comentari);        
+        super(Constants.idLoop, label, comentari);
         this.A = A;
         this.B = B;
-    }   
+    }
 
     /**
      * When a Transaction enters a LOOP Block, Operand A is evaluated,
@@ -83,7 +83,9 @@ public class Loop extends Bloc {
         Bloc nextBlock = null;
         try {
 
-            Integer counter = (Integer) tr.getParameter("loop-counter");            
+            incTrans(tr);
+            
+            Integer counter = (Integer) tr.getParameter("loop-counter");
 
             if (counter == null) {
                 counter = Integer.parseInt(getModel().evaluateExpression(A, tr));
@@ -99,13 +101,8 @@ public class Loop extends Bloc {
             }
 
         } catch (NumberFormatException e) {
-            getModel().registerError("At Loop Block " + getLabel() + " parameter " + A + " not found");
+            throw new Exception("At Loop Block " + getLabel() + " parameter " + A + " not found");
         }
         return nextBlock;
-    }
-
-    @Override
-    public boolean test(Xact tr) {
-        return true;
-    }
+    }   
 }

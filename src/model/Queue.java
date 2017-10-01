@@ -35,6 +35,7 @@ import utils.Constants;
  * @serialData
  */
 @NoArgsConstructor
+@SuppressWarnings("FieldMayBeFinal")
 public class Queue extends Bloc {
 
     @Getter
@@ -63,7 +64,7 @@ public class Queue extends Bloc {
     @Override
     public Bloc execute(Xact tr) {
 
-        incTrans();
+        incTrans(tr);
         HashMap<String, QueueReport> queues = this.getModel().getQueues();
 
         int increment = 1;
@@ -81,10 +82,5 @@ public class Queue extends Bloc {
         queueStatistics.incTotalEntries(increment);
 
         return nextBloc(tr);
-    }
-
-    @Override
-    public boolean test(Xact tr) {
-        return true;
-    }
+    }   
 }

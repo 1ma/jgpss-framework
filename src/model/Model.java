@@ -18,7 +18,6 @@
  */
 package model;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.*;
 import lombok.Data;
@@ -36,6 +35,7 @@ import utils.Constants;
  * @serialData
  */
 @Data
+@SuppressWarnings("FieldMayBeFinal")
 public final class Model implements Serializable {
 
     static final long serialVersionUID = 42L;
@@ -350,13 +350,10 @@ public final class Model implements Serializable {
      */
     public Bloc findBloc(String label) {
 
-        for (int j = 0; j < proces.size(); j++) {
-            Proces p = proces.get(j);
-            for (int k = 0; k < p.getBlocs().size(); k++) {
-                Bloc b = p.getBlocs().get(k);
-                if (b.getLabel().equals(label)) {
-                    return b;
-                }
+        for (Proces p : proces) {
+            Bloc b = p.findBloc(label);
+            if (b != null) {
+                return b;
             }
         }
         return null;
@@ -366,6 +363,7 @@ public final class Model implements Serializable {
      * To execute the simulation model.
      *
      * @param b if true we execute the simulation step by step.
+     * @throws java.lang.Exception
      */
     public void execute(boolean b) throws Exception {
         relativeClock = 0;
@@ -380,6 +378,8 @@ public final class Model implements Serializable {
 
     /**
      * To execute the simulation model.
+     *
+     * @throws java.lang.Exception
      */
     public void executeAll() throws Exception {
         Xact xact;
@@ -396,32 +396,46 @@ public final class Model implements Serializable {
             }
 
             // CLOCK UPDATE PHASE
+            // Update FEC xacts
+            
             xact = FEC.poll();
-            if (xact != null) {
+            if (xact != null) {                
+              
                 relativeClock = xact.getMoveTime();
+
                 do {
                     CEC.add(xact);
                     xact = FEC.poll();
-                } while (xact != null);
+
+                } while (xact != null && xact.getMoveTime() == relativeClock);
+                
+                if (xact != null) {
+                    FEC.add(xact);
+                }
+                
             }
 
+            // Update BEC xacts
             BEC.forEach((name, bloquedXacts) -> {
 
                 Xact xactB = bloquedXacts.poll();
 
-                do {
+                if (xactB != null) {
+                    do {
 
-                    if (xactB.restoreToFEC()) {
-                        FEC.add(xactB);
-                    } else {
-                        CEC.add(xactB);
-                    }
-                    xactB = bloquedXacts.poll();
+                        if (xactB.restoreToFEC()) {
+                            FEC.add(xactB);
+                        } else {
+                            CEC.add(xactB);
+                        }
+                        xactB = bloquedXacts.poll();
 
-                } while (xactB != null);
+                    } while (xactB != null);
 
+                }
             });
         }
+        updateCurrentCount();
         System.out.println("Simulation terminated");
         report(new TxtReport(this));
     }
@@ -448,6 +462,27 @@ public final class Model implements Serializable {
         System.out.println("Init report");
         report.createReport();
         System.out.println("Finished report");
+
+    }
+
+    /**
+     * Updates the current count of the Blocs that has xact left
+     */
+    private void updateCurrentCount() {
+
+        CEC.stream().forEach(xact -> {
+            xact.getBloc().incCurrentCount();
+        });
+
+        FEC.stream().forEach(xact -> {
+            xact.getBloc().incCurrentCount();
+        });
+
+        BEC.forEach((name, bloquedXacts) -> {
+            bloquedXacts.forEach(xact -> {
+                xact.getBloc().incCurrentCount();
+            });
+        });
 
     }
 }

@@ -19,7 +19,6 @@
 package model;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.sql.Timestamp;
 import lombok.Cleanup;
@@ -45,42 +44,48 @@ public class TxtReport implements Report {
         @Cleanup
         PrintWriter writer = new PrintWriter(file);
 
-        // Header Information
+        printGeneralInfo(writer);
+        printBlockInfo(writer);
+        printFacilityInfo(writer);
+
+    }
+
+    private void printGeneralInfo(PrintWriter writer) {
+        
         writer.println("JGPSS model report" + " - " + model.getNomModel());
         writer.println(new Timestamp(System.currentTimeMillis()) + "\n");
 
-        // General Information
         int totalBlocks = model.getProces().stream().mapToInt(p -> p.getBlocs().size()).sum();
         writer.println(String.format("%-12s %-12s %-10s %-15s %-10s", "START TIME", "END TIME", "BLOCKS", "FACILITIES", "STORAGES"));
-        writer.println(String.format("%-12f %-12f %-10d %-15d %-10d", 0.000f, model.getAbsoluteClock(), totalBlocks, model.getFacilities().size(), model.getStorages().size()));
+        writer.println(String.format("%-12f %-12f %-10d %-15d %-10d", 0.000f, model.getRelativeClock(), totalBlocks, model.getFacilities().size(), model.getStorages().size()));
         writer.println("\n");
+    }
 
-        // Block Information
+    private void printBlockInfo(PrintWriter writer) {
+
         model.getProces().forEach(p -> {
 
             writer.println("PROCESS: " + p.getDescpro() + "\n");
-            writer.println(String.format("%-12s %-6s %-12s %-14s %-10s", "LABEL", "LOC", "BLOCK TYPE", "ENTRY COUNT", "RETRY"));
+            writer.println(String.format("%-12s %-6s %-12s %-14s %-10s %-10s", "LABEL", "LOC", "BLOCK TYPE", "ENTRY COUNT", "CURRENT COUNT", "RETRY"));
 
             p.getBlocs().forEach(b -> {
 
-                writer.println(String.format("%-12s %-6d %-12s %-14d %-10d", b.getLabel(), b.getPos(), b.getClass().getName().split("model.")[1], b.getEntryCount(), b.getRetry()));
+                writer.println(String.format("%-12s %-6d %-12s %-14d %-14d %-10d", b.getLabel(), b.getPos(), b.getClass().getName().split("model.")[1], b.getEntryCount(), b.getCurrentCount(), b.getRetryCount()));
 
             });
-
             writer.println();
         });
-
         writer.println();
+    }
 
-        // Facilities Information
+    private void printFacilityInfo(PrintWriter writer) {
+
         model.getFacilities().forEach((key, value) -> {
-
-            System.err.println("facility");
 
             Facility facility = value;
             String fn = key;
 
-            writer.println(String.format("%-12s%-12s%-10s%-15s%-10s%-10s%-10s %-10s",
+            writer.println(String.format("%-12s%-12s%-10s%-15s%-10s%-10s%-10s%-10s",
                     "FACILITY", "ENTRIES", "UTIL.", "AVE. TIME", "AVAIL.", "OWNER", "INTER", "DELAY"));
 
             String facilityName = fn;
@@ -88,11 +93,11 @@ public class TxtReport implements Report {
             float utilizationTime = model.getRelativeClock() != 0 ? facility.getUtilizationTime() / model.getRelativeClock() : 0;
             float avgTime = facility.avgHoldingTime();
             int available = facility.isAvailable() ? 1 : 0;
-            int ownXactID = facility.getOwningXact() != null ? facility.getOwningXact().getID() : -1;
+            String ownXactID = facility.getOwningXact() != null ? String.valueOf(facility.getOwningXact().getID()) : "-";
             int premptXacts = model.getPreemptedXacts().get(fn) != null ? model.getPreemptedXacts().get(fn).size() : 0;
-            int blockedXacts = model.getBEC().get(fn) != null ? model.getBEC().get(fn).size() : 0;            
+            int blockedXacts = model.getBEC().get(fn) != null ? model.getBEC().get(fn).size() : 0;
 
-            String f = String.format("%-12s%-12d%-10f%-15f%-10d%-10d%-10d%-10d",
+            String f = String.format("%-12s%-12d%-10f%-15f%-10d%-10s%-10d%-10d",
                     fn, facilityCounter, utilizationTime, avgTime, available,
                     ownXactID, premptXacts, blockedXacts);
 

@@ -28,6 +28,7 @@ import utils.Constants;
  *
  * @author Pau Fonseca i Casas
  * @author M.Dolores
+ * @author Ezequiel Andujar Montes
  * @version 1
  * @see     <a href="http://www-eio.upc.es/~Pau/index.php?q=node/28">Project
  * website</a>
@@ -91,7 +92,7 @@ public class Assemble extends Bloc {
     @Override
     public Bloc execute(Xact tr) {
 
-        incTrans();
+        incTrans(tr);
 
         Xact waitingXact = findWaitingXact(tr);
 
@@ -140,5 +141,12 @@ public class Assemble extends Bloc {
             }
         }
         return null;
+    }
+
+    @Override
+    public int getCurrentCount() {
+        
+        return getMatchChain().size();
+        
     }
 }

@@ -35,6 +35,7 @@ import utils.VarGlobals;
  * @serialData
  */
 @NoArgsConstructor
+@SuppressWarnings("FieldMayBeFinal")
 public class Generate extends Bloc {
 
     //Intergeneration time.
@@ -118,17 +119,12 @@ public class Generate extends Bloc {
             xact.setID(getModel().getIdxact());
             getModel().getFEC().add(xact);
             creationLimitNumber--;
-            incTrans();
+            incTrans(xact);
             System.out.println("Generate DONE.");
         } else {
             System.out.println("Creation limit reached.");
         }
         //La xact que ha entrat en el GENERATE continua al seguent bloc.
         return nextBloc(tr);
-    }
-
-    @Override
-    public boolean test(Xact tr) {
-        return true;
-    }
+    }    
 }

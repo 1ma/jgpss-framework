@@ -5,7 +5,8 @@
  */
 package model;
 
-import java.util.ArrayList;
+import java.util.ArrayDeque;
+import java.util.Deque;
 
 /**
  * Represents the state of a facility
@@ -20,19 +21,26 @@ public class Facility {
     private int captureCount;
     private int maxUsage;
     private boolean available;
-    private final ArrayList<Float> holdingTimeRecords;
-    private final ArrayList<Float> unavailTimeRecords;
+    private final Deque<TimeRecord> holdingTimeRecords;
+    private final Deque<TimeRecord> unavailTimeRecords;
     private Xact owningXact;
+    private Model model;
 
-    public Facility() {
+    public Facility(Model model, int maxCapacity) {
+        this(model);
+        this.maxCapacity = maxCapacity;
+    }
+
+    public Facility(Model model) {
         capturingTransactions = 0;
         counterCount = 0;
         maxCapacity = 1;
         captureCount = 0;
         maxUsage = 0;
         available = true;
-        holdingTimeRecords = new CustomArrayList<>();
-        unavailTimeRecords = new CustomArrayList<>();
+        holdingTimeRecords = new ArrayDeque<>();
+        unavailTimeRecords = new ArrayDeque<>();
+        this.model = model;
     }
 
     /**
@@ -106,7 +114,7 @@ public class Facility {
         maxUsage++;
         capturingTransactions++;
         captureCount++;
-        registerStartHoldTime(tr.getMoveTime());
+        registerStartHoldTime();
         return true;
     }
 
@@ -127,7 +135,7 @@ public class Facility {
         counterCount += count;
         capturingTransactions += count;
         captureCount += count;
-        registerStartHoldTime(tr.getMoveTime());
+        registerStartHoldTime();
         return true;
     }
 
@@ -161,16 +169,15 @@ public class Facility {
      * Sets the availability of the facility
      *
      * @param available
-     * @param time
      */
-    public void setAvailable(boolean available, float time) {
+    public void setAvailable(boolean available) {
 
         this.available = available;
 
         if (this.available && !available) {
-            this.registerUnavailStartTime(time);
+            registerUnavailStartTime();
         } else if (!this.available && available) {
-            this.registerUnavailEndsTime(time);
+            registerUnavailEndsTime();
         }
     }
 
@@ -200,7 +207,7 @@ public class Facility {
     public void release(Xact tr) {
         capturingTransactions = 0;
         owningXact = null;
-        registerEndHoldTime(tr.getMoveTime());
+        registerEndHoldTime();
     }
 
     /**
@@ -212,7 +219,7 @@ public class Facility {
     public void release(int count, Xact tr) {
         capturingTransactions -= count;
         owningXact = null;
-        registerEndHoldTime(tr.getMoveTime());
+        registerEndHoldTime();
     }
 
     /**
@@ -220,8 +227,11 @@ public class Facility {
      *
      * @param time
      */
-    private void registerStartHoldTime(float time) {
-        holdingTimeRecords.add(time);
+    private void registerStartHoldTime() {
+
+        float time = model.getRelativeClock();
+        holdingTimeRecords.push(new TimeRecord(time, time));
+
     }
 
     /**
@@ -229,19 +239,23 @@ public class Facility {
      *
      * @param time
      */
-    private void registerEndHoldTime(float time) {
-        Float startHoldTime = holdingTimeRecords.get(holdingTimeRecords.size() - 1);
-        holdingTimeRecords.set(holdingTimeRecords.indexOf(startHoldTime), time - startHoldTime);
+    private void registerEndHoldTime() {
+
+        if (!holdingTimeRecords.isEmpty()) {
+            holdingTimeRecords.peekFirst().setEndTime(model.getRelativeClock());
+        }
     }
 
-    private void registerUnavailStartTime(float time) {
-        this.unavailTimeRecords.add(time);
+    private void registerUnavailStartTime() {
+
+        float time = model.getRelativeClock();
+        this.unavailTimeRecords.push(new TimeRecord(time, time));
     }
 
-    private void registerUnavailEndsTime(float time) {
-
-        Float startUnavailTime = unavailTimeRecords.get(unavailTimeRecords.size() - 1);
-        unavailTimeRecords.set(unavailTimeRecords.indexOf(startUnavailTime), time - startUnavailTime);
+    private void registerUnavailEndsTime() {
+        if (!unavailTimeRecords.isEmpty()) {
+            unavailTimeRecords.peekFirst().setEndTime(model.getRelativeClock());
+        }
     }
 
     /**
@@ -250,7 +264,14 @@ public class Facility {
      * @return
      */
     public float avgHoldingTime() {
-        return holdingTimeRecords.stream().reduce(0f, (x, y) -> x + y) / holdingTimeRecords.size();
+
+        float sum = holdingTimeRecords.stream()//
+                .map(rt -> rt.totalTime())//
+                .reduce(0f, (x, y) -> x + y);
+
+        int total = holdingTimeRecords.size();
+
+        return total != 0 ? sum / total : 0;
     }
 
     /**
@@ -259,14 +280,24 @@ public class Facility {
      * @return
      */
     public float avgUnavailTime() {
-        return unavailTimeRecords.stream().reduce(0f, (x, y) -> x + y) / unavailTimeRecords.size();
+        float sum = unavailTimeRecords.stream()//
+                .map(tr -> tr.totalTime())//
+                .reduce(0f, (x, y) -> x + y);
+
+        int total = unavailTimeRecords.size();
+
+        return total != 0 ? sum / total : 0;
     }
 
     /**
      * Returns the total utilization time during the simulation
+     *
+     * @return
      */
     public float getUtilizationTime() {
-        return holdingTimeRecords.stream().reduce(0f, (x, y) -> x + y);
+        return holdingTimeRecords.stream()//
+                .map(tr -> tr.totalTime())//
+                .reduce(0f, (x, y) -> x + y);
     }
 
 }

@@ -41,6 +41,7 @@ public class Savail extends Bloc {
 
     @Getter
     @Setter
+    @SuppressWarnings("FieldMayBeFinal")
     private String A;
 
     /** 
@@ -71,7 +72,7 @@ public class Savail extends Bloc {
     @Override
     public Bloc execute(Xact tr) {
 
-        getModel().getFacilities().get(A).setAvailable(true, getModel().getRelativeClock());
+        getModel().getFacilities().get(A).setAvailable(true);
         PriorityQueue<Xact> BEC = getModel().getBEC().get(A);
 
         if (!BEC.isEmpty() && getModel().getFacilities().get(A).isAvailable()) {
@@ -79,10 +80,5 @@ public class Savail extends Bloc {
             getModel().getCEC().add(trBlocked);
         }
         return nextBloc(tr);
-    }
-
-    @Override
-    public boolean test(Xact tr) {
-        return true;
-    }
+    }   
 }

@@ -29,6 +29,7 @@ import utils.VarGlobals;
 /**
  *
  * @author M.Dolores
+ * @author Ezequiel Andujar Montes
  */
 public class ControladorInterfaz extends javax.swing.JFrame implements Serializable {
 
@@ -317,7 +318,7 @@ public class ControladorInterfaz extends javax.swing.JFrame implements Serializa
 
     private void storagesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_storagesActionPerformed
 
-        PantallaStorages descBloc = new PantallaStorages(false);
+        PantallaStorages descBloc = new PantallaStorages(this, false);
         descBloc.setLocationRelativeTo(this);
 
         descBloc.setVisible(true);

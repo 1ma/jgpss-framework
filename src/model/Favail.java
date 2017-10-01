@@ -18,6 +18,7 @@
  */
 package model;
 
+import exceptions.UnrecognizedModel;
 import java.util.PriorityQueue;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -70,10 +71,12 @@ public class Favail extends Bloc {
      * previously available, FAVAIL has no effect. FAVAIL cancels the affects of
      * FUNAVAIL on the Facility Entity, but does not affect displaced
      * Transactions.
+     * @throws java.lang.Exception
      */
     @Override
-    public Bloc execute(Xact tr) {
+    public Bloc execute(Xact tr) throws Exception{
 
+        incTrans(tr);        
         String facilityName = getModel().evaluateExpression(A, tr);
 
         PriorityQueue<Xact> BEC = getModel().getBEC().getOrDefault(facilityName, null);
@@ -81,7 +84,7 @@ public class Favail extends Bloc {
         PriorityQueue<Xact> CEC = getModel().getCEC();
 
         if (getModel().getFacilities().get(facilityName) == null) {
-            getModel().getFacilities().put(facilityName, new Facility());
+            throw new UnrecognizedModel("Inexisteng facility " + facilityName);
         }
 
         if (getModel().getFacilities().get(facilityName).isAvailable()) {
@@ -94,12 +97,7 @@ public class Favail extends Bloc {
             }
         }
 
-        getModel().getFacilities().get(A).setAvailable(true, getModel().getRelativeClock());
+        getModel().getFacilities().get(A).setAvailable(true);
         return nextBloc(tr);
-    }
-
-    @Override
-    public boolean test(Xact tr) {
-        return true;
-    }
+    }   
 }

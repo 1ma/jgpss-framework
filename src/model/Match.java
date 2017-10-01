@@ -37,6 +37,7 @@ public class Match extends Bloc {
 
     @Getter
     @Setter
+    @SuppressWarnings("FieldMayBeFinal")
     private String A;
 
     /**
@@ -50,7 +51,6 @@ public class Match extends Bloc {
         super(Constants.idMatch, label, comentari);
         this.A = A;
     }
-
 
     /**
      * When a Transaction enters a MATCH Block, Operand A is evaluated
@@ -83,7 +83,9 @@ public class Match extends Bloc {
         Match matchBlock = (Match) getProces().findBloc(getModel().evaluateExpression(A, tr));
 
         if (matchBlock == null) {
-            getModel().registerError("In Match Bloc " + getLabel() + " at proces " + getProces().getDescpro() + "Conjugate match block not found");
+
+            throw new Exception("In Match Bloc " + getLabel() + " at proces " + getProces().getDescpro() + "Conjugate match block not found");
+
         } else if (!matchBlock.getMatchChain().isEmpty()) {
 
             Xact relatedXact = matchBlock.findMatchingXact(tr);
@@ -142,13 +144,10 @@ public class Match extends Bloc {
             matchBlock.getMatchChain().add(tr);
         }
 
+        incTrans(tr);
+        
         return null;
-    }
-
-    @Override
-    public boolean test(Xact tr) {
-        return true;
-    }
+    }   
 
     /**
      *
@@ -157,14 +156,10 @@ public class Match extends Bloc {
      */
     public Xact findMatchingXact(Xact xact) {
 
-        while (getMatchChain().iterator().hasNext()) {
+        return getMatchChain().stream()//
+                .filter(t -> t.getAssemblySet() == xact.getAssemblySet())//
+                .findFirst()//
+                .orElse(null);
 
-            Xact relatedXact = getMatchChain().iterator().next();
-
-            if (relatedXact.getAssemblySet() == xact.getAssemblySet()) {
-                return relatedXact;
-            }
-        }
-        return null;
-    }
+    }   
 }

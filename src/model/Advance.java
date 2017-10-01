@@ -35,12 +35,13 @@ import utils.Constants;
  * @serialData
  */
 @NoArgsConstructor
+@SuppressWarnings("FieldMayBeFinal")
 public class Advance extends Bloc {
 
     @Getter
     @Setter
     private float A;
-    
+
     @Getter
     @Setter
     private float B;
@@ -55,10 +56,10 @@ public class Advance extends Bloc {
      */
     public Advance(String comentari, String label, Float A, Float B) {
 
-        super(Constants.idAdvanced, label, comentari);        
+        super(Constants.idAdvanced, label, comentari);
         this.A = A;
         this.B = B;
-    }    
+    }
 
     /**
      * The method that executes the block.
@@ -69,9 +70,9 @@ public class Advance extends Bloc {
      * situation).
      */
     @Override
-    public Bloc execute(Xact tr) {        
-        
-        incTrans();        
+    public Bloc execute(Xact tr) {
+
+        incTrans(tr);
 
         if (tr.getParameter("residual-time") != null) {
             tr.setMoveTime(getModel().getRelativeClock() + (Float) tr.getParameter("residual-time"));
@@ -87,10 +88,6 @@ public class Advance extends Bloc {
 
         getModel().getFEC().add(tr);
         return null;
-    }
-
-    @Override
-    public boolean test(Xact tr) {
-        return true;
-    }
+    }    
+   
 }

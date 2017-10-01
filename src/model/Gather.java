@@ -37,6 +37,7 @@ public class Gather extends Bloc {
 
     @Getter
     @Setter
+    @SuppressWarnings("FieldMayBeFinal")
     private int A;
 
     /**
@@ -90,10 +91,5 @@ public class Gather extends Bloc {
     @Override
     public Bloc execute(Xact tr) {
         return null;
-    }
-
-    @Override
-    public boolean test(Xact tr) {
-        return true;
-    }
+    }    
 }

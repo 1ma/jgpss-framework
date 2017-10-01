@@ -33,6 +33,7 @@ import utils.Constants;
  * @serialData
  */
 @NoArgsConstructor
+@SuppressWarnings("FieldMayBeFinal")
 public class Gate extends Bloc {
 
     @Getter
@@ -111,8 +112,10 @@ public class Gate extends Bloc {
      * proceeds to the Next Sequential Block.
      * @throws java.lang.Exception
      */
+    @Override
     public Bloc execute(Xact tr) throws Exception {
 
+        incTrans(tr);
         Bloc nextBlock = null;
         Bloc blockB = getProces().findBloc(B);
 
@@ -141,10 +144,5 @@ public class Gate extends Bloc {
             }
         }
         return nextBlock;
-    }
-
-    @Override
-    public boolean test(Xact tr) {
-        return true;
-    }
+    }    
 }

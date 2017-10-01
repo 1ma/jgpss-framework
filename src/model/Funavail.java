@@ -37,6 +37,7 @@ import utils.Constants;
  * by Transactions
  */
 @NoArgsConstructor
+@SuppressWarnings("FieldMayBeFinal")
 public class Funavail extends Bloc {
 
     //Intergeneration time.
@@ -88,7 +89,7 @@ public class Funavail extends Bloc {
         this.F = F;
         this.setLabel(label);
         this.setComentari(comentari);
-    }    
+    }
 
     /**
      * The complexity of the FUNAVAIL Block is due to the three classes of
@@ -138,9 +139,10 @@ public class Funavail extends Bloc {
     @Override
     public Bloc execute(Xact tr) throws Exception {
 
+        incTrans(tr);
         String facilityName = getModel().evaluateExpression(A, tr);
         Facility facilityState = getModel().getFacilities().get(facilityName);
-        facilityState.setAvailable(false, getModel().getRelativeClock());
+        facilityState.setAvailable(false);
 
         Xact owningXact = facilityState.getOwningXact();
 
@@ -153,7 +155,7 @@ public class Funavail extends Bloc {
         if (B.equals("RE")) {
 
             if (destinationB != null && destinationB instanceof Release) {
-                getModel().registerError("In Block FUNAVAIL " + getLabel() + " at Process " + getProces().getDescpro() + "Operand C refers to a Release Block and must not be used with RE option");
+                throw new Exception("In Block FUNAVAIL " + getLabel() + " at Process " + getProces().getDescpro() + "Operand C refers to a Release Block and must not be used with RE option");
             }
 
             facilityState.removeOwningXact();
@@ -172,7 +174,8 @@ public class Funavail extends Bloc {
          */
         else if (B.isEmpty()) {
 
-            if (getModel().getPreemptedXacts().get(facilityName) == null) {
+            if (getModel().getPreemptedXacts().get(facilityName) == null) {                
+                
                 getModel().getPreemptedXacts().put(facilityName, new PriorityQueue<>(1000, getModel().getPriorityComparator()));
             }
             getModel().getPreemptedXacts().get(facilityName).add(tr);
@@ -289,17 +292,5 @@ public class Funavail extends Bloc {
             getModel().registerError("In Block FUNAVAIL " + getLabel() + " at Process " + getProces().getDescpro() + "Missing operand F");
         }
         return nextBloc(tr);
-    }
-
-    /**
-     * Returns true if the bloc admits the current, false in case the xact is
-     * refuse by the block. Must be implemented in each block
-     *
-     * @param tr the current XACT (that attempts to cross the bloc)
-     * @return
-     */
-    @Override
-    public boolean test(Xact tr) {
-        return true;
     }
 }

@@ -28,11 +28,11 @@ import utils.VarGlobals;
  *
  * @author M.Dolores
  */
-@SuppressWarnings("unchecked")
+@SuppressWarnings({"rawtypes", "unchecked"})
 public class PantallaDescripcioBloc extends javax.swing.JDialog {
 
     private static final long serialVersionUID = 1L;
-    
+
     /**
      * Creates new form PantallaDescripcioBloc
      */
@@ -159,7 +159,7 @@ public class PantallaDescripcioBloc extends javax.swing.JDialog {
                 TextF.setVisible(false);
                 //    TextG.setVisible(false);
                 break;
-        //blocs que han de mostrar storage
+            //blocs que han de mostrar storage
             case Constants.idBuffer:
                 textA.setVisible(false);
                 TextB.setVisible(false);
@@ -999,7 +999,7 @@ public class PantallaDescripcioBloc extends javax.swing.JDialog {
     }//GEN-LAST:event_formWindowClosed
 
     private void botoStorageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botoStorageActionPerformed
-        PantallaStorages descBloc = new PantallaStorages(true);
+        PantallaStorages descBloc = new PantallaStorages(null, true);
         descBloc.setLocationRelativeTo(this);
 
         descBloc.setVisible(true);

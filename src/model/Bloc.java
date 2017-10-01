@@ -19,8 +19,10 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.PriorityQueue;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * A class representing the ASSIGN GPSS block.
@@ -33,32 +35,35 @@ import lombok.Data;
  * website</a>
  * @serialData
  */
-@Data
 public abstract class Bloc {
 
-    private int id;
-    private String label;
-    private String comentari;
-    private int posx;
-    private int posy;
-    private Model model;
-    private Proces proces;
-    private int pos;
-    private int entryCount;
-    private int retry;
+    @Getter @Setter int id;
+    @Getter @Setter private String label;
+    @Getter @Setter private String comentari;
+    @Getter @Setter int posx;
+    @Getter @Setter private int posy;
+    @Getter @Setter private Model model;
+    @Getter @Setter private Proces proces;
+    @Getter @Setter private int pos;
+    @Getter @Setter private int currentCount;
+    private HashSet<Xact> entryCount, retryCount;
 
     /**
      * Match chain used for blocks MATCH, GATHER, ASSEMBLE
      */
-    private final PriorityQueue<Xact> matchChain;
+    @Getter private final PriorityQueue<Xact> matchChain;
 
     /**
      * Creates a new instance of Bloc
      *
+     * @param id
+     * @param label
+     * @param comentari
+     * @param model
      */
     public Bloc(int id, String label, String comentari, Model model) {
-        
-        this(id,label,comentari);       
+
+        this(id, label, comentari);
         this.model = model;
     }
 
@@ -66,28 +71,49 @@ public abstract class Bloc {
         this.id = id;
         this.label = label;
         this.comentari = comentari;
-        entryCount = 0;
-        retry = 0;
+        entryCount = new HashSet<>();
         matchChain = new PriorityQueue<>();
+        retryCount = new HashSet<>();
+        currentCount = 0;
     }
 
     public Bloc() {
-        entryCount = 0;
-        retry = 0;
+        entryCount = new HashSet<>();
         matchChain = new PriorityQueue<>();
+        retryCount = new HashSet<>();
     }
 
     /**
      * Increases the transaction that have entered the block
+     *
+     * @param xact
      */
-    public void incTrans() {
-        entryCount++;
-    }
-    
-    public void incRetry() {
-        retry++;
+    public void incTrans(Xact xact) {
+
+        if (entryCount.contains(xact)) {
+            retryCount.add(xact);
+        } else {
+            entryCount.add(xact);
+        }
     }
 
+    /**
+     * Returns the total transactions entries on the block
+     *
+     * @return
+     */
+    public int getEntryCount() {
+        return entryCount.size();
+    }
+
+    public int getRetryCount() {
+        return retryCount.size();
+    }    
+    
+    public void incCurrentCount() {
+        currentCount++;
+    }   
+   
     /**
      * To execute the block. Must be implemented in each block.
      *
@@ -106,7 +132,9 @@ public abstract class Bloc {
      * @param tr the current XACT (that attempts to cross the bloc)
      * @return
      */
-    public abstract boolean test(Xact tr);
+    public boolean test(Xact tr) {
+        return true;
+    }  
 
     /**
      * Allows to obtanin thenext block in the current process of the XACT.

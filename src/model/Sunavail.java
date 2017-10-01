@@ -38,6 +38,7 @@ public class Sunavail extends Bloc {
 
     @Getter
     @Setter
+    @SuppressWarnings("FieldMayBeFinal")
     private String A;
 
     /**
@@ -58,20 +59,15 @@ public class Sunavail extends Bloc {
         String facilityName = getModel().evaluateExpression(A, tr);
 
         if (getModel().getFacilities().get(facilityName) == null) {
-            getModel().getFacilities().put(facilityName, new Facility());
+            getModel().getFacilities().put(facilityName, new Facility(getModel()));
         } else {
-            getModel().registerError("Storage " + facilityName + "not found");
+            throw new Exception("Storage " + facilityName + "not found");
         }
 
         Facility facilityState = getModel().getFacilities().get(facilityName);
-        facilityState.setAvailable(false, getModel().getRelativeClock());
+        facilityState.setAvailable(false);
 
         return nextBloc(tr);
 
-    }
-
-    @Override
-    public boolean test(Xact tr) {
-        return true;
     }
 }

@@ -18,7 +18,9 @@
  */
 package views;
 
+import java.awt.Frame;
 import java.util.*;
+import javax.swing.DefaultComboBoxModel;
 import model.*;
 import utils.Constants;
 import utils.VarGlobals;
@@ -27,6 +29,7 @@ import utils.VarGlobals;
  *
  * @author M.Dolores
  */
+@SuppressWarnings({"rawtypes", "unchecked"})
 public class PantallaStorages extends javax.swing.JDialog {
 
     private final static long serialVersionUID = 1L;
@@ -37,16 +40,16 @@ public class PantallaStorages extends javax.swing.JDialog {
     /**
      * Creates new form PantallaStorages
      *
+     * @param parent
      * @param verOK
      */
-    public PantallaStorages(boolean verOK) {
-        this.setModal(true);
+    public PantallaStorages(Frame parent, boolean verOK) {
 
+        super(parent, Constants.tituloStorages, true);
         initComponents();
         rellenarCombo();
         botoOK.setEnabled(false);
         botoSave.setEnabled(false);
-        this.setTitle(Constants.tituloStorages);
         if (!verOK) {
             botoOK.setVisible(false);
         }
@@ -222,9 +225,10 @@ public class PantallaStorages extends javax.swing.JDialog {
         //mirar si el valor existe para guardarlo
     }//GEN-LAST:event_comboStoragesActionPerformed
 
+    @SuppressWarnings("unchecked")
     private void rellenarCombo() {
         if (VarGlobals.model.getStorages().size() > 0) {
-            comboStorages.setModel(new javax.swing.DefaultComboBoxModel(agafarNomsStorages(VarGlobals.model.getStorages())));
+            comboStorages.setModel(new DefaultComboBoxModel(agafarNomsStorages(VarGlobals.model.getStorages())));
             comboStorages.setEnabled(true);
             if (storageAux != null) {
                 comboStorages.setSelectedItem(storageAux.getNom());
