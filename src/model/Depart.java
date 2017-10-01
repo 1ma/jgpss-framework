@@ -19,7 +19,6 @@
 package model;
 
 import java.util.HashMap;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -77,7 +76,7 @@ public class Depart extends Bloc {
         HashMap<String, QueueReport> queues = this.getModel().getQueues();
 
         QueueReport queueStatistics = queues.get(this.A);
-        queueStatistics.regAvgTime(tr.getMoveTime());
+        queueStatistics.regEndTime();
         queueStatistics.decCurrentCount(B);
 
         if (tr.getMoveTime() == 0.0) {
@@ -87,10 +86,5 @@ public class Depart extends Bloc {
         }
 
         return nextBloc(tr);
-    }
-
-    @Override
-    public boolean test(Xact tr) {
-        return true;
-    }
+    }   
 }

@@ -72,7 +72,7 @@ public class Seize extends Bloc {
 
         incTrans(tr);
 
-        HashMap<String, Facility> facilities = this.getModel().getFacilities();
+        HashMap<String, Facility> facilities = getModel().getFacilities();
 
         if (facilities.get(A) == null) {
             facilities.put(A, new Facility(getModel()));

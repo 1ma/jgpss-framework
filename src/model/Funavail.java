@@ -205,7 +205,7 @@ public class Funavail extends Bloc {
                 owningXact.setBloc(destinationB);
             }
         } else {
-            getModel().registerError("In Block FUNAVAIL " + getLabel() + " at Process " + getProces().getDescpro() + "Missing operand C or block not found");
+            throw new Exception("In Block FUNAVAIL " + getLabel() + " at Process " + getProces().getDescpro() + "Missing operand C or block not found");
         }
 
         /**
@@ -258,7 +258,7 @@ public class Funavail extends Bloc {
         else if (E.equals("RE") && getModel().getPreemptedXacts().get(facilityName) != null) {
 
             if (destinationF != null && destinationF instanceof Release) {
-                getModel().registerError("In Block FUNAVAIL " + getLabel() + " at Process " + getProces().getDescpro() + "Operand C refers to a Release Block and must not be used with RE option");
+                throw new Exception("In Block FUNAVAIL " + getLabel() + " at Process " + getProces().getDescpro() + "Operand C refers to a Release Block and must not be used with RE option");
             }
 
             while (!getModel().getBEC().get(facilityName).isEmpty()) {
@@ -289,7 +289,7 @@ public class Funavail extends Bloc {
                 }
             }
         } else {
-            getModel().registerError("In Block FUNAVAIL " + getLabel() + " at Process " + getProces().getDescpro() + "Missing operand F");
+            throw new Exception("In Block FUNAVAIL " + getLabel() + " at Process " + getProces().getDescpro() + "Missing operand F");
         }
         return nextBloc(tr);
     }

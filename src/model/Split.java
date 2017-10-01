@@ -125,7 +125,7 @@ public class Split extends Bloc {
                 getModel().getCEC().add(newXact);
 
             } catch (CloneNotSupportedException e) {
-                getModel().registerError("At Split block " + getLabel() + " Error on copy transaction ");
+                throw new Exception("At Split block " + getLabel() + " Error on copy transaction ");
             }
             A--;
         }

@@ -58,28 +58,20 @@ public class Queue extends Bloc {
 
         super(Constants.idQueue, label, comentari);
         this.A = A;
-        this.B = B;
+        this.B = B > 0 ? B : 1;
     }
 
     @Override
     public Bloc execute(Xact tr) {
 
         incTrans(tr);
-        HashMap<String, QueueReport> queues = this.getModel().getQueues();
+        HashMap<String, QueueReport> queues = getModel().getQueues();
 
-        int increment = 1;
-
-        if (this.B > 0) {
-            increment = this.B;
+        if (queues.get(A) == null) {
+            queues.put(A, new QueueReport(getModel()));
         }
-
-        if (queues.get(this.A) == null) {
-            QueueReport queueStatistics = new QueueReport();
-            queues.put(this.A, queueStatistics);
-        }
-        QueueReport queueStatistics = queues.get(this.A);
-        queueStatistics.incCurrentCount(increment);
-        queueStatistics.incTotalEntries(increment);
+        QueueReport queueStatistics = queues.get(A);
+        queueStatistics.incCurrentCount(B);
 
         return nextBloc(tr);
     }   

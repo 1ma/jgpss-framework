@@ -5,7 +5,8 @@
  */
 package model;
 
-import java.util.ArrayList;
+import java.util.ArrayDeque;
+import java.util.Deque;
 
 /**
  * Register the queue statistics
@@ -18,29 +19,17 @@ public class QueueReport {
     private int totalEntries;
     private int zeroEntries;
     private int currentCount;
-    private final ArrayList<Integer> avgCount;
-    private final ArrayList<Double> avgTime;
+    private int retry;
+    private final Deque<TimeRecord> timeRecords;
+    private final Model model;
 
-    private float average(ArrayList array, boolean withoutZeroEntries) {
-
-        if (array.isEmpty()) {
-            return 0;
-        }
-        float cont = 0;
-        for (int i = 0; i < array.size(); i++) {
-            if (!withoutZeroEntries || withoutZeroEntries && (Double) array.get(i) != 0.0) {
-                cont += (Double) array.get(i);
-            }
-        }
-        return cont / array.size();
-    }
-
-    public QueueReport() {
-        this.maxCount = 0;
-        this.totalEntries = 0;
-        this.zeroEntries = 0;
-        this.avgCount = new ArrayList<Integer>();
-        this.avgTime = new ArrayList<Double>();
+    public QueueReport(Model model) {
+        retry = 0;
+        maxCount = 0;
+        totalEntries = 0;
+        zeroEntries = 0;
+        timeRecords = new ArrayDeque<>();
+        this.model = model;
     }
 
     /**
@@ -77,7 +66,7 @@ public class QueueReport {
      * @return
      */
     public int getTotalEntries() {
-        return this.totalEntries;
+        return totalEntries;
     }
 
     /**
@@ -86,7 +75,7 @@ public class QueueReport {
      * @return
      */
     public Float getAvgTime() {
-        return average(this.avgTime, false);
+        return averageTime(false);
     }
 
     /**
@@ -96,18 +85,15 @@ public class QueueReport {
      * @return
      */
     public Float getAvgTime(boolean zero) {
-        return average(this.avgTime, zero);
+        return averageTime(zero);
     }
 
-    /**
-     * Returns the entries average time stay
-     *
-     * @param zero if true returns the stay average time without zero entries
-     * @return
-     */
-    public Float getAvgCount(boolean zero) {
+    public Float getAvgContent() {
 
-        return this.average(this.avgCount, zero);
+        return timeRecords.stream()//
+                .map(tr -> tr.totalTime())//
+                .reduce(0f, (x, y) -> x + y) / model.getRelativeClock();
+
     }
 
     /**
@@ -116,16 +102,7 @@ public class QueueReport {
      * @return
      */
     public int getCurrentCount() {
-        return this.currentCount;
-    }
-
-    /**
-     * Increments the total entries by entries units
-     *
-     * @param entries
-     */
-    public void incTotalEntries(int entries) {
-        this.totalEntries += entries;
+        return currentCount;
     }
 
     /**
@@ -134,8 +111,17 @@ public class QueueReport {
      * @param entries
      */
     public void incCurrentCount(int entries) {
-        this.currentCount += entries;
-        this.avgCount.add(this.currentCount);
+        currentCount += entries;
+        totalEntries += entries;
+    }
+
+    /**
+     * Decrements the current count by entries units
+     *
+     * @param entries
+     */
+    public void decCurrentCount(int entries) {
+        currentCount -= entries;
     }
 
     /**
@@ -146,31 +132,48 @@ public class QueueReport {
     }
 
     /**
-     * Decrements the current count by entries units
-     *
-     * @param entries
-     */
-    public void decCurrentCount(int entries) {
-        this.currentCount -= entries;
-        this.avgCount.add(this.currentCount);
-    }
-
-    /**
      * Increments the maximum length of the queue by increment units
      *
      * @param increment
      */
     public void incMaxCount(int increment) {
-        this.maxCount += increment;
-        this.avgCount.add(this.maxCount);
+        maxCount += increment;
     }
 
     /**
      * Registers a new transaction time
      *
-     * @param time
      */
-    public void regAvgTime(double time) {
-        this.avgTime.add(time);
+    public void regStartTime() {
+        float time = model.getRelativeClock();
+        timeRecords.push(new TimeRecord(time, time));
     }
+
+    public void regEndTime() {
+        timeRecords.peekFirst().setEndTime(model.getRelativeClock());
+    }
+    
+    public int getRetry() {
+        return retry;
+    }
+
+    private float averageTime(boolean withoutZeroEntries) {
+
+        if (timeRecords.isEmpty()) {
+            return 0f;
+        }
+
+        if (withoutZeroEntries) {
+
+            return timeRecords.stream()//
+                    .map(rt -> rt.totalTime())//
+                    .filter(tt -> tt == 0f)//
+                    .reduce(0f, (x, y) -> x + y) / totalEntries;
+        }
+
+        return timeRecords.stream()//
+                .map(rt -> rt.totalTime())//
+                .reduce(0f, (x, y) -> x + y) / totalEntries;
+    }
+
 }

@@ -128,7 +128,7 @@ public class Gate extends Bloc {
                 || x.equals(SE) || x.equals(SNE);
 
         if (!gateType) {
-            getModel().registerError("At Gate Block " + getLabel() + " unknown type of gate");
+            throw new Exception("At Gate Block " + getLabel() + ". Unknown gate type " + gateType);
         } else {
             boolean test = x.equals(U) && !facility.isAvailable()
                     || x.equals(NU) && facility.isAvailable()

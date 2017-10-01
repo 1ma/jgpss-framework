@@ -271,7 +271,7 @@ public class Transfer extends Bloc {
         else if (A.equals(PICK)) {
 
             if (!(B.isEmpty() || C.isEmpty())) {
-                getModel().registerError("first place or last place not specified");
+                throw new Exception("At Transfer Block: " + getLabel() + ".First place or last place not specified");
             } else {
                 int firstPlace = Integer.parseInt(B);
                 int lastPlace = Integer.parseInt(C);
@@ -305,9 +305,9 @@ public class Transfer extends Bloc {
             Float parameter = (Float) tr.getParameter(B);
 
             if (parameter == null) {
-                getModel().registerError("Transaction parameter " + B + " not specified");
+                throw new Exception("At Transfer Block: " + getLabel() + ". Transaction parameter " + B + " not specified");
             } else if (parameter > getProces().getBlocs().size()) {
-                getModel().registerError("Transaction parameter " + B + " with value out of bounds");
+                throw new Exception("At Transfer Block: " + getLabel() + ". Transaction parameter " + B + " with value out of bounds");
             } else {
                 nextBlock = getProces().getBlocs().get(Math.round(parameter));
             }
@@ -351,7 +351,7 @@ public class Transfer extends Bloc {
             if (blocB != null) {
                 nextBlock = blocB;
             } else {
-                getModel().registerError("Block " + B + " not found");
+                throw new Exception("At Transfer Block: " + getLabel() + ". Block " + B + " not found");
             }
 
         } else if (A.isEmpty() && !B.isEmpty()) {
@@ -389,7 +389,7 @@ public class Transfer extends Bloc {
                 }
 
             } catch (NumberFormatException e) {
-                getModel().registerError("In Transfer Bloc " + getLabel() + " at proces " + getProces().getDescpro() + " Bad Fraction Format");
+                throw new Exception("At Transfer Block: " + getLabel() + " at proces " + getProces().getDescpro() + ". Bad Fraction Format");
             }
         }
         return nextBlock;
@@ -441,7 +441,7 @@ public class Transfer extends Bloc {
                 }
             }
             // Remaining blocks
-            
+
             while (k < getProces().getBlocs().size()) {
 
                 Bloc b = getProces().getBlocs().get(k);

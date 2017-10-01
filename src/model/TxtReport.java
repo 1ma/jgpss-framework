@@ -47,11 +47,12 @@ public class TxtReport implements Report {
         printGeneralInfo(writer);
         printBlockInfo(writer);
         printFacilityInfo(writer);
+        printQueueInfo(writer);
 
     }
 
     private void printGeneralInfo(PrintWriter writer) {
-        
+
         writer.println("JGPSS model report" + " - " + model.getNomModel());
         writer.println(new Timestamp(System.currentTimeMillis()) + "\n");
 
@@ -80,10 +81,7 @@ public class TxtReport implements Report {
 
     private void printFacilityInfo(PrintWriter writer) {
 
-        model.getFacilities().forEach((key, value) -> {
-
-            Facility facility = value;
-            String fn = key;
+        model.getFacilities().forEach((fn, facility) -> {
 
             writer.println(String.format("%-12s%-12s%-10s%-15s%-10s%-10s%-10s%-10s",
                     "FACILITY", "ENTRIES", "UTIL.", "AVE. TIME", "AVAIL.", "OWNER", "INTER", "DELAY"));
@@ -103,5 +101,28 @@ public class TxtReport implements Report {
 
             writer.println(f);
         });
+    }
+
+    private void printQueueInfo(PrintWriter writer) {
+
+        writer.println(String.format("%-12s%-12s%-10s%-15s%-10s%-10s%-10s%-10s%-10s",
+                "QUEUE", "MAX", "CONT.", "ENTRY", "ENTRY(0)", "AVE.CONT.", "AVE.TIME", "AVE.()-0", "RETRY"));
+
+        model.getQueues().forEach((qn, queue) -> {
+
+            int max = queue.getMaxCount();
+            int cont = queue.getCurrentCount();
+            int entry = queue.getTotalEntries();
+            int entryZ = queue.getZeroEntries();
+            float avgContent = queue.getAvgContent();
+            float avgTime = queue.getAvgTime();
+            float avgTimeZ = queue.getAvgTime(true);
+            int retry = queue.getRetry();
+
+            writer.println(String.format("%-12s%-12d%-10d%-15d%-10d%-10f%-10f%-10f%-10d",
+                    qn, max, cont, entry, entryZ, avgContent, avgTime, avgTimeZ, retry));
+
+        });
+
     }
 }

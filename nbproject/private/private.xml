@@ -2,6 +2,16 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/Users/eZe/Repositorios/jgpss-framework/src/model/Model.java</file>
+            <file>file:/Users/eZe/Repositorios/jgpss-framework/src/model/Gate.java</file>
+            <file>file:/Users/eZe/Repositorios/jgpss-framework/src/model/Queue.java</file>
+            <file>file:/Users/eZe/Repositorios/jgpss-framework/src/model/Split.java</file>
+            <file>file:/Users/eZe/Repositorios/jgpss-framework/src/model/Depart.java</file>
+            <file>file:/Users/eZe/Repositorios/jgpss-framework/src/model/TxtReport.java</file>
+            <file>file:/Users/eZe/Repositorios/jgpss-framework/src/model/Transfer.java</file>
+            <file>file:/Users/eZe/Repositorios/jgpss-framework/src/model/QueueReport.java</file>
+            <file>file:/Users/eZe/Repositorios/jgpss-framework/src/model/Funavail.java</file>
+        </group>
     </open-files>
 </project-private>

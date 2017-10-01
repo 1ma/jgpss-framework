@@ -242,7 +242,7 @@ public final class Model implements Serializable {
         } // Average queue content 
         else if (A.startsWith("QA$")) {
             String queue = A.split("QA$")[1];
-            _A = String.valueOf(queues.get(queue).getAvgCount(false));
+            _A = String.valueOf(queues.get(queue).getAvgContent());
         } // Queue total entries
         else if (A.startsWith("QC$")) {
             String queue = A.split("QC$")[1];
@@ -300,19 +300,7 @@ public final class Model implements Serializable {
             _A = A;
         }
         return _A;
-    }
-
-    /**
-     *
-     * @param message
-     * @throws Exception
-     */
-    public void registerError(String message) throws Exception {
-
-        errors.add(message);
-        throw new Exception(message);
-
-    }
+    }    
 
     /**
      * To initialize the GENERATE block. This method can be used as a template
