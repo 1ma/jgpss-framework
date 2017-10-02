@@ -76,14 +76,7 @@ public class Depart extends Bloc {
         HashMap<String, QueueReport> queues = this.getModel().getQueues();
 
         QueueReport queueStatistics = queues.get(this.A);
-        queueStatistics.regEndTime();
-        queueStatistics.decCurrentCount(B);
-
-        if (tr.getMoveTime() == 0.0) {
-            queueStatistics.incZeroEntries();
-        } else {
-            queueStatistics.incMaxCount(B);
-        }
+        queueStatistics.decCurrentCount(B);       
 
         return nextBloc(tr);
     }   

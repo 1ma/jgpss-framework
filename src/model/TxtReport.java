@@ -101,6 +101,7 @@ public class TxtReport implements Report {
 
             writer.println(f);
         });
+        writer.println();
     }
 
     private void printQueueInfo(PrintWriter writer) {

@@ -1,0 +1,24 @@
+JGPSS model report - queue test
+2017-10-02 01:10:03.071
+
+START TIME   END TIME     BLOCKS     FACILITIES      STORAGES  
+0,000000     78,789139    7          1               0         
+
+
+PROCESS: p1
+
+LABEL        LOC    BLOCK TYPE   ENTRY COUNT    CURRENT COUNT RETRY     
+             0      Generate     31             1              0         
+queue        1      Queue        30             0              0         
+seize        2      Seize        30             0              23        
+advance      3      Advance      30             0              0         
+release      4      Release      30             0              0         
+depart       5      Depart       30             0              0         
+termina      6      Terminate    30             0              0         
+
+
+FACILITY    ENTRIES     UTIL.     AVE. TIME      AVAIL.    OWNER     INTER     DELAY     
+seize       30          0,907182  2,382535       1         -         0         0         
+
+QUEUE       MAX         CONT.     ENTRY          ENTRY(0)  AVE.CONT. AVE.TIME  AVE.()-0  RETRY     
+queue       4           0         30             0         0,457246  1,200867  0,000000  0         

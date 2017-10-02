@@ -23,6 +23,7 @@
  * Created on 21/04/2009, 21:21:30
  */
 package views;
+
 import javax.swing.JFrame;
 import lombok.Getter;
 import lombok.Setter;
@@ -35,7 +36,7 @@ import model.Model;
 public class PantallaRun extends javax.swing.JDialog {
 
     static final long serialVersionUID = 1L;
-    
+
     @Getter
     @Setter
     private Model model;
@@ -43,6 +44,7 @@ public class PantallaRun extends javax.swing.JDialog {
 
     /**
      * Creates new form PantallaRun
+     *
      * @param parent
      * @param modal
      */
@@ -138,7 +140,12 @@ public class PantallaRun extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonStepActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonStepActionPerformed
-        model.executeStep();
+        try {
+            model.executeStep();
+        } catch (Exception ex) {
+            mostrarDialogo("Ok", "Cancel", ex.getMessage(), "Runtime Error");
+
+        }
     }//GEN-LAST:event_jButtonStepActionPerformed
 
     private void jButtonGoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGoActionPerformed

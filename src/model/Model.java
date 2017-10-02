@@ -300,7 +300,7 @@ public final class Model implements Serializable {
             _A = A;
         }
         return _A;
-    }    
+    }
 
     /**
      * To initialize the GENERATE block. This method can be used as a template
@@ -372,56 +372,13 @@ public final class Model implements Serializable {
     public void executeAll() throws Exception {
         Xact xact;
         //Simulation engine loop.
+
         while (TC > 0) {
-            // SCAN PHASE
-            xact = CEC.poll();
-            while (xact != null) {
-                Bloc b = xact.getBloc();
-                do {
-                    b = b.execute(xact);
-                } while (b != null);
-                xact = CEC.poll();
-            }
 
-            // CLOCK UPDATE PHASE
-            // Update FEC xacts
-            
-            xact = FEC.poll();
-            if (xact != null) {                
-              
-                relativeClock = xact.getMoveTime();
+            scanPhase();
+            clockUpdatedPhase();
+            updateBEC();
 
-                do {
-                    CEC.add(xact);
-                    xact = FEC.poll();
-
-                } while (xact != null && xact.getMoveTime() == relativeClock);
-                
-                if (xact != null) {
-                    FEC.add(xact);
-                }
-                
-            }
-
-            // Update BEC xacts
-            BEC.forEach((name, bloquedXacts) -> {
-
-                Xact xactB = bloquedXacts.poll();
-
-                if (xactB != null) {
-                    do {
-
-                        if (xactB.restoreToFEC()) {
-                            FEC.add(xactB);
-                        } else {
-                            CEC.add(xactB);
-                        }
-                        xactB = bloquedXacts.poll();
-
-                    } while (xactB != null);
-
-                }
-            });
         }
         updateCurrentCount();
         System.out.println("Simulation terminated");
@@ -431,18 +388,68 @@ public final class Model implements Serializable {
     /**
      * To execute a single step of the simulation model. Executes untin a new
      * CLOCK UPDATE PHASE.
+     * @throws java.lang.Exception
      */
-    public void executeStep() {
+    public void executeStep() throws Exception {
         Xact xact;
         //Motor central de simulaci�.
         if (TC > 0) {
-            //TODO 1: First XACT.
-            //TODO 2: Move the XACT as far as we can.
-            //TODO 3: Look for other NOW XACT.
-            //TODO 4: CLOCK UPDATE PHASE
-            //TODO 5: Move the Xacts of the FEC to the CEC.
-            //TODO 6: Goto TODO 1.
+            scanPhase();
+            clockUpdatedPhase();
+            updateBEC();
         }
+        updateCurrentCount();
+        System.out.println("Simulation terminated");
+    }
+
+    private void scanPhase() throws Exception {
+        Xact xact = CEC.poll();
+        while (xact != null) {
+            Bloc b = xact.getBloc();
+            do {
+                b = b.execute(xact);
+            } while (b != null);
+            xact = CEC.poll();
+        }
+    }
+
+    private void clockUpdatedPhase() {
+
+        Xact xact = FEC.poll();
+        if (xact != null) {
+
+            relativeClock = xact.getMoveTime();
+
+            do {
+                CEC.add(xact);
+                xact = FEC.poll();
+
+            } while (xact != null && xact.getMoveTime() == relativeClock);
+
+            if (xact != null) {
+                FEC.add(xact);
+            }
+        }
+    }
+
+    private void updateBEC() {
+        BEC.forEach((name, bloquedXacts) -> {
+
+            Xact xactB = bloquedXacts.poll();
+
+            if (xactB != null) {
+                do {
+
+                    if (xactB.restoreToFEC()) {
+                        FEC.add(xactB);
+                    } else {
+                        CEC.add(xactB);
+                    }
+                    xactB = bloquedXacts.poll();
+
+                } while (xactB != null);
+            }
+        });
     }
 
     private void report(Report report) throws Exception {
@@ -471,6 +478,5 @@ public final class Model implements Serializable {
                 xact.getBloc().incCurrentCount();
             });
         });
-
     }
 }

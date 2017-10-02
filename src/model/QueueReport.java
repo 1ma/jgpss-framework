@@ -38,7 +38,7 @@ public class QueueReport {
      * @return
      */
     public int getMaxCount() {
-        return this.maxCount;
+        return maxCount;
     }
 
     /**
@@ -57,7 +57,7 @@ public class QueueReport {
      * @return
      */
     public int getZeroEntries() {
-        return this.zeroEntries;
+        return zeroEntries;
     }
 
     /**
@@ -113,6 +113,12 @@ public class QueueReport {
     public void incCurrentCount(int entries) {
         currentCount += entries;
         totalEntries += entries;
+        
+        if (currentCount > maxCount) {
+            maxCount = currentCount;
+        }
+        
+        regStartTime();
     }
 
     /**
@@ -122,6 +128,7 @@ public class QueueReport {
      */
     public void decCurrentCount(int entries) {
         currentCount -= entries;
+        regEndTime();
     }
 
     /**
@@ -140,21 +147,17 @@ public class QueueReport {
         maxCount += increment;
     }
 
-    /**
-     * Registers a new transaction time
-     *
-     */
-    public void regStartTime() {
+    public int getRetry() {
+        return retry;
+    }
+
+    private void regStartTime() {
         float time = model.getRelativeClock();
         timeRecords.push(new TimeRecord(time, time));
     }
 
-    public void regEndTime() {
+    private void regEndTime() {
         timeRecords.peekFirst().setEndTime(model.getRelativeClock());
-    }
-    
-    public int getRetry() {
-        return retry;
     }
 
     private float averageTime(boolean withoutZeroEntries) {
