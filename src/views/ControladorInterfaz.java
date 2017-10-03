@@ -359,9 +359,7 @@ public class ControladorInterfaz extends javax.swing.JFrame implements Serializa
         if ((VarGlobals.model != null) && (VarGlobals.esModificat)) {
             int sel = mostrarDialogo(Constants.guardar, Constants.salir, Constants.SalirAplicacion, Constants.caution);
 
-            if (sel != 0) {
-                return;
-            } else if (VarGlobals.urlGuardar != null) {
+            if (VarGlobals.urlGuardar != null) {
                 guardar();
             } else {
                 guardarComo();
@@ -453,7 +451,7 @@ public class ControladorInterfaz extends javax.swing.JFrame implements Serializa
 
         PantallaConfiguration Pant = new PantallaConfiguration(this, true);
         Pant.setLocationRelativeTo(this);
-        Pant.setVisible(true);        
+        Pant.setVisible(true);
     }//GEN-LAST:event_ConfigurationActionPerformed
 
     private void FunctionsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FunctionsActionPerformed
@@ -469,9 +467,6 @@ public class ControladorInterfaz extends javax.swing.JFrame implements Serializa
 }//GEN-LAST:event_InitialActionPerformed
 
     private void StepActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StepActionPerformed
-
-        //TODO: you must complete the execution of this part of the code.
-        mostrarDialogo("Ok", "Cancel", "This optinon is not implemented. Refer the JGPSS manual.", "Warning");
 
         //Es crea la nova pantalla.
         PantallaRun Pant = new PantallaRun(this, true);
@@ -495,7 +490,6 @@ public class ControladorInterfaz extends javax.swing.JFrame implements Serializa
     }//GEN-LAST:event_StepActionPerformed
 
     private void AmpervariablesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AmpervariablesActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_AmpervariablesActionPerformed
 
     private void mostrarNewModel() {
@@ -524,7 +518,7 @@ public class ControladorInterfaz extends javax.swing.JFrame implements Serializa
             Run.setEnabled(true);
             Step.setEnabled(true);
 
-            PanelModelGpss jp = new PanelModelGpss();
+            PanelModelGpss jp = new PanelModelGpss(this);
             this.obrirJPanel(jp);
 
         }
@@ -537,11 +531,11 @@ public class ControladorInterfaz extends javax.swing.JFrame implements Serializa
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
                 layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                .add(jp, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .add(jp, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
                 layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                .add(jp, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .add(jp, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -691,7 +685,7 @@ public class ControladorInterfaz extends javax.swing.JFrame implements Serializa
                         Step.setEnabled(true);
                         // cridem a la Pantalla per crear un nou modelm
 
-                        PanelModelGpss jp = new PanelModelGpss();
+                        PanelModelGpss jp = new PanelModelGpss(this);
                         this.obrirJPanel(jp);
 
                     } else {
@@ -702,21 +696,14 @@ public class ControladorInterfaz extends javax.swing.JFrame implements Serializa
                 }
             } catch (java.io.FileNotFoundException fnfex) {
                 generarPantallaError(Constants.errorInterno + fnfex.toString());
-
             }
-        } else {
-            return;
         }
-
     }
 
     private void generarPantallaError(String mensage) {
         PantallaError perror = new PantallaError(mensage);
         perror.setLocationRelativeTo(this);
-
         perror.setVisible(true);
         perror.dispose();
-
     }
-
 }

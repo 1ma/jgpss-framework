@@ -18,6 +18,7 @@
  */
 package views;
 
+import java.awt.Frame;
 import javax.swing.*;
 import java.util.ArrayList;
 import model.*;
@@ -29,37 +30,37 @@ import utils.VarGlobals;
  * @author M.Dolores
  */
 @SuppressWarnings({"rawtypes", "unchecked"})
-public class PantallaDescripcioBloc extends javax.swing.JDialog {
+public class PantallaDescripcioBloc extends JDialog {
 
     private static final long serialVersionUID = 1L;
 
     /**
      * Creates new form PantallaDescripcioBloc
      */
-    int b;
-    //aquesta variable serveix per guardar si volem modificar consultar o crear un bloc
-    int queFem = 0;
+    private int tipusBloc;
+    private Model model;
+    private Proces proces;
 
-    @SuppressWarnings("OverridableMethodCallInConstructor")
-    public PantallaDescripcioBloc(Bloc bloc, int caso) {
-        this.setModal(true);
+    public PantallaDescripcioBloc(Frame parent, Bloc bloc, int caso) {
+
+        super(parent, Constants.tituloNewBloc, true);
         initComponents();
-        this.setTitle(Constants.tituloNewBloc);
         botoStorage.setVisible(false);
-        queFem = caso;
-        b = bloc.getId();
         comboOp.setVisible(false);
+        tipusBloc = bloc.getId();
+        model = bloc.getModel();
+        proces = bloc.getProces();
         pintarBloc(bloc, caso);
-
     }
 
-    public PantallaDescripcioBloc(String urlbloc, int tipusBloc, String nomBloc) {
-        this.setModal(true);
+    public PantallaDescripcioBloc(Frame parent, int tipusBloc, String urlbloc, Model model, Proces proces) {
+        super(parent, Constants.tituloNewBloc, true);
         initComponents();
-        this.setTitle(Constants.tituloNewBloc);
+        this.tipusBloc = tipusBloc;
+        this.model = model;
+        this.proces = proces;
         botoStorage.setVisible(false);
         dibuixarBloc(urlbloc);
-        b = tipusBloc;
         comboOp.setVisible(false);
         switch (tipusBloc) {
             case Constants.idGenerate:
@@ -70,7 +71,6 @@ public class PantallaDescripcioBloc extends javax.swing.JDialog {
                 jLabelD.setText(Constants.D);
                 jLabelE.setText(Constants.E);
                 jLabelF.setText(Constants.F);
-                // jLabelG.setText(Constants.tempsEntreArribades);
                 break;
             case Constants.idTerminate:
             case Constants.idRelease:
@@ -194,7 +194,6 @@ public class PantallaDescripcioBloc extends javax.swing.JDialog {
             default:
                 break;
         }
-
     }
 
     private void pintarBloc(Bloc b, int caso) {
@@ -209,7 +208,6 @@ public class PantallaDescripcioBloc extends javax.swing.JDialog {
                 Generate g = (Generate) b;
                 jLabelA.setText(Constants.A);
                 textA.setText(Float.toString(g.getA()));
-                //textA.setCaret(Caret.)
                 jLabelB.setText(Constants.B);
                 TextB.setText(Float.toString(g.getB()));
                 jLabelC.setText(Constants.C);
@@ -220,7 +218,6 @@ public class PantallaDescripcioBloc extends javax.swing.JDialog {
                 TextE.setText(Float.toString(g.getE()));
                 jLabelF.setText(Constants.F);
                 TextF.setText(Integer.toString(g.getF()));
-                //    jLabelG.setText(Constants.tempsEntreArribades);
 
                 dibuixarBloc(Constants.UrlGenerate);
 
@@ -1018,14 +1015,12 @@ public class PantallaDescripcioBloc extends javax.swing.JDialog {
     }//GEN-LAST:event_botoCancelActionPerformed
 
     private void botoOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botoOKActionPerformed
-// cogemos la descripci�n
+        // cogemos la descripci�n
         boolean tancarPantalla = true;
-        //bl.setLabel(b);
-        //VarGlobals.bloc=bl;
         VarGlobals.continuar = true;
         String strX;
         try {
-            switch (b) {
+            switch (tipusBloc) {
                 case Constants.idGenerate:
                     //TODO validar los valores de entrada!!!!!!!
                     Generate g;
@@ -1037,6 +1032,8 @@ public class PantallaDescripcioBloc extends javax.swing.JDialog {
                             Float.valueOf(TextD.getText()),
                             Float.valueOf(TextE.getText()),
                             Integer.parseInt(TextF.getText()));
+                    g.setModel(model);
+                    g.setProces(proces);
                     VarGlobals.bloc = g;
                     break;
                 case Constants.idTerminate: {
@@ -1044,6 +1041,8 @@ public class PantallaDescripcioBloc extends javax.swing.JDialog {
                     comprovarValorsPerDefecte(Constants.idTerminate);
                     t = new Terminate(textDescripcio.getText(), jTextFielLabel.getText(),
                             Integer.parseInt(textA.getText()));
+                    t.setModel(model);
+                    t.setProces(proces);
                     VarGlobals.bloc = t;
                     break;
                 }
@@ -1053,6 +1052,8 @@ public class PantallaDescripcioBloc extends javax.swing.JDialog {
                     a = new Advance(textDescripcio.getText(), jTextFielLabel.getText(),
                             Float.valueOf(textA.getText()),
                             Float.valueOf(TextB.getText()));
+                    a.setModel(model);
+                    a.setProces(proces);
                     VarGlobals.bloc = a;
                     break;
                 case Constants.idAssign:
@@ -1061,6 +1062,8 @@ public class PantallaDescripcioBloc extends javax.swing.JDialog {
                     as = new Assign(textDescripcio.getText(), jTextFielLabel.getText(),
                             textA.getText(),
                             Float.valueOf(TextB.getText()));
+                    as.setModel(model);
+                    as.setProces(proces);
                     VarGlobals.bloc = as;
                     break;
                 case Constants.idDepart:
@@ -1070,6 +1073,8 @@ public class PantallaDescripcioBloc extends javax.swing.JDialog {
                         d = new Depart(textDescripcio.getText(), jTextFielLabel.getText(),
                                 textA.getText(),
                                 Integer.parseInt(TextB.getText()));
+                        d.setModel(model);
+                        d.setProces(proces);
                         VarGlobals.bloc = d;
                     } else {
                         generarPantallaError(Constants.ErrorFaltaA);
@@ -1083,6 +1088,8 @@ public class PantallaDescripcioBloc extends javax.swing.JDialog {
                         q = new Queue(textDescripcio.getText(), jTextFielLabel.getText(),
                                 textA.getText(),
                                 Integer.parseInt(TextB.getText()));
+                        q.setModel(model);
+                        q.setProces(proces);
                         VarGlobals.bloc = q;
                     } else {
                         generarPantallaError(Constants.ErrorFaltaA);
@@ -1096,12 +1103,13 @@ public class PantallaDescripcioBloc extends javax.swing.JDialog {
                         e = new Enter(textDescripcio.getText(), jTextFielLabel.getText(),
                                 textA.getText(),
                                 Integer.parseInt(TextB.getText()));
+                        e.setModel(model);
+                        e.setProces(proces);
                         VarGlobals.bloc = e;
                     } else {
                         //error pero que no hi ha storage
                         generarPantallaError(Constants.ErrorFaltaStorage);
                         tancarPantalla = false;
-
                     }
                     break;
                 case Constants.idLeave:
@@ -1111,6 +1119,8 @@ public class PantallaDescripcioBloc extends javax.swing.JDialog {
                         l = new Leave(textDescripcio.getText(), jTextFielLabel.getText(),
                                 textA.getText(),
                                 Integer.parseInt(TextB.getText()));
+                        l.setModel(model);
+                        l.setProces(proces);
                         VarGlobals.bloc = l;
                     } else {
                         //error pero que no hi ha storage
@@ -1124,6 +1134,8 @@ public class PantallaDescripcioBloc extends javax.swing.JDialog {
                     if (!textA.getText().equals("")) {
                         r = new Release(textDescripcio.getText(), jTextFielLabel.getText(),
                                 textA.getText());
+                        r.setModel(model);
+                        r.setProces(proces);
                         VarGlobals.bloc = r;
                     } else {
                         generarPantallaError(Constants.ErrorFaltaA);
@@ -1135,6 +1147,8 @@ public class PantallaDescripcioBloc extends javax.swing.JDialog {
                     if (!textA.getText().equals("")) {
                         s = new Seize(textDescripcio.getText(), jTextFielLabel.getText(),
                                 textA.getText());
+                        s.setModel(model);
+                        s.setProces(proces);
                         VarGlobals.bloc = s;
                     } else {
                         generarPantallaError(Constants.ErrorFaltaA);
@@ -1148,8 +1162,9 @@ public class PantallaDescripcioBloc extends javax.swing.JDialog {
                         if (!textA.getText().equals("")) {
                             comprovarValorsPerDefecte(Constants.idTest);
                             t = new Test(textDescripcio.getText(), jTextFielLabel.getText(),
-                                    strX,
-                                    textA.getText(), TextB.getText(), TextC.getText());
+                                    strX, textA.getText(), TextB.getText(), TextC.getText());
+                            t.setModel(model);
+                            t.setProces(proces);
                             VarGlobals.bloc = t;
                         } else {
                             generarPantallaError(Constants.ErrorFaltaA);
@@ -1167,8 +1182,9 @@ public class PantallaDescripcioBloc extends javax.swing.JDialog {
                     if (!strX.equals("")) {
                         comprovarValorsPerDefecte(Constants.idTransfer);
                         transfer = new Transfer(textDescripcio.getText(), jTextFielLabel.getText(),
-                                strX,
-                                textA.getText(), TextB.getText(), TextC.getText());
+                                strX, textA.getText(), TextB.getText(), TextC.getText());
+                        transfer.setModel(model);
+                        transfer.setProces(proces);
                         VarGlobals.bloc = transfer;
                     } else {
                         generarPantallaError(Constants.ErrorFaltaA);
@@ -1182,6 +1198,8 @@ public class PantallaDescripcioBloc extends javax.swing.JDialog {
                         log = new Logic(textDescripcio.getText(), jTextFielLabel.getText(),
                                 (String) comboOp.getSelectedItem(),
                                 textA.getText());
+                        log.setModel(model);
+                        log.setProces(proces);
                         VarGlobals.bloc = log;
                     } else {
                         generarPantallaError(Constants.ErrorFaltaA);
@@ -1198,6 +1216,8 @@ public class PantallaDescripcioBloc extends javax.swing.JDialog {
                                     (String) comboOp.getSelectedItem(),
                                     textA.getText(),
                                     TextB.getText());
+                            gat.setModel(model);
+                            gat.setProces(proces);
                             VarGlobals.bloc = gat;
                         } else {
                             generarPantallaError(Constants.ErrorFaltaA);
@@ -1217,6 +1237,9 @@ public class PantallaDescripcioBloc extends javax.swing.JDialog {
                                 textA.getText(),
                                 TextB.getText());
 
+                        sav.setModel(model);
+                        sav.setProces(proces);
+
                         VarGlobals.bloc = sav;
                     } else {
                         generarPantallaError(Constants.ErrorFaltaA);
@@ -1229,6 +1252,8 @@ public class PantallaDescripcioBloc extends javax.swing.JDialog {
                         loop = new Loop(textDescripcio.getText(), jTextFielLabel.getText(),
                                 textA.getText(),
                                 TextB.getText());
+                        loop.setModel(model);
+                        loop.setProces(proces);
                         VarGlobals.bloc = loop;
                     } else {
                         generarPantallaError(Constants.ErrorFaltaA);
@@ -1243,6 +1268,8 @@ public class PantallaDescripcioBloc extends javax.swing.JDialog {
                                 Integer.parseInt(textA.getText()),
                                 TextB.getText(),
                                 TextC.getText());
+                        split.setModel(model);
+                        split.setProces(proces);
 
                         VarGlobals.bloc = split;
                     } else {
@@ -1250,10 +1277,7 @@ public class PantallaDescripcioBloc extends javax.swing.JDialog {
                         tancarPantalla = false;
                     }
                     break;
-                default:
-                    break;
-            }
-            switch (b) {
+
                 case Constants.idFunavail:
                     //TODO validar los valores de entrada!!!!!!!
                     Funavail f;
@@ -1265,13 +1289,18 @@ public class PantallaDescripcioBloc extends javax.swing.JDialog {
                             TextD.getText(),
                             TextE.getText(),
                             TextF.getText());
+                    f.setModel(model);
+                    f.setProces(proces);
                     VarGlobals.bloc = f;
                     break;
+
                 case Constants.idSavail:
                     Savail savail;
                     if (!textA.getText().equals("")) {
                         savail = new Savail(textDescripcio.getText(), jTextFielLabel.getText(),
                                 textA.getText());
+                        savail.setModel(model);
+                        savail.setProces(proces);
                         VarGlobals.bloc = savail;
                     } else {
                         //error pero que no hi ha storage
@@ -1279,11 +1308,14 @@ public class PantallaDescripcioBloc extends javax.swing.JDialog {
                         tancarPantalla = false;
                     }
                     break;
+
                 case Constants.idSunavail:
                     Sunavail sunavail;
                     if (!textA.getText().equals("")) {
                         sunavail = new Sunavail(textDescripcio.getText(), jTextFielLabel.getText(),
                                 textA.getText());
+                        sunavail.setModel(model);
+                        sunavail.setProces(proces);
                         VarGlobals.bloc = sunavail;
                     } else {
                         //error pero que no hi ha storage
@@ -1296,6 +1328,8 @@ public class PantallaDescripcioBloc extends javax.swing.JDialog {
                     comprovarValorsPerDefecte(Constants.idAssemble);
                     ass = new Assemble(textDescripcio.getText(), jTextFielLabel.getText(),
                             Integer.parseInt(textA.getText()));
+                    ass.setModel(model);
+                    ass.setProces(proces);
                     VarGlobals.bloc = ass;
                     break;
                 case Constants.idGather:
@@ -1303,6 +1337,8 @@ public class PantallaDescripcioBloc extends javax.swing.JDialog {
                     comprovarValorsPerDefecte(Constants.idGather);
                     gather = new Gather(textDescripcio.getText(), jTextFielLabel.getText(),
                             Integer.parseInt(textA.getText()));
+                    gather.setModel(model);
+                    gather.setProces(proces);
                     VarGlobals.bloc = gather;
                     break;
                 case Constants.idMatch:
@@ -1310,6 +1346,9 @@ public class PantallaDescripcioBloc extends javax.swing.JDialog {
                     if (!textA.getText().equals("")) {
                         m = new Match(textDescripcio.getText(), jTextFielLabel.getText(),
                                 textA.getText());
+
+                        m.setModel(model);
+                        m.setProces(proces);
                         VarGlobals.bloc = m;
                     } else {
                         generarPantallaError(Constants.ErrorFaltaA);
@@ -1319,6 +1358,8 @@ public class PantallaDescripcioBloc extends javax.swing.JDialog {
                 case Constants.idBuffer:
                     Buffer buf;
                     buf = new Buffer(textDescripcio.getText(), jTextFielLabel.getText());
+                    buf.setModel(model);
+                    buf.setProces(proces);
                     VarGlobals.bloc = buf;
                     break;
                 case Constants.idPriority:
@@ -1326,6 +1367,8 @@ public class PantallaDescripcioBloc extends javax.swing.JDialog {
                     comprovarValorsPerDefecte(Constants.idPriority);
                     pri = new Priority(textDescripcio.getText(), jTextFielLabel.getText(),
                             Integer.parseInt(textA.getText()));
+                    pri.setModel(model);
+                    pri.setProces(proces);
                     VarGlobals.bloc = pri;
                     break;
                 default:

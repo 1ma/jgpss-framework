@@ -30,8 +30,8 @@ import utils.VarGlobals;
  * @author M.Dolores
  */
 @SuppressWarnings({"unchecked", "rawtypes"})
-public class PanelModelGpss extends javax.swing.JPanel {
-    
+public class PanelModelGpss extends JPanel {
+
     private static final long serialVersionUID = 1L;
 
     ArrayList<Bloc> arrayBlocs;
@@ -41,13 +41,14 @@ public class PanelModelGpss extends javax.swing.JPanel {
     int numproceso, numbloc;
     Proces pro;
     //  int cont=0;
+    private final Frame parent;
 
     /**
      * Creates new form PanelModelGpss
+     * @param parent
      */
-    public PanelModelGpss() {
+    public PanelModelGpss(Frame parent) {
         //tama�o inicial
-        //   this.setSize(730,520);
         initComponents();
         tractamentBotonsInicial();
         //si obrim un model pintar-lo
@@ -68,6 +69,7 @@ public class PanelModelGpss extends javax.swing.JPanel {
 
         jPanelGlass.setOpaque(false);
         jPanelModel.setBackground(Color.WHITE);
+        this.parent = parent;
 
     }
 
@@ -98,7 +100,7 @@ public class PanelModelGpss extends javax.swing.JPanel {
         int maxx = (int) n.getWidth();
         for (int i = 0; i < VarGlobals.model.getProces().size(); i++) {
 
-            pro =  VarGlobals.model.getProces().get(i);
+            pro = VarGlobals.model.getProces().get(i);
             titolsProc.add(pro.getDescpro());
             //pintar el titol
             javax.swing.JLabel jLabeldibuix = new JLabel();
@@ -925,7 +927,7 @@ public class PanelModelGpss extends javax.swing.JPanel {
 
     private void jMenuConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuConsultarActionPerformed
         Bloc b = VarGlobals.model.getProces().get(numproceso).getBlocs().get(numbloc);
-        PantallaDescripcioBloc descBloc = new PantallaDescripcioBloc(b, Constants.ConsultarBloc);
+        PantallaDescripcioBloc descBloc = new PantallaDescripcioBloc(parent, b, Constants.ConsultarBloc);
         descBloc.setLocationRelativeTo(this);
 
         descBloc.setVisible(true);
@@ -949,9 +951,7 @@ public class PanelModelGpss extends javax.swing.JPanel {
                 options, options[0]
         );
 
-        if (sel != 0) {
-            return;
-        } else {
+        if (sel == 0) {
 
             //donar-li les noves posicions x als procesos seg�ents
             if (VarGlobals.model.getProces().size() > (numproceso + 1)) {
@@ -961,11 +961,9 @@ public class PanelModelGpss extends javax.swing.JPanel {
                     VarGlobals.model.getProces().get(i).setFinposx(xini - Constants.x);
                 }
             }
-
             VarGlobals.model.getProces().remove(numproceso);
             pintarModel(VarGlobals.model, true);
         }
-
     }//GEN-LAST:event_jMenuEliminarProcesActionPerformed
 
     private void jMenuBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuBorrarActionPerformed
@@ -998,7 +996,7 @@ public class PanelModelGpss extends javax.swing.JPanel {
 
     private void jMenuModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuModificarActionPerformed
         Bloc b = VarGlobals.model.getProces().get(numproceso).getBlocs().get(numbloc);
-        PantallaDescripcioBloc descBloc = new PantallaDescripcioBloc(b, Constants.ModificarBloc);
+        PantallaDescripcioBloc descBloc = new PantallaDescripcioBloc(parent, b, Constants.ModificarBloc);
         descBloc.setLocationRelativeTo(this);
 
         descBloc.setVisible(true);
@@ -1233,7 +1231,9 @@ public class PanelModelGpss extends javax.swing.JPanel {
 
     private void descripcioBloc(String url, int tipusBloc, String nomBloc) {
         // VarGlobals
-        PantallaDescripcioBloc descBloc = new PantallaDescripcioBloc(url, tipusBloc, nomBloc);
+        Model model = VarGlobals.model;
+        Proces proces = VarGlobals.model.getProces().get(numproceso);
+        PantallaDescripcioBloc descBloc = new PantallaDescripcioBloc(parent, tipusBloc, url, model, proces);
         descBloc.setLocationRelativeTo(this);
 
         descBloc.setVisible(true);

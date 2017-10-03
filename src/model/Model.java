@@ -305,11 +305,12 @@ public final class Model implements Serializable {
     /**
      * To initialize the GENERATE block. This method can be used as a template
      * for other initialization procedures.
+     *
+     * @throws java.lang.Exception
      */
-    public void InitializeGenerateBocs() {
+    public void InitializeGenerateBocs() throws Exception {
         for (int j = 0; j < proces.size(); j++) {
             Proces p = proces.get(j);
-
             for (int k = 0; k < p.getBlocs().size(); k++) {
                 Bloc b = p.getBlocs().get(k);
                 if (b.getId() == Constants.idGenerate) {
@@ -388,6 +389,7 @@ public final class Model implements Serializable {
     /**
      * To execute a single step of the simulation model. Executes untin a new
      * CLOCK UPDATE PHASE.
+     *
      * @throws java.lang.Exception
      */
     public void executeStep() throws Exception {
