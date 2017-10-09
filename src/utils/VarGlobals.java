@@ -21,9 +21,13 @@ package utils;
 
 
 import java.io.Serializable;
-import model.Bloc;
+import java.util.HashMap;
+import model.blocks.Bloc;
 import model.Model;
-import persistence.DGestorDisco;
+import model.gna.Exponential;
+import model.gna.Uniform;
+import persistence.DDiscManager;
+import model.gna.RNG;
 
 /**
  * A class representing the gloval variables of the model.
@@ -84,10 +88,13 @@ public class VarGlobals implements Serializable {
      */
     public static String nomStorageSeleccionat;
 
+    
+    public static int valueSelectedStorage;
+    
     /**
      * Disc manegament variables.
      */
-    public static DGestorDisco dg = new DGestorDisco(model);
+    public static DDiscManager dg = new DDiscManager(model);
     /**
      * Transaction counter.
      */
@@ -97,7 +104,13 @@ public class VarGlobals implements Serializable {
      * To know the current assembly set id
      */
     public static int currentAssemblySet = 0;
+    
+    /**
+     * Current GNA
+     */
 
+    public static HashMap<String, RNG> gna = new HashMap<>();
+    
     /**
      * Creates a new instance of VarGlobals.
      */
@@ -120,5 +133,17 @@ public class VarGlobals implements Serializable {
         Abrir = false;
         currentAssemblySet = 1;
         //idNumBloc =0;
+    }
+    
+    
+    public static RNG getGNA(String gnaType) {
+        switch (gnaType) {
+            case "UNIFORM":
+                return new Uniform();
+            case "EXPONENTIAL":
+                return new Exponential();
+            default:
+                return new Uniform();
+        }
     }
 }

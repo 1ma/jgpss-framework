@@ -3,7 +3,26 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/Users/eZe/Repositorios/jgpss-framework/src/model/Storage.java</file>
+            <file>file:/Users/eZe/Repositorios/jgpss-framework/src/model/Model.java</file>
+            <file>file:/Users/eZe/Repositorios/jgpss-framework/src/views/ControladorInterfaz.java</file>
             <file>file:/Users/eZe/Repositorios/jgpss-framework/src/views/PanelModelGpss.java</file>
+            <file>file:/Users/eZe/Repositorios/jgpss-framework/src/model/Bloc.java</file>
+            <file>file:/Users/eZe/Repositorios/jgpss-framework/src/model/Depart.java</file>
+            <file>file:/Users/eZe/Repositorios/jgpss-framework/resources/model/queue.txt</file>
+            <file>file:/Users/eZe/Repositorios/jgpss-framework/src/persistence/DGestorDisco.java</file>
+            <file>file:/Users/eZe/Repositorios/jgpss-framework/src/model/Funavail.java</file>
+            <file>file:/Users/eZe/Repositorios/jgpss-framework/src/model/Enter.java</file>
+            <file>file:/Users/eZe/Repositorios/jgpss-framework/src/model/Leave.java</file>
+            <file>file:/Users/eZe/Repositorios/jgpss-framework/src/views/PantallaOpenNewModel.java</file>
+            <file>file:/Users/eZe/Repositorios/jgpss-framework/src/views/PantallaStorages.java</file>
+            <file>file:/Users/eZe/Repositorios/jgpss-framework/src/views/PantallaDescripcioBloc.java</file>
+            <file>file:/Users/eZe/Repositorios/jgpss-framework/src/views/PantallaNewProces.java</file>
+            <file>file:/Users/eZe/Repositorios/jgpss-framework/src/model/TxtReport.java</file>
+            <file>file:/Users/eZe/Repositorios/jgpss-framework/src/model/Facility.java</file>
+            <file>file:/Users/eZe/Repositorios/jgpss-framework/src/utils/Constants.java</file>
+            <file>file:/Users/eZe/Repositorios/jgpss-framework/resources/reports/enter.txt</file>
+            <file>file:/Users/eZe/Repositorios/jgpss-framework/src/utils/VarGlobals.java</file>
         </group>
     </open-files>
 </project-private>

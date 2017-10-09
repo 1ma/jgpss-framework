@@ -1,5 +1,8 @@
 package utils;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Software end-user license agreement.
  *
@@ -8,39 +11,40 @@ package utils;
  * href="http://www-eio.upc.es/~Pau/index.php?q=node/28
  *
  * NOTICE TO THE USER: BY COPYING, INSTALLING OR USING THIS SOFTWARE OR PART OF
- * THIS SOFTWARE, YOU AGREE TO THE   TERMS AND CONDITIONS OF THE LICENSE AGREEMENT
+ * THIS SOFTWARE, YOU AGREE TO THE TERMS AND CONDITIONS OF THE LICENSE AGREEMENT
  * AS IF IT WERE A WRITTEN AGREEMENT NEGOTIATED AND SIGNED BY YOU. THE LICENSE
- * AGREEMENT IS ENFORCEABLE AGAINST YOU AND ANY OTHER LEGAL PERSON ACTING ON YOUR
- * BEHALF.
- * IF, AFTER READING THE TERMS AND CONDITIONS HEREIN, YOU DO NOT AGREE TO THEM,
- * YOU MAY NOT INSTALL THIS SOFTWARE ON YOUR COMPUTER.
- * UPC IS THE OWNER OF ALL THE INTELLECTUAL PROPERTY OF THE SOFTWARE AND ONLY
- * AUTHORIZES YOU TO USE THE SOFTWARE IN ACCORDANCE WITH THE TERMS SET OUT IN
- * THE LICENSE AGREEMENT.
+ * AGREEMENT IS ENFORCEABLE AGAINST YOU AND ANY OTHER LEGAL PERSON ACTING ON
+ * YOUR BEHALF. IF, AFTER READING THE TERMS AND CONDITIONS HEREIN, YOU DO NOT
+ * AGREE TO THEM, YOU MAY NOT INSTALL THIS SOFTWARE ON YOUR COMPUTER. UPC IS THE
+ * OWNER OF ALL THE INTELLECTUAL PROPERTY OF THE SOFTWARE AND ONLY AUTHORIZES
+ * YOU TO USE THE SOFTWARE IN ACCORDANCE WITH THE TERMS SET OUT IN THE LICENSE
+ * AGREEMENT.
  */
-
 /**
  * A class representing the constants of the JGPSS system.
- * @author  Pau Fonseca i Casas
- * @author  M.Dolores
+ *
+ * @author Pau Fonseca i Casas
+ * @author M.Dolores
  * @version 1
- * @see     <a href="http://www-eio.upc.es/~Pau/index.php?q=node/28">Project website</a>
+ * @see     <a href="http://www-eio.upc.es/~Pau/index.php?q=node/28">Project
+ * website</a>
  * @serialData
  */
 public class Constants {
+
     //Constatns del bloc Generate
     /**
      * String defining GENERATE.
      */
-    public final static String Generate ="Generate";
+    public final static String Generate = "Generate";
     /**
      * GENERATE icon.
      */
     public final static String UrlGenerate = "/imagenes/generate.GIF";
-     /**
-      * GENERATE identifier.
-      */
-     public final static int idGenerate = 1;
+    /**
+     * GENERATE identifier.
+     */
+    public final static int idGenerate = 1;
     //constants del bloc Terminate
     /**
      * String defining TERMINATE.
@@ -67,8 +71,8 @@ public class Constants {
      * ADVANCE identifier.
      */
     public final static int idAdvanced = 3;
-    
-     //constants del bloc Seize
+
+    //constants del bloc Seize
     /**
      * String defining SEIZE.
      */
@@ -81,8 +85,8 @@ public class Constants {
      * SEIZE identifier.
      */
     public final static int idSeize = 4;
-    
-     //constants del bloc Release
+
+    //constants del bloc Release
     /**
      * String defining RELEASE.
      */
@@ -95,8 +99,8 @@ public class Constants {
      * RELEASE identifier.
      */
     public final static int idRelease = 5;
-    
-        //constants del bloc Enter
+
+    //constants del bloc Enter
     /**
      * String defining ENTER.
      */
@@ -109,7 +113,7 @@ public class Constants {
      * ENTER identifier.
      */
     public final static int idEnter = 6;
-    
+
     //constants del bloc LEAVE
     /**
      * String defining LEAVE.
@@ -123,7 +127,7 @@ public class Constants {
      * LEAVE identifier.
      */
     public final static int idLeave = 7;
-    
+
     //constants del bloc QUEUE
     /**
      * String defining QUEUE.
@@ -137,7 +141,7 @@ public class Constants {
      * QUEUE identifier.
      */
     public final static int idQueue = 8;
-    
+
     //constants del bloc DEPART.
     /**
      * String defining DEPART.
@@ -151,7 +155,7 @@ public class Constants {
      * DEPART identifier.
      */
     public final static int idDepart = 9;
-    
+
     //constatnts del bloc test
     /**
      * String defining TEST.
@@ -165,8 +169,8 @@ public class Constants {
      * TEST identifier.
      */
     public final static int idTest = 10;
-    
-      //constants del bloc Transfer
+
+    //constants del bloc Transfer
     /**
      * String defining TRANSFER.
      */
@@ -179,8 +183,8 @@ public class Constants {
      * TRANSFER identifier.
      */
     public final static int idTransfer = 11;
-    
-     //constants del bloc Logic
+
+    //constants del bloc Logic
     /**
      * String defining LOGIC
      */
@@ -193,8 +197,8 @@ public class Constants {
      * LOGIC identifier.
      */
     public final static int idLogic = 12;
-    
-     //constants del bloc Gate
+
+    //constants del bloc Gate
     /**
      * String defining GATE.
      */
@@ -207,8 +211,8 @@ public class Constants {
      * GATE identifier.
      */
     public final static int idGate = 13;
-    
-     //constants del bloc SAVEVALUE
+
+    //constants del bloc SAVEVALUE
     /**
      * String defining SAVEVALUE.
      */
@@ -221,8 +225,8 @@ public class Constants {
      * SAVEVALUE identifier.
      */
     public final static int idSavevavg = 14;
-    
-     //constants del bloc Loop
+
+    //constants del bloc Loop
     /**
      * String defining LOOP.
      */
@@ -235,8 +239,8 @@ public class Constants {
      * LOOP identifier.
      */
     public final static int idLoop = 15;
-    
-   //constants del bloc Split
+
+    //constants del bloc Split
     /**
      * String defining SPLIT.
      */
@@ -249,7 +253,7 @@ public class Constants {
      * SPLIT identiier.
      */
     public final static int idSplit = 16;
-    
+
     //Funavail
     /**
      * String defining FUNAVAIL.
@@ -263,8 +267,8 @@ public class Constants {
      * FUNAVAIL identifier.
      */
     public final static int idFunavail = 17;
-    
-     //Savail
+
+    //Savail
     /**
      * String defining SAVAIL.
      */
@@ -291,7 +295,7 @@ public class Constants {
      * ASSEMBLE identifier.
      */
     public final static int idAssemble = 19;
-    
+
     //Gather
     /**
      * String defining GATHER.
@@ -305,7 +309,7 @@ public class Constants {
      * GATHER identifier.
      */
     public final static int idGather = 20;
-    
+
     //Match
     /**
      * String defining MATCH.
@@ -319,7 +323,7 @@ public class Constants {
      * MATCH identifier.
      */
     public final static int idMatch = 21;
-    
+
     //Priority
     /**
      * String defining PRIORITY.
@@ -333,7 +337,7 @@ public class Constants {
      * PRIORITY identifier.
      */
     public final static int idPriority = 22;
-    
+
     //Buffer
     /**
      * String defining BUFFER.
@@ -348,7 +352,7 @@ public class Constants {
      */
     public final static int idBuffer = 23;
 
-     //Sunavail
+    //Sunavail
     /**
      * String defining SUNAVAIL.
      */
@@ -402,11 +406,11 @@ public class Constants {
     /**
      * Syntax error text.
      */
-    public final static String ErrorParam ="Syntax Error";
+    public final static String ErrorParam = "Syntax Error";
     /**
      * Syntax error in operand description text.
      */
-    public final static String ErrorDescrip ="Syntax Error in operand description";
+    public final static String ErrorDescrip = "Syntax Error in operand description";
     /**
      * Synta error in model name text.
      */
@@ -414,24 +418,24 @@ public class Constants {
     /**
      * Syntax error un model description text.
      */
-    public final static String ErrorDescripModel= "Syntax Error in Model Description";
+    public final static String ErrorDescripModel = "Syntax Error in Model Description";
     /**
      * Proces name repeated text.
      */
-    public final static String ErrorDescripRepetida= "Proces name repeated";
+    public final static String ErrorDescripRepetida = "Proces name repeated";
     /**
      * Syntax Error in storage text.
      */
-    public final static String ErrorFaltaStorage="Syntax Error in storage";
+    public final static String ErrorFaltaStorage = "Syntax Error in storage";
     /**
      * Syntax Error in Operand X text.
      */
-    public final static String ErrorFaltaX="Syntax Error in Operand X ";
+    public final static String ErrorFaltaX = "Syntax Error in Operand X ";
     /**
      * Syntax Error in Operand A text.
      */
-    public final static String ErrorFaltaA= "Syntax Error in Operand A";
-    
+    public final static String ErrorFaltaA = "Syntax Error in Operand A";
+
     /**
      * * text.
      */
@@ -465,7 +469,7 @@ public class Constants {
      * spaces reserved for the blocs text.
      */
     public final static int numCaractersBloc = 16;
-    
+
     /**
      * save text.
      */
@@ -490,16 +494,16 @@ public class Constants {
      * Overwrite text.
      */
     public final static String sobreescribir = "Overwrite";
-    
+
     /**
      * the file text.
      */
-    public final static String elarchivo= "the file: ";
+    public final static String elarchivo = "the file: ";
     /**
      * the file exists text.
      */
     public final static String archivoexiste = " allready exists, what do you want to do?";
-    
+
     /**
      * Exit of the application text.
      */
@@ -520,31 +524,29 @@ public class Constants {
      * No text.
      */
     public final static String No = "No";
-    
-    
-    
+
     /**
      * To define the layout of the JGPSS system.
      */
-    public final static int x= 160;
+    public final static int x = 160;
     /**
      * To define the layout of the JGPSS system.
      */
-    public final static int y=60;
+    public final static int y = 60;
     /**
      * To define the layout of the JGPSS system.
      */
     public final static int distanciaX = 60;
-    
+
     /**
      * Delete block text.
      */
-    public final static String BorrarBloc= "Do you want to delete this block?";
+    public final static String BorrarBloc = "Do you want to delete this block?";
     /**
      * Delete process text.
      */
-    public final static String BorrarProces= "Do you want to delete this proces?";
-    
+    public final static String BorrarProces = "Do you want to delete this proces?";
+
     //constants per a fer la pantallaDescripcioBloc segons si volem consultar o modifocar
     /**
      * 1 if we are modifying the block.
@@ -554,7 +556,7 @@ public class Constants {
      * 2 if we are consulting the block.
      */
     public final static int ConsultarBloc = 2;
-    
+
     /**
      * 1 if we are modifying the process.
      */
@@ -563,120 +565,131 @@ public class Constants {
      * 2 if we are consulting the process.
      */
     public final static int ConsultarProces = 2;
-    
+
     /**
      * Internat error text.
      */
-    public final static String errorInterno="there is the error: ";
+    public final static String errorInterno = "there is the error: ";
     /**
      * Error generating the file.
      */
-    public final static String errortxt="Mistake on having generated the file";
+    public final static String errortxt = "Mistake on having generated the file";
     /**
      * Process need a name text.
      */
-    public final static String errorvalornull="you must put the name proces";
+    public final static String errorvalornull = "you must put the name proces";
     /**
      * Error accesing a block text.
      */
-    public final static String errorconsultarbloc= "consult/modify error";
+    public final static String errorconsultarbloc = "consult/modify error";
     /**
      * Data error text.
      */
-    public final static String errorDades="Syntax error";
+    public final static String errorDades = "Syntax error";
     /**
      * Error recovering a file text.
      */
-    public final static String errorRecuperar="Mistake on having recovered the file";
+    public final static String errorRecuperar = "Mistake on having recovered the file";
     
+    
+    public final static String malformedNumber = "Error malformed number";
+
     /**
      * .txt text.
      */
     public final static String extensio = ".txt";
-    
+
     /**
      * A text.
      */
-    public final static String A ="A";
+    public final static String A = "A";
     /**
      * B text.
      */
-    public final static String B ="B";
+    public final static String B = "B";
     /**
      * C text.
      */
-    public final static String C ="C";
+    public final static String C = "C";
     /**
      * D text.
      */
-    public final static String D ="D";
+    public final static String D = "D";
     /**
      * E text.
      */
-    public final static String E ="E";
+    public final static String E = "E";
     /**
      * F text.
      */
-    public final static String F ="F";
+    public final static String F = "F";
     /**
      * G text.
      */
-    public final static String G ="G";
+    public final static String G = "G";
     /**
      * X text.
      */
-    public final static String X ="X";
+    public final static String X = "X";
     /**
      * Time between arribls text.
      */
-    public final static String tempsEntreArribades ="temps entre arribades";
-    
+    public final static String tempsEntreArribades = "temps entre arribades";
+
     /**
      * STORAGE text.
      */
-    public final static String storages ="STORAGE";
-    
+    public final static String storages = "STORAGE";
+
     /**
      * Open icon.
      */
-    public final static String ImagenAbrir="/imagenes/Package.png";
+    public final static String ImagenAbrir = "/imagenes/Package.png";
     /**
      * Note icon.
      */
-    public final static String ImagenNuevo="/imagenes/Note.png";
+    public final static String ImagenNuevo = "/imagenes/Note.png";
     /**
      * Save icon.
      */
-    public final static String ImagenGuardar="/imagenes/save2.gif";
+    public final static String ImagenGuardar = "/imagenes/save2.gif";
     /**
      * White image icon.
      */
-    public final static String ImagenBlanco="/imagenes/blanco.gif";
-    /** 
+    public final static String ImagenBlanco = "/imagenes/blanco.gif";
+    /**
      * Main title text.
      */
-    public final static String tituloPrincipal="JGPSS, learning GPSS with Java.";
+    public final static String tituloPrincipal = "JGPSS, learning GPSS with Java.";
     /**
      * New model text.
      */
-    public final static String tituloNewModel="New Model";
+    public final static String tituloNewModel = "New Model";
     /**
      * New process text.
      */
-    public final static String tituloNewProces="New Proces";
+    public final static String tituloNewProces = "New Proces";
     /**
      * New block text.
      */
-    public final static String tituloNewBloc="New Bloc";
+    public final static String tituloNewBloc = "New Bloc";
     /**
      * Storages text.
      */
-    public final static String tituloStorages="Storages";
+    public final static String tituloStorages = "Storages";
+    
+    
+    /**
+     * Save Values text.     
+     */
+    
+    public final static String SaveValueTitle = "SaveValue";
+    
     /**
      * Error text.
      */
-    public final static String tituloError="Error";
-    
+    public final static String tituloError = "Error";
+
     /**
      * To define the layout of the JGPSS system.
      */
@@ -696,15 +709,44 @@ public class Constants {
     /**
      * To define the layout of the JGPSS system.
      */
-    public static int jPanelModelWidth= 705;
+    public static int jPanelModelWidth = 705;
     /**
      * To define the layout of the JGPSS system.
      */
     public static int jPanelModelHeight = 613;
 
+    public static HashMap<Integer, String> blocName;
+
     /**
      * New instance of constants.
      */
     public Constants() {
+        blocName = new HashMap<>();
+        blocName.put(1, "Generate");
+        blocName.put(2, "Terminate");
+        blocName.put(3, "Advance");
+        blocName.put(4, "Seize");
+        blocName.put(5, "Release");
+        blocName.put(6, "Enter");
+        blocName.put(7, "Leave");
+        blocName.put(8, "Queue");
+        blocName.put(9, "Depart");
+        blocName.put(10, "Test");
+        blocName.put(11, "Transfer");
+        blocName.put(12, "Logic");
+        blocName.put(13, "Gate");
+        blocName.put(14, "SaveValue");
+        blocName.put(15, "Loop");
+        blocName.put(16, "Split");
+        blocName.put(17, "Funavail");
+        blocName.put(18, "Savail");
+        blocName.put(19, "Assemble");
+        blocName.put(20, "Gather");
+        blocName.put(21, "Match");
+        blocName.put(22, "Priority");
+        blocName.put(23, "Buffer");
+        blocName.put(24, "Sunavail");
+        blocName.put(25, "Favail");
+        blocName.put(26, "Assign");
     }
 };

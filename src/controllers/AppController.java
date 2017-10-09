@@ -5,7 +5,7 @@
  */
 package controllers;
 
-import views.ControladorInterfaz;
+import views.InterfaceControllerView;
 
 
 /**
@@ -46,7 +46,7 @@ public class AppController {
     
     public void run(String[] args){
         
-        ControladorInterfaz iCtrl = new ControladorInterfaz();
-        ControladorInterfaz.run(args);
+        InterfaceControllerView iCtrl = new InterfaceControllerView();
+        InterfaceControllerView.run(args);
     }
 }

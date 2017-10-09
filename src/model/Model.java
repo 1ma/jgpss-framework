@@ -18,11 +18,21 @@
  */
 package model;
 
+import model.entities.Storage;
+import model.entities.Xact;
+import model.gna.Uniform;
+import model.reports.TxtReport;
+import model.blocks.Proces;
+import model.blocks.Generate;
+import model.blocks.Bloc;
+import model.blocks.Facility;
 import java.io.Serializable;
 import java.util.*;
 import lombok.Data;
-import model.interfaces.Report;
+import model.entities.SaveValue;
+import model.reports.Report;
 import utils.Constants;
+import model.gna.RNG;
 
 /**
  * A class representing the model elements.
@@ -44,6 +54,13 @@ public final class Model implements Serializable {
     private String DescripModel;
     private ArrayList<Proces> proces;
     private ArrayList<Storage> storages;
+    private ArrayList<SaveValue> saveValues;
+    private ArrayList<Matrix<Float>> matrix;
+    
+    
+    public static enum GNA {
+        UNIFORM, EXPONENTIAL
+    }
 
     /**
      * Current Event Chain
@@ -67,9 +84,6 @@ public final class Model implements Serializable {
 
     private HashMap<String, Facility> facilities;
     private HashMap<String, QueueReport> queues;
-    private HashMap<String, Float> saveValue;
-    private HashMap<String, Matrix<Float>> mSaveValue;
-    private final ArrayList<String> errors;
 
     /**
      * The transaction counter.
@@ -90,27 +104,23 @@ public final class Model implements Serializable {
      */
 
     private float relativeClock;
-    /**
-     * The GNA of the model.
-     */
-
-    private GNA gna = new GNA();
-
+    
     public Model() {
 
-        this.proces = new ArrayList<>();
-        this.storages = new ArrayList<>();
+        proces = new ArrayList<>();
+        storages = new ArrayList<>();
+        saveValues = new ArrayList<>();
+        matrix = new ArrayList<>();
 
         CEC = new PriorityQueue<>(1000, this.getPriorityComparator());
         FEC = new PriorityQueue<>(1000, this.getTimeComparator());
         BEC = new HashMap<>();
-        preemptedXacts = new HashMap<>();
 
+        preemptedXacts = new HashMap<>();
         facilities = new HashMap<>();
+
         queues = new HashMap<>();
-        errors = new ArrayList<>();
-        saveValue = new HashMap<>();
-        mSaveValue = new HashMap<>();
+
     }
 
     public Comparator<Xact> getPriorityComparator() {
@@ -139,6 +149,19 @@ public final class Model implements Serializable {
 
     public void incIdXact() {
         this.idxact++;
+    }
+
+    /**
+     * Returns the saveValue entity named name
+     * @param name
+     * @return
+     */
+    public SaveValue getSaveValue(String name) {
+
+        return saveValues.stream()//
+                .filter(sv -> sv.getName().equals(name))//
+                .findFirst()//
+                .orElse(null);
     }
 
     /**
@@ -295,7 +318,13 @@ public final class Model implements Serializable {
             _A = !facilities.get(storage).isAvailable() ? "1" : "0";
         } // Value of SaveValue entity
         else if (A.startsWith("X$")) {
-            _A = String.valueOf(saveValue.get(A.split("X$")[1]));
+
+            _A = saveValues.stream()//
+                    .filter(sv -> sv.getName().equals(A.split("X$")[1]))//
+                    .map(sv -> String.valueOf(sv.getValue()))//
+                    .findFirst()//
+                    .orElse("0.0");
+
         } else {
             _A = A;
         }
@@ -309,6 +338,7 @@ public final class Model implements Serializable {
      * @throws java.lang.Exception
      */
     public void InitializeGenerateBocs() throws Exception {
+
         for (int j = 0; j < proces.size(); j++) {
             Proces p = proces.get(j);
             for (int k = 0; k < p.getBlocs().size(); k++) {
@@ -346,6 +376,14 @@ public final class Model implements Serializable {
             }
         }
         return null;
+    }
+
+    public Storage getStorage(String sn) {
+
+        return storages.stream()//
+                .filter(s -> s.getNom().equals(sn))//
+                .findFirst()//
+                .orElse(null);
     }
 
     /**

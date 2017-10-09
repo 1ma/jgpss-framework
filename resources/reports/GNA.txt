@@ -1,0 +1,15 @@
+JGPSS model report - GNA
+2017-10-08 23:44:25.488
+
+START TIME   END TIME     BLOCKS     FACILITIES      STORAGES  
+0,000000     18,320303    3          0               0         
+
+
+PROCESS: p1
+
+LABEL        LOC    BLOCK TYPE   ENTRY COUNT    CURRENT COUNT RETRY     
+             0      Generate     8              1              0         
+             1      Advance      7              0              0         
+             2      Terminate    5              2              0         
+
+
