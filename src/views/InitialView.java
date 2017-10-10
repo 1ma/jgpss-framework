@@ -60,9 +60,9 @@ public class InitialView extends javax.swing.JDialog {
         if (!verOK) {
             botoOK.setVisible(false);
         } else {
-            String storageName = comboSaveValues.getSelectedItem().toString();
-            String storageValue = TextValor.getText();
-            botoOK.setEnabled(!storageName.isEmpty() && !storageValue.isEmpty());
+            String saveValueName = comboSaveValues.getSelectedItem().toString();
+            String saveValue = TextValor.getText();
+            botoOK.setEnabled(!saveValueName.isEmpty() && !saveValue.isEmpty());
             botoSave.setVisible(false);
         }
     }

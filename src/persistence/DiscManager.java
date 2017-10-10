@@ -30,7 +30,8 @@ import java.io.*;
 import java.util.ArrayList;
 import lombok.NoArgsConstructor;
 import model.*;
-import model.gna.RNG;
+import model.entities.SaveValue;
+import model.rng.RNG;
 
 /**
  * Clase que escribe y lee de disco objetos serializables.
@@ -105,62 +106,11 @@ public class DiscManager {
         StringBuffer textModel;
         textModel = new StringBuffer();
 
-        //escriure el titol
-        textModel.append(Constants.asterisco);
-        textModel.append(Constants.saltoLinea);
-        textModel.append(Constants.asterisco);
-        textModel.append(Constants.espacio);
-        textModel.append(model.getNomModel());
-        textModel.append(Constants.saltoLinea);
-        textModel.append(Constants.asterisco);
-        textModel.append(Constants.espacio);
-        textModel.append(model.getDescripModel());
-        textModel.append(Constants.saltoLinea);
-        textModel.append(Constants.asterisco);
+        writeTitle(model, textModel);
+        writeStorages(model, textModel);
+        writeSaveValues(model, textModel);
+        writeProcess(model, textModel);
 
-        //escrriure els storages
-        textModel.append(Constants.saltoLinea);
-        ArrayList<Storage> storages = model.getStorages();
-        Storage st;
-        for (int j = 0; j < storages.size(); j++) {
-            st = storages.get(j);
-            textModel.append(Constants.saltoLinea);
-            textModel.append(st.getNom());
-            textModel.append(Constants.espacio);
-            textModel.append(Constants.storages);
-            textModel.append(Constants.espacio);
-            textModel.append(st.getValor());
-        }
-        //escrire els processos
-
-        ArrayList<Proces> procesos = model.getProces();
-        Proces p;
-        ArrayList<Bloc> blocs;
-        Bloc b;
-
-        for (int i = 0; i < procesos.size(); i++) {
-            p = procesos.get(i);
-            //descripcio y nom del proces
-            textModel.append(Constants.saltoLinea);
-            textModel.append(Constants.saltoLinea);
-            textModel.append(Constants.asterisco);
-            textModel.append(Constants.saltoLinea);
-            textModel.append(Constants.asterisco);
-            textModel.append(Constants.espacio);
-            textModel.append(p.getDescpro());
-            textModel.append(Constants.saltoLinea);
-            textModel.append(Constants.asterisco);
-
-            //blocs
-            blocs = p.getBlocs();
-            for (int j = 0; j < blocs.size(); j++) {
-                // textModel.append(Constants.saltoLinea);
-                textModel.append(Constants.saltoLinea);
-                b = blocs.get(j);
-                textModel.append(escriurebloc(b));
-
-            }
-        }
         return textModel.toString();
 
     }
@@ -544,6 +494,7 @@ public class DiscManager {
         setGPSSmodel(m);
         ArrayList<Proces> p = new ArrayList<>();
         ArrayList<Storage> storages = new ArrayList<>();
+        ArrayList<SaveValue> saveValues = new ArrayList<>();
         ArrayList<Bloc> blocs;
         String nomModel = "";
         String descModel = "";
@@ -914,5 +865,91 @@ public class DiscManager {
      */
     public void setGPSSmodel(Model GPSSmodel) {
         this.GPSSmodel = GPSSmodel;
+    }
+
+    private void writeTitle(Model model, StringBuffer textModel) {
+        textModel.append(Constants.asterisco);
+        textModel.append(Constants.saltoLinea);
+        textModel.append(Constants.asterisco);
+        textModel.append(Constants.espacio);
+        textModel.append(model.getNomModel());
+        textModel.append(Constants.saltoLinea);
+        textModel.append(Constants.asterisco);
+        textModel.append(Constants.espacio);
+        textModel.append(model.getDescripModel());
+        textModel.append(Constants.saltoLinea);
+        textModel.append(Constants.asterisco);
+    }
+
+    private void writeStorages(Model model, StringBuffer textModel) {
+        
+        if (model.getStorages().isEmpty()) {
+            return;
+        }
+        
+        textModel.append(Constants.saltoLinea);
+        ArrayList<Storage> storages = model.getStorages();
+        Storage st;
+        for (int j = 0; j < storages.size(); j++) {
+            st = storages.get(j);
+            textModel.append(Constants.saltoLinea);
+            textModel.append(st.getNom());
+            textModel.append(Constants.espacio);
+            textModel.append(Constants.storages);
+            textModel.append(Constants.espacio);
+            textModel.append(st.getValor());
+        }
+    }
+
+    private void writeProcess(Model model, StringBuffer textModel) throws IOException {
+
+        //escrire els processos
+        ArrayList<Proces> procesos = model.getProces();
+        Proces p;
+        ArrayList<Bloc> blocs;
+        Bloc b;
+
+        for (int i = 0; i < procesos.size(); i++) {
+            p = procesos.get(i);
+            //descripcio y nom del proces
+            textModel.append(Constants.saltoLinea);
+            textModel.append(Constants.saltoLinea);
+            textModel.append(Constants.asterisco);
+            textModel.append(Constants.saltoLinea);
+            textModel.append(Constants.asterisco);
+            textModel.append(Constants.espacio);
+            textModel.append(p.getDescpro());
+            textModel.append(Constants.saltoLinea);
+            textModel.append(Constants.asterisco);
+
+            //blocs
+            blocs = p.getBlocs();
+            for (int j = 0; j < blocs.size(); j++) {
+                // textModel.append(Constants.saltoLinea);
+                textModel.append(Constants.saltoLinea);
+                b = blocs.get(j);
+                textModel.append(escriurebloc(b));
+
+            }
+        }
+    }
+
+    private void writeSaveValues(Model model, StringBuffer textModel) {
+
+        if (model.getSaveValues().isEmpty()) {
+            return;
+        }
+        
+        textModel.append(Constants.saltoLinea);
+        ArrayList<SaveValue> saveValues = model.getSaveValues();
+
+        saveValues.forEach(sv -> {
+            textModel.append(Constants.saltoLinea);
+            textModel.append(sv.getName());
+            textModel.append(Constants.espacio);
+            textModel.append(Constants.savevalue);
+            textModel.append(Constants.espacio);
+            textModel.append(sv.getValue());
+        });       
     }
 }

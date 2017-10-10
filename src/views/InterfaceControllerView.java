@@ -460,6 +460,9 @@ public class InterfaceControllerView extends javax.swing.JFrame implements Seria
 
     private void InitialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InitialActionPerformed
         // TODO add your handling code here:
+        InitialView initialView = new InitialView(this, false);
+        initialView.setLocationRelativeTo(this);
+        initialView.setVisible(true);
 }//GEN-LAST:event_InitialActionPerformed
 
     private void StepActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StepActionPerformed

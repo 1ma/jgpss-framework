@@ -8,26 +8,22 @@ package utils;
  * href="http://www-eio.upc.es/~Pau/index.php?q=node/28
  *
  * NOTICE TO THE USER: BY COPYING, INSTALLING OR USING THIS SOFTWARE OR PART OF
- * THIS SOFTWARE, YOU AGREE TO THE   TERMS AND CONDITIONS OF THE LICENSE AGREEMENT
+ * THIS SOFTWARE, YOU AGREE TO THE TERMS AND CONDITIONS OF THE LICENSE AGREEMENT
  * AS IF IT WERE A WRITTEN AGREEMENT NEGOTIATED AND SIGNED BY YOU. THE LICENSE
- * AGREEMENT IS ENFORCEABLE AGAINST YOU AND ANY OTHER LEGAL PERSON ACTING ON YOUR
- * BEHALF.
- * IF, AFTER READING THE TERMS AND CONDITIONS HEREIN, YOU DO NOT AGREE TO THEM,
- * YOU MAY NOT INSTALL THIS SOFTWARE ON YOUR COMPUTER.
- * UPC IS THE OWNER OF ALL THE INTELLECTUAL PROPERTY OF THE SOFTWARE AND ONLY
- * AUTHORIZES YOU TO USE THE SOFTWARE IN ACCORDANCE WITH THE TERMS SET OUT IN
- * THE LICENSE AGREEMENT.
+ * AGREEMENT IS ENFORCEABLE AGAINST YOU AND ANY OTHER LEGAL PERSON ACTING ON
+ * YOUR BEHALF. IF, AFTER READING THE TERMS AND CONDITIONS HEREIN, YOU DO NOT
+ * AGREE TO THEM, YOU MAY NOT INSTALL THIS SOFTWARE ON YOUR COMPUTER. UPC IS THE
+ * OWNER OF ALL THE INTELLECTUAL PROPERTY OF THE SOFTWARE AND ONLY AUTHORIZES
+ * YOU TO USE THE SOFTWARE IN ACCORDANCE WITH THE TERMS SET OUT IN THE LICENSE
+ * AGREEMENT.
  */
-
-
 import java.io.Serializable;
 import java.util.HashMap;
 import model.blocks.Bloc;
 import model.Model;
-import model.gna.Exponential;
-import model.gna.Uniform;
+import model.rng.Uniform;
 import persistence.DDiscManager;
-import model.gna.RNG;
+import model.rng.RNG;
 
 /**
  * A class representing the gloval variables of the model.
@@ -41,7 +37,7 @@ import model.gna.RNG;
 public class VarGlobals implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
     /**
      * The title of the current model.
      */
@@ -88,9 +84,8 @@ public class VarGlobals implements Serializable {
      */
     public static String nomStorageSeleccionat;
 
-    
     public static int valueSelectedStorage;
-    
+
     /**
      * Disc manegament variables.
      */
@@ -104,13 +99,19 @@ public class VarGlobals implements Serializable {
      * To know the current assembly set id
      */
     public static int currentAssemblySet = 0;
-    
+
     /**
      * Current GNA
      */
-
     public static HashMap<String, RNG> gna = new HashMap<>();
-    
+
+    /**
+     * GNA Types
+     */
+    public static enum GNAType {
+        UNIFORM
+    }
+
     /**
      * Creates a new instance of VarGlobals.
      */
@@ -134,14 +135,11 @@ public class VarGlobals implements Serializable {
         currentAssemblySet = 1;
         //idNumBloc =0;
     }
-    
-    
+
     public static RNG getGNA(String gnaType) {
-        switch (gnaType) {
+        switch (gnaType.toUpperCase()) {
             case "UNIFORM":
-                return new Uniform();
-            case "EXPONENTIAL":
-                return new Exponential();
+                return new Uniform();           
             default:
                 return new Uniform();
         }

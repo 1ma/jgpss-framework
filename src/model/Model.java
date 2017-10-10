@@ -20,7 +20,6 @@ package model;
 
 import model.entities.Storage;
 import model.entities.Xact;
-import model.gna.Uniform;
 import model.reports.TxtReport;
 import model.blocks.Proces;
 import model.blocks.Generate;
@@ -32,7 +31,6 @@ import lombok.Data;
 import model.entities.SaveValue;
 import model.reports.Report;
 import utils.Constants;
-import model.gna.RNG;
 
 /**
  * A class representing the model elements.
@@ -56,11 +54,6 @@ public final class Model implements Serializable {
     private ArrayList<Storage> storages;
     private ArrayList<SaveValue> saveValues;
     private ArrayList<Matrix<Float>> matrix;
-    
-    
-    public static enum GNA {
-        UNIFORM, EXPONENTIAL
-    }
 
     /**
      * Current Event Chain
@@ -104,7 +97,7 @@ public final class Model implements Serializable {
      */
 
     private float relativeClock;
-    
+
     public Model() {
 
         proces = new ArrayList<>();
@@ -153,6 +146,7 @@ public final class Model implements Serializable {
 
     /**
      * Returns the saveValue entity named name
+     *
      * @param name
      * @return
      */

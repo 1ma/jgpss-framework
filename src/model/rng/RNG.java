@@ -16,34 +16,15 @@
  * AUTHORIZES YOU TO USE THE SOFTWARE IN ACCORDANCE WITH THE TERMS SET OUT IN
  * THE LICENSE AGREEMENT.
  */
-package model.gna;
-
-import java.util.Random;
-import lombok.NoArgsConstructor;
+package model.rng;
 
 /**
- * A class implementing the RNG and GVA of the JGPSS system. Complete this class
- * with all the GVA you need.
  *
- * @author Pau Fonseca i Casas
  * @author Ezequiel Andujar Montes
- * @version 1
- * @see     <a href="http://www-eio.upc.es/~Pau/index.php?q=node/28">Project
- * website</a>
- * @serialData
  */
-@NoArgsConstructor
-
-public class Uniform implements RNG {
-
-    @Override
-    public Float generate(float A, float B) {
-        Random rnd = new Random();
-        return A + rnd.nextFloat() * (B - A);
-    }
-
-    @Override
-    public String name() {
-        return "Uniform";
-    }
+public interface RNG {
+    
+    Float generate(float A, float B);
+    Float generate();
+    String name();
 }

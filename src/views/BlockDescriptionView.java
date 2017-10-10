@@ -26,11 +26,9 @@ import java.util.ArrayList;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import model.*;
-import model.gna.Exponential;
-import model.gna.Uniform;
 import utils.Constants;
 import utils.VarGlobals;
-import model.gna.RNG;
+import model.rng.RNG;
 
 /**
  *
@@ -250,7 +248,8 @@ public class BlockDescriptionView extends JDialog {
 
                 GNACombo.setVisible(true);
                 GNALabel.setVisible(true);
-                GNACombo.setModel(new DefaultComboBoxModel(getGNAnames()));
+                GNACombo.setModel(new DefaultComboBoxModel(getGNAnames()));                
+                GNACombo.getModel().setSelectedItem(b.getGna().name());
 
                 dibuixarBloc(Constants.UrlGenerate);
 
@@ -362,6 +361,7 @@ public class BlockDescriptionView extends JDialog {
                 GNACombo.setVisible(true);
                 GNALabel.setVisible(true);
                 GNACombo.setModel(new DefaultComboBoxModel(getGNAnames()));
+                GNACombo.getModel().setSelectedItem(a.getGna().name());
 
                 dibuixarBloc(Constants.UrlAdvanced);
 
@@ -1067,7 +1067,7 @@ public class BlockDescriptionView extends JDialog {
                     comprovarValorsPerDefecte(Constants.idGenerate);
 
                     gnaType = GNACombo.getSelectedItem().toString();
-                    gna = getGNA(gnaType);
+                    gna = VarGlobals.getGNA(gnaType);
 
                     g = new Generate(textDescripcio.getText(), jTextFielLabel.getText(),
                             Float.valueOf(textA.getText()),
@@ -1096,7 +1096,7 @@ public class BlockDescriptionView extends JDialog {
                     comprovarValorsPerDefecte(Constants.idAdvanced);
 
                     gnaType = GNACombo.getSelectedItem().toString();                    
-                    gna = getGNA(gnaType); 
+                    gna = VarGlobals.getGNA(gnaType); 
 
                     a = new Advance(textDescripcio.getText(), jTextFielLabel.getText(),
                             Float.valueOf(textA.getText()),
@@ -1514,22 +1514,22 @@ public class BlockDescriptionView extends JDialog {
     }
 
     private Object[] getGNAnames() {
-        return Stream.of(Model.GNA.values())//
+        return Stream.of(VarGlobals.GNAType.values())//
                 .map(Enum::name)//
                 .collect(Collectors.toList()).toArray();
     }
 
-    private RNG getGNA(String gnaType) {
-
-        switch (gnaType) {
-            case "UNIFORM":
-                return new Uniform();
-            case "EXPONENTIAL":
-                return new Exponential();
-            default:
-                return new Uniform();
-        }
-    }
+//    private RNG getGNA(String gnaType) {
+//
+//        switch (gnaType) {
+//            case "UNIFORM":
+//                return new Uniform();
+//            case "EXPONENTIAL":
+//                return new Exponential();
+//            default:
+//                return new Uniform();
+//        }
+//    }
 
     private String[] generarVectorTest() {
 

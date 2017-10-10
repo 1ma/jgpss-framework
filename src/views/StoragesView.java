@@ -25,7 +25,6 @@ import java.util.stream.Collectors;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import model.*;
 import utils.Constants;
 import utils.VarGlobals;
 

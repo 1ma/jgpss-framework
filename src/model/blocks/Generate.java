@@ -24,7 +24,7 @@ import lombok.Setter;
 import model.entities.Xact;
 import utils.Constants;
 import utils.VarGlobals;
-import model.gna.RNG;
+import model.rng.RNG;
 
 /**
  * A class representing the GENERATE block.
@@ -114,7 +114,7 @@ public class Generate extends Bloc {
             if (getModel().getRelativeClock() == 0 && F > 0) {
                 xact.setMoveTime(C);
             } else {
-                xact.setMoveTime(getModel().getRelativeClock() + getGna().generate(A - B, A + B));
+                xact.setMoveTime(getModel().getRelativeClock() + getGna().generate(A, B));
             }
             getModel().incIdXact();
             xact.setID(getModel().getIdxact());

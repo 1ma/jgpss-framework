@@ -23,7 +23,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import model.entities.Xact;
 import utils.Constants;
-import model.gna.RNG;
+import model.rng.RNG;
 
 /**
  * A class representing the ADVANCE GPSS block.

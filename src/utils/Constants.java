@@ -590,8 +590,7 @@ public class Constants {
      * Error recovering a file text.
      */
     public final static String errorRecuperar = "Mistake on having recovered the file";
-    
-    
+
     public final static String malformedNumber = "Error malformed number";
 
     /**
@@ -642,6 +641,11 @@ public class Constants {
     public final static String storages = "STORAGE";
 
     /**
+     * SAVEVALUE text.
+     */
+    public final static String savevalue = "SAVEVALUE";
+
+    /**
      * Open icon.
      */
     public final static String ImagenAbrir = "/imagenes/Package.png";
@@ -677,14 +681,12 @@ public class Constants {
      * Storages text.
      */
     public final static String tituloStorages = "Storages";
-    
-    
+
     /**
-     * Save Values text.     
+     * Save Values text.
      */
-    
     public final static String SaveValueTitle = "SaveValue";
-    
+
     /**
      * Error text.
      */
