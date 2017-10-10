@@ -18,11 +18,13 @@
  */
 package views;
 
+import model.Proces;
 import model.entities.Storage;
 import model.blocks.*;
 import java.awt.Frame;
 import javax.swing.*;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import model.*;
@@ -51,24 +53,28 @@ public class BlockDescriptionView extends JDialog {
 
         super(parent, Constants.tituloNewBloc, true);
         initComponents();
+        VarGlobals.blocId = bloc.getId();
         blockName.setText(Constants.blocName.get(bloc.getId()).toUpperCase());
-        botoStorage.setVisible(false);
+        buttonA.setVisible(false);
         comboOp.setVisible(false);
         GNACombo.setVisible(false);
         tipusBloc = bloc.getId();
         model = bloc.getModel();
         proces = bloc.getProces();
+        initCombos();
         pintarBloc(bloc, caso);
     }
 
     public BlockDescriptionView(Frame parent, int tipusBloc, String urlbloc, Model model, Proces proces) {
         super(parent, Constants.tituloNewBloc, true);
         initComponents();
+        VarGlobals.blocId = tipusBloc;
         this.tipusBloc = tipusBloc;
         this.model = model;
         this.proces = proces;
-        botoStorage.setVisible(false);
+        buttonA.setVisible(false);
         blockName.setText(Constants.blocName.get(tipusBloc).toUpperCase());
+        initCombos();
         dibuixarBloc(urlbloc);
         comboOp.setVisible(false);
         GNACombo.setVisible(false);
@@ -78,7 +84,6 @@ public class BlockDescriptionView extends JDialog {
             case Constants.idGenerate:
                 GNACombo.setVisible(true);
                 GNALabel.setVisible(true);
-                GNACombo.setModel(new DefaultComboBoxModel(getGNAnames()));
                 jLabelA.setText(Constants.A);
                 jLabelB.setText(Constants.B);
                 jLabelC.setText(Constants.C);
@@ -95,9 +100,20 @@ public class BlockDescriptionView extends JDialog {
                 jLabelE.setText(Constants.E);
                 jLabelF.setText(Constants.F);
                 break;
-            case Constants.idTerminate:
+
             case Constants.idRelease:
+                buttonA.setText("Seize");
+                buttonA.setVisible(true);
+                jLabelA.setText(Constants.A);
+                textA.setEnabled(false);
+                TextB.setVisible(false);
+                TextC.setVisible(false);
+                TextD.setVisible(false);
+                TextE.setVisible(false);
+                TextF.setVisible(false);
+                break;
             case Constants.idSeize:
+            case Constants.idTerminate:
             case Constants.idFavail:
             case Constants.idAssemble:
             case Constants.idGather:
@@ -113,7 +129,17 @@ public class BlockDescriptionView extends JDialog {
             case Constants.idAdvanced:
                 GNACombo.setVisible(true);
                 GNALabel.setVisible(true);
-                GNACombo.setModel(new DefaultComboBoxModel(getGNAnames()));
+                jLabelA.setText(Constants.A);
+                jLabelB.setText(Constants.B);
+                TextC.setVisible(false);
+                TextD.setVisible(false);
+                TextE.setVisible(false);
+                TextF.setVisible(false);
+                break;
+
+            case Constants.idSavevavg:
+                buttonA.setText("SaveValues...");
+                buttonA.setVisible(true);
                 jLabelA.setText(Constants.A);
                 jLabelB.setText(Constants.B);
                 TextC.setVisible(false);
@@ -123,7 +149,12 @@ public class BlockDescriptionView extends JDialog {
                 break;
             case Constants.idDepart:
             case Constants.idQueue:
-            case Constants.idSavevavg:
+                jLabelA.setText(Constants.A);
+                jLabelB.setText(Constants.B);
+                TextC.setVisible(false);
+                TextD.setVisible(false);
+                TextE.setVisible(false);
+                TextF.setVisible(false);
             case Constants.idAssign:
             case Constants.idLoop:
                 jLabelA.setText(Constants.A);
@@ -143,7 +174,6 @@ public class BlockDescriptionView extends JDialog {
                 break;
             case Constants.idTest:
                 comboOp.setVisible(true);
-                comboOp.setModel(new DefaultComboBoxModel(generarVectorTest()));
                 jLabelX.setText(Constants.X);
                 jLabelA.setText(Constants.A);
                 jLabelB.setText(Constants.B);
@@ -154,7 +184,6 @@ public class BlockDescriptionView extends JDialog {
                 break;
             case Constants.idTransfer:
                 comboOp.setVisible(true);
-                comboOp.setModel(new DefaultComboBoxModel(generarVectorTransfer()));
                 jLabelX.setText(Constants.A);
                 jLabelA.setText(Constants.B);
                 jLabelB.setText(Constants.C);
@@ -165,7 +194,6 @@ public class BlockDescriptionView extends JDialog {
                 break;
             case Constants.idLogic:
                 comboOp.setVisible(true);
-                comboOp.setModel(new DefaultComboBoxModel(generarVectorLogic()));
                 jLabelX.setText(Constants.X);
                 jLabelA.setText(Constants.A);
                 TextB.setVisible(false);
@@ -176,7 +204,6 @@ public class BlockDescriptionView extends JDialog {
                 break;
             case Constants.idGate:
                 comboOp.setVisible(true);
-                comboOp.setModel(new DefaultComboBoxModel(generarVectorGate()));
                 jLabelX.setText(Constants.X);
                 jLabelA.setText(Constants.A);
                 jLabelB.setText(Constants.B);
@@ -186,7 +213,7 @@ public class BlockDescriptionView extends JDialog {
                 TextF.setVisible(false);
                 break;
             case Constants.idBuffer:
-                botoStorage.setVisible(true);
+                buttonA.setVisible(true);
                 textA.setVisible(false);
                 TextB.setVisible(false);
                 TextC.setVisible(false);
@@ -196,7 +223,8 @@ public class BlockDescriptionView extends JDialog {
                 break;
             case Constants.idEnter:
             case Constants.idLeave:
-                botoStorage.setVisible(true);
+                buttonA.setText("Storages...");
+                buttonA.setVisible(true);
                 jLabelA.setText(Constants.A);
                 jLabelB.setText(Constants.B);
                 TextC.setVisible(false);
@@ -207,7 +235,7 @@ public class BlockDescriptionView extends JDialog {
                 break;
             case Constants.idSavail:
             case Constants.idSunavail:
-                botoStorage.setVisible(true);
+                buttonA.setVisible(true);
                 jLabelA.setText(Constants.A);
                 TextB.setVisible(false);
                 TextC.setVisible(false);
@@ -221,12 +249,17 @@ public class BlockDescriptionView extends JDialog {
         }
     }
 
+    private void initCombos() {
+
+        GNACombo.setModel(new DefaultComboBoxModel(getGNAnames()));
+        comboOp.setModel(new DefaultComboBoxModel(generarVectorGate()));
+    }
+
     private void pintarBloc(Bloc b, int caso) {
 
         textDescripcio.setText(b.getComentari());
         jTextFielLabel.setText(b.getLabel());
-        GNACombo.setVisible(false);
-        GNALabel.setVisible(false);
+
         if (caso == Constants.ConsultarBloc) {
             botoCancel.setVisible(false);
         }
@@ -248,7 +281,7 @@ public class BlockDescriptionView extends JDialog {
 
                 GNACombo.setVisible(true);
                 GNALabel.setVisible(true);
-                GNACombo.setModel(new DefaultComboBoxModel(getGNAnames()));                
+                GNACombo.setModel(new DefaultComboBoxModel(getGNAnames()));
                 GNACombo.getModel().setSelectedItem(b.getGna().name());
 
                 dibuixarBloc(Constants.UrlGenerate);
@@ -314,6 +347,8 @@ public class BlockDescriptionView extends JDialog {
                 break;
             case Constants.idRelease:
                 jLabelA.setText(Constants.A);
+                buttonA.setText("Seize...");
+                buttonA.setVisible(true);
                 Release r = (Release) b;
                 textA.setText(r.getA());
                 TextB.setVisible(false);
@@ -431,6 +466,8 @@ public class BlockDescriptionView extends JDialog {
                 }
                 break;
             case Constants.idEnter:
+                buttonA.setText("Storages...");
+                buttonA.setVisible(true);
                 jLabelA.setText(Constants.A);
                 jLabelB.setText(Constants.B);
                 Enter e = (Enter) b;
@@ -449,10 +486,12 @@ public class BlockDescriptionView extends JDialog {
                     TextB.setEnabled(false);
                 } else if (caso == Constants.ModificarBloc) {
                     textA.setEnabled(false);
-                    botoStorage.setVisible(true);
+                    buttonA.setVisible(true);
                 }
                 break;
             case Constants.idLeave:
+                buttonA.setText("Storages...");
+                buttonA.setVisible(true);
                 jLabelA.setText(Constants.A);
                 jLabelB.setText(Constants.B);
                 Leave l = (Leave) b;
@@ -471,7 +510,7 @@ public class BlockDescriptionView extends JDialog {
                     TextB.setEnabled(false);
                 } else if (caso == Constants.ModificarBloc) {
                     textA.setEnabled(false);
-                    botoStorage.setVisible(true);
+                    buttonA.setVisible(true);
                 }
                 break;
 
@@ -579,6 +618,8 @@ public class BlockDescriptionView extends JDialog {
                 }
                 break;
             case Constants.idSavevavg:
+                buttonA.setText("SaveValue...");
+                buttonA.setVisible(true);
                 jLabelA.setText(Constants.A);
                 jLabelB.setText(Constants.B);
                 TextC.setVisible(false);
@@ -670,7 +711,7 @@ public class BlockDescriptionView extends JDialog {
                     textA.setEnabled(false);
                 } else if (caso == Constants.ModificarBloc) {
                     textA.setEnabled(false);
-                    botoStorage.setVisible(true);
+                    buttonA.setVisible(true);
                 }
                 break;
             case Constants.idSunavail:
@@ -690,7 +731,7 @@ public class BlockDescriptionView extends JDialog {
                     textA.setEnabled(false);
                 } else if (caso == Constants.ModificarBloc) {
                     textA.setEnabled(false);
-                    botoStorage.setVisible(true);
+                    buttonA.setVisible(true);
                 }
                 break;
             case Constants.idAssemble:
@@ -819,7 +860,7 @@ public class BlockDescriptionView extends JDialog {
         jLabelD = new javax.swing.JLabel();
         jLabelE = new javax.swing.JLabel();
         jLabelF = new javax.swing.JLabel();
-        botoStorage = new javax.swing.JButton();
+        buttonA = new javax.swing.JButton();
         comboOp = new javax.swing.JComboBox();
         jLabelX = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -847,6 +888,12 @@ public class BlockDescriptionView extends JDialog {
         jLabel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jLabel2.setOpaque(true);
 
+        TextB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TextBActionPerformed(evt);
+            }
+        });
+
         botoCancel.setText("Cancel");
         botoCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -873,10 +920,9 @@ public class BlockDescriptionView extends JDialog {
 
         jLabelF.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
 
-        botoStorage.setText("storages...");
-        botoStorage.addActionListener(new java.awt.event.ActionListener() {
+        buttonA.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botoStorageActionPerformed(evt);
+                buttonAActionPerformed(evt);
             }
         });
 
@@ -906,40 +952,47 @@ public class BlockDescriptionView extends JDialog {
                         .add(botoOK, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 62, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                     .add(jPanel1Layout.createSequentialGroup()
                         .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(org.jdesktop.layout.GroupLayout.TRAILING, jLabelF, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 138, Short.MAX_VALUE)
-                            .add(jLabelE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 138, Short.MAX_VALUE)
-                            .add(jLabelD, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 138, Short.MAX_VALUE)
-                            .add(org.jdesktop.layout.GroupLayout.TRAILING, jLabelA, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 138, Short.MAX_VALUE)
-                            .add(org.jdesktop.layout.GroupLayout.TRAILING, jLabelB, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 138, Short.MAX_VALUE)
-                            .add(org.jdesktop.layout.GroupLayout.TRAILING, jLabelC, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 138, Short.MAX_VALUE)
-                            .add(org.jdesktop.layout.GroupLayout.TRAILING, jLabelX, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 138, Short.MAX_VALUE))
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                            .add(org.jdesktop.layout.GroupLayout.TRAILING, jLabelF, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 102, Short.MAX_VALUE)
+                            .add(jLabelE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 102, Short.MAX_VALUE)
+                            .add(jLabelD, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 102, Short.MAX_VALUE)
+                            .add(org.jdesktop.layout.GroupLayout.TRAILING, jLabelA, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 102, Short.MAX_VALUE)
+                            .add(org.jdesktop.layout.GroupLayout.TRAILING, jLabelB, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 102, Short.MAX_VALUE)
+                            .add(org.jdesktop.layout.GroupLayout.TRAILING, jLabelC, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 102, Short.MAX_VALUE)
+                            .add(org.jdesktop.layout.GroupLayout.TRAILING, jLabelX, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 102, Short.MAX_VALUE))
+                        .add(28, 28, 28)
                         .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(TextC, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 223, Short.MAX_VALUE)
-                            .add(TextB, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 223, Short.MAX_VALUE)
-                            .add(textA, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 223, Short.MAX_VALUE)
-                            .add(TextD, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 223, Short.MAX_VALUE)
-                            .add(TextE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 223, Short.MAX_VALUE)
-                            .add(TextF, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 223, Short.MAX_VALUE)
-                            .add(jPanel1Layout.createSequentialGroup()
-                                .add(comboOp, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 82, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 31, Short.MAX_VALUE)
-                                .add(botoStorage))))
+                            .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .add(textA, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 142, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .add(buttonA, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                                .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
+                                    .add(org.jdesktop.layout.GroupLayout.TRAILING, TextE)
+                                    .add(org.jdesktop.layout.GroupLayout.TRAILING, TextD, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 257, Short.MAX_VALUE)
+                                    .add(org.jdesktop.layout.GroupLayout.TRAILING, TextC, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 257, Short.MAX_VALUE)
+                                    .add(org.jdesktop.layout.GroupLayout.TRAILING, TextB, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 257, Short.MAX_VALUE)
+                                    .add(TextF, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 257, Short.MAX_VALUE))
+                                .add(org.jdesktop.layout.GroupLayout.TRAILING, comboOp, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 257, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))))
                     .add(jPanel1Layout.createSequentialGroup()
                         .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                             .add(jLabel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 121, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                             .add(jLabel3)
                             .add(jLabel2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 75, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                             .add(GNALabel))
-                        .add(7, 7, 7)
                         .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(jTextFielLabel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 239, Short.MAX_VALUE)
-                            .add(org.jdesktop.layout.GroupLayout.TRAILING, textDescripcio, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 239, Short.MAX_VALUE)
                             .add(jPanel1Layout.createSequentialGroup()
+                                .add(12, 12, 12)
                                 .add(blockName)
                                 .add(0, 0, Short.MAX_VALUE))
-                            .add(org.jdesktop.layout.GroupLayout.TRAILING, GNACombo, 0, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addContainerGap())
+                            .add(jPanel1Layout.createSequentialGroup()
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                                .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                                    .add(org.jdesktop.layout.GroupLayout.TRAILING, textDescripcio)
+                                    .add(org.jdesktop.layout.GroupLayout.TRAILING, jTextFielLabel)))
+                            .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                                .add(GNACombo, 0, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                .add(14, 14, 14))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -951,11 +1004,9 @@ public class BlockDescriptionView extends JDialog {
                     .add(jPanel1Layout.createSequentialGroup()
                         .add(31, 31, 31)
                         .add(blockName)))
-                .add(30, 30, 30)
-                .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(jPanel1Layout.createSequentialGroup()
-                        .add(8, 8, 8)
-                        .add(jLabel1))
+                .add(36, 36, 36)
+                .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(jLabel1)
                     .add(textDescripcio, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
@@ -968,13 +1019,13 @@ public class BlockDescriptionView extends JDialog {
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(jLabelX, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 18, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                        .add(comboOp, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .add(botoStorage, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 21, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
-                .add(8, 8, 8)
+                    .add(comboOp, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .add(9, 9, 9)
                 .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
                     .add(jLabelA, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .add(textA, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                    .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                        .add(textA, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(buttonA, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 21, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
                     .add(jLabelB, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -998,7 +1049,7 @@ public class BlockDescriptionView extends JDialog {
                 .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
                     .add(jLabelF, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 18, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(TextF, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .add(18, 18, 18)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                 .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(botoOK)
                     .add(botoCancel))
@@ -1029,8 +1080,24 @@ public class BlockDescriptionView extends JDialog {
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
     }//GEN-LAST:event_formWindowClosed
 
-    private void botoStorageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botoStorageActionPerformed
+    private void buttonAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAActionPerformed
 
+        switch (VarGlobals.blocId) {
+            
+            case Constants.idRelease:                
+                openSeizeView();
+                break;
+            case Constants.idEnter:
+            case Constants.idLeave:
+                openStorageView();
+                break;
+            case Constants.idSavevavg:
+                openSaveValueView();
+                break;
+        }
+    }//GEN-LAST:event_buttonAActionPerformed
+
+    void openStorageView() {
         if (model.getStorages().isEmpty()) {
             generarPantallaError("No Storages defined");
             return;
@@ -1052,7 +1119,46 @@ public class BlockDescriptionView extends JDialog {
                 generarPantallaError("Storage not valid");
             }
         }
-    }//GEN-LAST:event_botoStorageActionPerformed
+    }
+
+    void openSaveValueView() {
+
+        if (model.getSaveValues().isEmpty()) {
+            generarPantallaError("No SaveValues defined");
+            return;
+        }
+
+        InitialView initialView = new InitialView(null, true);
+        initialView.setLocationRelativeTo(this);
+        initialView.setVisible(true);
+        initialView.dispose();
+
+        if (VarGlobals.continuar) {
+            textA.setText(VarGlobals.nameSaveValueSelected);
+        }
+    }
+
+    void openSeizeView() {
+
+        List<Seize> seizes = proces.getBlocs().stream()//
+                .filter(b -> b instanceof Seize)//    
+                .map(b -> (Seize) b)
+                .collect(Collectors.toList());
+                
+
+        if (seizes.isEmpty()) {
+            generarPantallaError("No Seizes defined");
+            return;
+        }
+        SeizeView seizeView = new SeizeView(null, true, seizes);
+        seizeView.setLocationRelativeTo(this);
+        seizeView.setVisible(true);
+        seizeView.dispose();
+
+        if (VarGlobals.continuar) {
+            textA.setText(VarGlobals.nameSeizeSelected);
+        }
+    }
 
     private void botoOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botoOKActionPerformed
 
@@ -1095,8 +1201,8 @@ public class BlockDescriptionView extends JDialog {
                     Advance a;
                     comprovarValorsPerDefecte(Constants.idAdvanced);
 
-                    gnaType = GNACombo.getSelectedItem().toString();                    
-                    gna = VarGlobals.getGNA(gnaType); 
+                    gnaType = GNACombo.getSelectedItem().toString();
+                    gna = VarGlobals.getGNA(gnaType);
 
                     a = new Advance(textDescripcio.getText(), jTextFielLabel.getText(),
                             Float.valueOf(textA.getText()),
@@ -1442,6 +1548,10 @@ public class BlockDescriptionView extends JDialog {
         dispose();
     }//GEN-LAST:event_botoCancelActionPerformed
 
+    private void TextBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TextBActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_TextBActionPerformed
+
     private void comprovarValorsPerDefecte(int caso) {
 
         switch (caso) {
@@ -1519,19 +1629,7 @@ public class BlockDescriptionView extends JDialog {
                 .collect(Collectors.toList()).toArray();
     }
 
-//    private RNG getGNA(String gnaType) {
-//
-//        switch (gnaType) {
-//            case "UNIFORM":
-//                return new Uniform();
-//            case "EXPONENTIAL":
-//                return new Exponential();
-//            default:
-//                return new Uniform();
-//        }
-//    }
-
-    private String[] generarVectorTest() {
+    private Object[] generarVectorTest() {
 
         ArrayList<String> vTest = new ArrayList<>();
         vTest.add("");
@@ -1542,10 +1640,10 @@ public class BlockDescriptionView extends JDialog {
         vTest.add(Test.LE);
         vTest.add(Test.NE);
 
-        return (String[]) vTest.toArray();
+        return vTest.toArray();
     }
 
-    private String[] generarVectorTransfer() {
+    private Object[] generarVectorTransfer() {
 
         ArrayList<String> vTransfer = new ArrayList<>();
         vTransfer.add("");
@@ -1559,11 +1657,10 @@ public class BlockDescriptionView extends JDialog {
         vTransfer.add(Transfer.SBR);
         vTransfer.add(Transfer.SNA);
 
-        return (String[]) vTransfer.toArray();
-
+        return vTransfer.toArray();
     }
 
-    private String[] generarVectorLogic() {
+    private Object[] generarVectorLogic() {
 
         ArrayList<String> vLogic = new ArrayList<>();
         vLogic.add("");
@@ -1571,10 +1668,10 @@ public class BlockDescriptionView extends JDialog {
         vLogic.add(Logic.R);
         vLogic.add(Logic.S);
 
-        return (String[]) vLogic.toArray();
+        return vLogic.toArray();
     }
 
-    private String[] generarVectorGate() {
+    private Object[] generarVectorGate() {
 
         ArrayList vGate = new ArrayList();
         vGate.add("");
@@ -1582,9 +1679,17 @@ public class BlockDescriptionView extends JDialog {
         vGate.add(Gate.SF);
         vGate.add(Gate.NU);
 
-        return (String[]) vGate.toArray();
-
+        return vGate.toArray();
     }
+
+    public Object[] getSVnames() {
+
+        return model.getSaveValues().stream()//
+                .map(sv -> sv.getName())//
+                .collect(Collectors.toList())//
+                .toArray();
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> GNACombo;
     private javax.swing.JLabel GNALabel;
@@ -1596,7 +1701,7 @@ public class BlockDescriptionView extends JDialog {
     private javax.swing.JLabel blockName;
     private javax.swing.JButton botoCancel;
     private javax.swing.JButton botoOK;
-    private javax.swing.JButton botoStorage;
+    private javax.swing.JButton buttonA;
     private javax.swing.JComboBox comboOp;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -1613,4 +1718,5 @@ public class BlockDescriptionView extends JDialog {
     private javax.swing.JTextField textA;
     private javax.swing.JTextField textDescripcio;
     // End of variables declaration//GEN-END:variables
+
 }

@@ -54,7 +54,7 @@ public class InitialView extends javax.swing.JDialog {
         initListeners();
         populateCombo();
 
-        TextValor.setText(getSelectedStorageValue());
+        TextValor.setText(getSelectedSavelValue());
         botoOK.setEnabled(false);
         botoSave.setEnabled(false);
         if (!verOK) {
@@ -72,10 +72,10 @@ public class InitialView extends javax.swing.JDialog {
      *
      * @return
      */
-    private String getSelectedStorageValue() {
-        return VarGlobals.model.getStorages().stream()//
-                .filter(s -> s.getNom().equals((String) comboSaveValues.getSelectedItem()))//
-                .map(s -> String.valueOf(s.getValor()))//
+    private String getSelectedSavelValue() {
+        return VarGlobals.model.getSaveValues().stream()//
+                .filter(s -> s.getName().equals((String) comboSaveValues.getSelectedItem()))//
+                .map(s -> String.valueOf(s.getValue()))//
                 .findFirst()//                 
                 .orElse("");
     }
@@ -209,7 +209,7 @@ public class InitialView extends javax.swing.JDialog {
                 botoOK.setEnabled(true);
                 populateCombo();
             } else {
-                VarGlobals.model.getStorages().get(posSaveValue).setValor(new Integer(TextValor.getText()));
+                VarGlobals.model.getSaveValues().get(posSaveValue).setValue(new Float(TextValor.getText()));
             }
         } catch (NumberFormatException nf) {
             generarPantallaError(Constants.errorDades);

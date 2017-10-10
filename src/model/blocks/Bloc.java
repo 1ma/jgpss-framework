@@ -18,6 +18,7 @@
  */
 package model.blocks;
 
+import model.Proces;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.PriorityQueue;
@@ -197,7 +198,6 @@ public abstract class Bloc {
             }
 
             tr.setBloc(nextBloc);
-
             return nextBloc;
         } else {
             return null;

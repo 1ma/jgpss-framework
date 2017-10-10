@@ -18,7 +18,7 @@
  */
 package views;
 
-import model.blocks.Proces;
+import model.Proces;
 import model.blocks.Bloc;
 import java.util.*;
 import java.awt.*;
@@ -1154,11 +1154,7 @@ public class PanelModelView extends JPanel {
     }//GEN-LAST:event_botoGenerateActionPerformed
 
     private void botoNewModelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botoNewModelActionPerformed
-// TODO add your handling code here:
-        //llamar a un modal para rellenar los campos de descripciï¿½n
-        //inicializar donde dibujaremos el proceso
-        //si no hay procesos empezamos por la pos 0,0
-        //posiciones auxiliares por si no aceptamos algï¿½n bloque o proceso
+                
         NewProcessView pnm = new NewProcessView(titolsProc);
         pnm.setLocationRelativeTo(this);
 
@@ -1166,14 +1162,14 @@ public class PanelModelView extends JPanel {
         pnm.dispose();
         int x;
         int y;
-        //creem un nou proces amb nomï¿½s la descripciï¿½
+        //creem un nou proces amb nomï¿½s la descripció
         if (VarGlobals.continuar) {
 
             if (VarGlobals.model.getProces().isEmpty()) {
                 x = 0;
                 y = 0;
             } else {
-                //si hay procesos cogemos la pos del ï¿½ltimo
+                //si hay procesos cogemos la pos del último
                 int cuantos = VarGlobals.model.getProces().size();
                 Proces p = VarGlobals.model.getProces().get(cuantos - 1);
                 x = p.getPosx() + Constants.x;
@@ -1183,7 +1179,7 @@ public class PanelModelView extends JPanel {
             //creamos nuevo proceso
             pro = new Proces(VarGlobals.Descripcio, VarGlobals.model);
             //dibujar();
-            //poner la desccripciï¿½n del proceso
+            //poner la desccripción del proceso
             javax.swing.JLabel jLabeldibuix = new JLabel();
             jLabeldibuix.setText(VarGlobals.Descripcio);
             jPanelModel.add(jLabeldibuix).setBounds(x, y, Constants.x, 70);
@@ -1194,7 +1190,7 @@ public class PanelModelView extends JPanel {
             pro.setFinposy(y + Constants.y);
             VarGlobals.model.getProces().add(pro);
 
-            //aï¿½adir el proceso en el combobox
+            //añadir el proceso en el combobox
             titolsProc.add(pro.getDescpro());
             rellenarCombo();
             y += Constants.y;
@@ -1203,7 +1199,7 @@ public class PanelModelView extends JPanel {
             arrayBlocs = new ArrayList<>();
             //limpiar la variable Global
             VarGlobals.Descripcio = "";
-            //tamaï¿½o del panel
+            //tamaño del panel
             cambiarTamanoJPanelsX(x + Constants.x);
             VarGlobals.esModificat = true;
         }
@@ -1245,12 +1241,9 @@ public class PanelModelView extends JPanel {
         if (VarGlobals.continuar) {
             pintarBloc(VarGlobals.bloc.getLabel(), x, y, url, VarGlobals.bloc);
 
-            //jLabel que contendrï¿½ la Descripciï¿½ (obligatoria?????)
-            //aumentamos y
             y += 60;
             arrayBlocs.add(VarGlobals.bloc);
             pro.setBlocs(arrayBlocs);
-            //pro.setFinposx(x);
             pro.setFinposy(y);
             cambiarTamanoJPanelsY(y);
             VarGlobals.esModificat = true;

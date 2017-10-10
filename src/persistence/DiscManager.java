@@ -19,9 +19,10 @@
 package persistence;
 
 /**
- * Autor: Francisco G�mez Gonz�lez Cluster: 2 Grupo: 2.2 Versi�n: 1.0 Fecha:
- * 04-11-05
+ * Autor: Francisco G�mez Gonz�lez Cluster: 2 Grupo: 2.2 Versi�n: 1.0
+ * Fecha: 04-11-05
  */
+import model.Proces;
 import model.entities.Storage;
 import model.blocks.*;
 import utils.VarGlobals;
@@ -109,10 +110,10 @@ public class DiscManager {
         writeTitle(model, textModel);
         writeStorages(model, textModel);
         writeSaveValues(model, textModel);
+        writeEndEntities(textModel);
         writeProcess(model, textModel);
 
         return textModel.toString();
-
     }
 
     private String escriurebloc(Bloc b) throws IOException {
@@ -495,123 +496,118 @@ public class DiscManager {
         ArrayList<Proces> p = new ArrayList<>();
         ArrayList<Storage> storages = new ArrayList<>();
         ArrayList<SaveValue> saveValues = new ArrayList<>();
-        ArrayList<Bloc> blocs;
+        ArrayList<Bloc> blocs = new ArrayList<>();
         String nomModel = "";
         String descModel = "";
         String nomProces = "";
         Proces pro;
         Storage stor;
         int linea, cont, xini, yini, xfin, yfin;
+        cont = 1;
         xini = 0;
         yini = xfin = xini;
         yfin = Constants.y;
         linea = 1;
         String s;
         try {
-            while ((s = entrada.readLine()) != null) {
-                if ((linea == 1) || (linea == 4)) {
-                    if (!s.equals(Constants.asterisco)) {
-                        return 1;
-                    }
-                    linea++;
-                } else if (linea == 2) {
-                    //nom del model
-                    if (!s.substring(0, 1).equals(Constants.asterisco)) {
-                        return 1;
-                    }
-                    nomModel = s.substring(2);
-                    linea++;
 
-                } else if (linea == 3) {
-                    //descripci� del model
-                    if (!s.substring(0, 1).equals(Constants.asterisco)) {
-                        return 1;
-                    }
-                    descModel = s.substring(2);
-                    linea++;
-                } else if (s.equals("")) {
-                    //nuevo proceso
-                    cont = 1;
-                    blocs = new ArrayList<>();
-                    /*
-                         * tractaStorages == true -> tractar els storages
-                         * tractaStorages == false -> tractar els procesos diretament
-                     */
-                    boolean tractaStorages = true;
-                    while ((s = entrada.readLine()) != null) {
-                        if (s.equals("") && !tractaStorages) {
-                            pro = new Proces(nomProces, getGPSSmodel());
-                            //pro.setDescpro(nomProces);
-                            pro.setBlocs(blocs);
-                            pro.setPosx(xini);
-                            pro.setPosy(yini);
-                            pro.setFinposx(xfin);
-                            pro.setFinposy(yfin);
-                            //pro.set
-                            p.add(pro);
-                            //iniciem nou proces
-                            cont = 1;
-                            xini = xini + Constants.x;
-                            xfin = xini;
-                            yini = 0;
-                            yfin = Constants.y;
-
-                            blocs = new ArrayList<>();
-                        } else if (s.equals("") && tractaStorages) {
-                            cont = 1;
-                            tractaStorages = false;
-                        } else if (!s.equals("") && tractaStorages) {
-                            //si comenza amb un astrisc vol dir que no hi han storages i que estem en un proc�s
-                            if (s.equals(Constants.asterisco)) {
-                                tractaStorages = false;
-                            } else {
-                                String vStorage[] = s.split(Constants.espacio);
-                                //el primer es el nom de l'storage i el tercer el valor
-                                storages.add(new Storage(vStorage[0], new Integer(vStorage[2])));
-
-                            }
-                        } else {
-                            if ((cont == 2) && !tractaStorages) {
-                                //nom del proces
-                                nomProces = s.substring(2);
-                            } else if ((cont > 3) && !tractaStorages) {
-                                //els blocs
-                                blocs.add(crearBloc(s));
-                                yfin = yfin + Constants.y;
-                            } else if ((cont == 1) && !tractaStorages && !s.equals(Constants.asterisco)) {
-                                //error al llegir l'artxiu
-
-                                return 1;
-                            }
-                            cont++;
+            // parse header information
+            while (linea <= 4) {
+                s = entrada.readLine();
+                switch (linea) {
+                    case 1:
+                    case 4:
+                        if (!s.equals(Constants.asterisco)) {
+                            return 1;
                         }
+                        break;
+                    case 2:
+                        if (!s.substring(0, 1).equals(Constants.asterisco)) {
+                            return 1;
+                        }
+                        nomModel = s.substring(2);
+                        break;
+                    case 3:
+                        if (!s.substring(0, 1).equals(Constants.asterisco)) {
+                            return 1;
+                        }
+                        descModel = s.substring(2);
+                        break;
+                }
+                linea++;
+            }
 
+            // parse entities
+            while (!(s = entrada.readLine()).contains("* end-entities")) {
+
+                if (!s.equals("")) {
+
+                    String vEntity[] = s.split(Constants.espacio);
+                    String entityName = vEntity[0];
+                    String entityType = vEntity[1];
+
+                    switch (entityType) {
+                        case Constants.storages:
+                            storages.add(new Storage(entityName, new Integer(vEntity[2])));
+                            break;
+                        case Constants.savevalue:
+                            saveValues.add(new SaveValue(entityName, new Float(vEntity[2])));
+                            break;
+                        default:
+                            break;
                     }
+                }
+            }
+
+            // parse process
+            pro = new Proces();
+            while ((s = entrada.readLine()) != null) {
+                if (s.equals("")) {
                     pro = new Proces(nomProces, getGPSSmodel());
-                    pro.setBlocs(blocs);
+                    blocs = new ArrayList<>();                    
                     pro.setPosx(xini);
                     pro.setPosy(yini);
                     pro.setFinposx(xfin);
                     pro.setFinposy(yfin);
+                    pro.setBlocs(blocs);
                     p.add(pro);
+                    cont = 1;
+                    xini = xini + Constants.x;
+                    xfin = xini;
+                    yini = 0;
+                    yfin = Constants.y;
+
+                } else {
+
+                    if ((cont == 1) && !s.equals(Constants.asterisco)) {
+                        return 1;
+                    } else if ((cont == 2)) {
+                        nomProces = s.substring(2);
+                        pro.setDescpro(nomProces);
+
+                    } else if ((cont > 3)) {
+                        Bloc bloc = crearBloc(s, pro, getGPSSmodel());
+                        bloc.setPos(pro.lastPos());
+                        blocs.add(bloc);
+                        yfin = yfin + Constants.y;
+                    }
+                    cont++;
                 }
-
-            }
-
+            }            
             m.setNomModel(nomModel);
             m.setDescripModel(descModel);
             m.setProces(p);
             m.setStorages(storages);
+            m.setSaveValues(saveValues);
             VarGlobals.model = m;
 
         } catch (IOException ioe) {
             return 1;
         }
         return 0;
-
     }
 
-    private Bloc crearBloc(String s) throws IOException {
+    private Bloc crearBloc(String s, Proces proces, Model model) throws IOException {
 
         String partBloc;
         String vComentari[] = s.split(Constants.puntoycoma);
@@ -627,12 +623,9 @@ public class DiscManager {
 
         partBloc = s.substring(Constants.espaisLabel.length());
         String cadenas[] = partBloc.split(Constants.espacio);
-        //la primera posici� ser� el nom del bloc
         String nomBloc = cadenas[0];
-        //l'�ltima pos ser�n els valos
         String strValors = cadenas[cadenas.length - 1];
         String valors[] = strValors.split(Constants.coma);
-        //segons el nom del bloc
         Bloc b = null;
         switch (nomBloc) {
             case Constants.Advanced: {
@@ -845,11 +838,10 @@ public class DiscManager {
                 Priority pri = new Priority(
                         strComentari, strLabel, Integer.parseInt(valors[0]));
                 b = pri;
-                break;
-            default:
-                break;
+                break;           
         }
-
+        b.setModel(model);
+        b.setProces(proces);
         return b;
     }
 
@@ -879,26 +871,23 @@ public class DiscManager {
         textModel.append(model.getDescripModel());
         textModel.append(Constants.saltoLinea);
         textModel.append(Constants.asterisco);
+        textModel.append(Constants.saltoLinea);
+        textModel.append(Constants.saltoLinea);
     }
 
     private void writeStorages(Model model, StringBuffer textModel) {
-        
+
         if (model.getStorages().isEmpty()) {
             return;
         }
-        
-        textModel.append(Constants.saltoLinea);
-        ArrayList<Storage> storages = model.getStorages();
-        Storage st;
-        for (int j = 0; j < storages.size(); j++) {
-            st = storages.get(j);
-            textModel.append(Constants.saltoLinea);
+        model.getStorages().forEach(st -> {
             textModel.append(st.getNom());
             textModel.append(Constants.espacio);
             textModel.append(Constants.storages);
             textModel.append(Constants.espacio);
             textModel.append(st.getValor());
-        }
+            textModel.append(Constants.saltoLinea);
+        });
     }
 
     private void writeProcess(Model model, StringBuffer textModel) throws IOException {
@@ -939,17 +928,24 @@ public class DiscManager {
         if (model.getSaveValues().isEmpty()) {
             return;
         }
-        
-        textModel.append(Constants.saltoLinea);
+
         ArrayList<SaveValue> saveValues = model.getSaveValues();
 
         saveValues.forEach(sv -> {
-            textModel.append(Constants.saltoLinea);
             textModel.append(sv.getName());
             textModel.append(Constants.espacio);
             textModel.append(Constants.savevalue);
             textModel.append(Constants.espacio);
             textModel.append(sv.getValue());
-        });       
+            textModel.append(Constants.saltoLinea);
+        });
+    }
+
+    private void writeEndEntities(StringBuffer textModel) {
+        textModel.append(Constants.asterisco + " end-entities");
+    }
+
+    private void parseHeaderInformation(BufferedReader entrada) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

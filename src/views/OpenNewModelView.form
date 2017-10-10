@@ -40,19 +40,19 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="botoCancelar" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace pref="171" max="32767" attributes="0"/>
+                          <EmptySpace pref="169" max="32767" attributes="0"/>
                           <Component id="botoModify" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="botoAcceptar" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <Component id="textDescrpModel" alignment="0" pref="354" max="32767" attributes="0"/>
+                      <Component id="textDescrpModel" alignment="0" pref="352" max="32767" attributes="0"/>
                       <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
                           <Component id="jLabel2" alignment="0" max="32767" attributes="1"/>
                           <Component id="jLabel1" alignment="0" max="32767" attributes="1"/>
                           <Component id="textNomModel" alignment="0" pref="161" max="32767" attributes="1"/>
                       </Group>
                   </Group>
-                  <EmptySpace max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>

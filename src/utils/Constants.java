@@ -644,6 +644,16 @@ public class Constants {
      * SAVEVALUE text.
      */
     public final static String savevalue = "SAVEVALUE";
+    
+     /**
+     * FUNCTION text.
+     */
+    public final static String function = "FUNCTION";
+    
+     /**
+     * MATRIX text.
+     */
+    public final static String matrix = "MATRIX";
 
     /**
      * Open icon.
@@ -681,6 +691,11 @@ public class Constants {
      * Storages text.
      */
     public final static String tituloStorages = "Storages";
+    
+    /**
+     * Seize text
+     */
+    public final static String seizeTitle = "Seizes";
 
     /**
      * Save Values text.

@@ -3,17 +3,12 @@
 * test
 *
 
-storage1 STORAGE 3
-
-savevalue SAVEVALUE 2.0
+* end-entities
 
 *
-* p1
+* 1
 *
-        Generate        Uniform,3.0,1.0,0.0,0.0,0.0,0     ;<<--comment-->>
-        Queue           queue,1     ;<<--comment-->>
+        Generate        Uniform,4.0,2.0,0.0,0.0,0.0,0     ;<<--comment-->>
         Seize           seize     ;<<--comment-->>
-        Advance         Uniform,4.0,1.0     ;<<--comment-->>
         Release         seize     ;<<--comment-->>
-        Depart          queue,1     ;<<--comment-->>
         Terminate       1     ;<<--comment-->>

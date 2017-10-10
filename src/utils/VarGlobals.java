@@ -59,6 +59,11 @@ public class VarGlobals implements Serializable {
      * Varialbe that contains the last selected block.
      */
     public static Bloc bloc;
+    
+    /**
+     * Current block id being modified or created
+     */
+    public static int blocId;
     /**
      * The variable containing the model.
      */
@@ -83,6 +88,11 @@ public class VarGlobals implements Serializable {
      * Name of the selected STORAGE.
      */
     public static String nomStorageSeleccionat;
+    
+    
+    public static String nameSaveValueSelected;
+    
+    public static String nameSeizeSelected;
 
     public static int valueSelectedStorage;
 

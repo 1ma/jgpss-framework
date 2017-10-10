@@ -149,7 +149,10 @@ public class TxtReport implements Report {
 
     private void printStorageInfo(PrintWriter writer) {
 
-        if (model.getStorages().isEmpty()) {
+        if (model.getFacilities().entrySet().stream()//
+                .filter(es -> es.getValue().getMaxCapacity() > 1)//
+                .collect(Collectors.toList())//
+                .isEmpty()) {
             return;
         }
 

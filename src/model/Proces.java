@@ -16,7 +16,7 @@
  * AUTHORIZES YOU TO USE THE SOFTWARE IN ACCORDANCE WITH THE TERMS SET OUT IN
  * THE LICENSE AGREEMENT.
  */
-package model.blocks;
+package model;
 
 /*
  * Proces.java
@@ -26,11 +26,12 @@ package model.blocks;
  * To change this template, choose Tools | Template Manager
  * and open the template in the editor.
  */
-import model.blocks.Bloc;
 import java.io.Serializable;
 import java.util.*;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import model.Model;
+import model.blocks.Bloc;
 
 /**
  * A class representing the process to be followed by the entities.
@@ -45,6 +46,7 @@ import model.Model;
  */
 @Data
 @SuppressWarnings("FieldMayBeFinal")
+@NoArgsConstructor
 public class Proces implements Serializable {
 
     private final static long serialVersionUID = 1L;
@@ -96,5 +98,9 @@ public class Proces implements Serializable {
                 .filter(b -> b.getLabel().equals(label))
                 .findFirst()
                 .orElse(null);
+    }
+    
+    public int lastPos() {
+        return !blocs.isEmpty() ? blocs.size() - 1 : 0;
     }
 }

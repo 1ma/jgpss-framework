@@ -18,7 +18,7 @@
  */
 package model.entities;
 
-import model.blocks.Proces;
+import model.Proces;
 import model.blocks.Bloc;
 import java.io.Serializable;
 import java.util.HashMap;

@@ -16,6 +16,7 @@ public class Matrix<T> {
     private final int rows;
     private final int cols;
 
+    @SuppressWarnings("unchecked")
     public Matrix(int rows, int cols) {
         m = (T[][]) new Object[rows][cols];
         this.rows = rows;

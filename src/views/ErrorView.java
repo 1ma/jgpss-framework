@@ -19,12 +19,15 @@
 package views;
 
 import java.awt.Frame;
+import javax.swing.JDialog;
 
 /**
  *
  * @author M.Dolores
  */
-public class ErrorView extends javax.swing.JDialog {
+public class ErrorView extends JDialog {
+
+    private static final long serialVersionUID = 1L;
 
     /**
      * Creates new form PantallaError

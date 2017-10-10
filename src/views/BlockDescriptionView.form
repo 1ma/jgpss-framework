@@ -49,26 +49,30 @@
                       </Group>
                       <Group type="102" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jLabelF" alignment="1" pref="138" max="32767" attributes="1"/>
-                              <Component id="jLabelE" alignment="0" pref="138" max="32767" attributes="1"/>
-                              <Component id="jLabelD" alignment="0" pref="138" max="32767" attributes="1"/>
-                              <Component id="jLabelA" alignment="1" pref="138" max="32767" attributes="1"/>
-                              <Component id="jLabelB" alignment="1" pref="138" max="32767" attributes="1"/>
-                              <Component id="jLabelC" alignment="1" pref="138" max="32767" attributes="1"/>
-                              <Component id="jLabelX" alignment="1" pref="138" max="32767" attributes="0"/>
+                              <Component id="jLabelF" alignment="1" pref="102" max="32767" attributes="1"/>
+                              <Component id="jLabelE" alignment="0" pref="102" max="32767" attributes="1"/>
+                              <Component id="jLabelD" alignment="0" pref="102" max="32767" attributes="1"/>
+                              <Component id="jLabelA" alignment="1" pref="102" max="32767" attributes="1"/>
+                              <Component id="jLabelB" alignment="1" pref="102" max="32767" attributes="1"/>
+                              <Component id="jLabelC" alignment="1" pref="102" max="32767" attributes="1"/>
+                              <Component id="jLabelX" alignment="1" pref="102" max="32767" attributes="0"/>
                           </Group>
-                          <EmptySpace max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="TextC" pref="223" max="32767" attributes="3"/>
-                              <Component id="TextB" pref="223" max="32767" attributes="3"/>
-                              <Component id="textA" pref="223" max="32767" attributes="1"/>
-                              <Component id="TextD" alignment="0" pref="223" max="32767" attributes="1"/>
-                              <Component id="TextE" alignment="0" pref="223" max="32767" attributes="1"/>
-                              <Component id="TextF" alignment="0" pref="223" max="32767" attributes="1"/>
-                              <Group type="102" alignment="0" attributes="0">
-                                  <Component id="comboOp" min="-2" pref="82" max="-2" attributes="1"/>
-                                  <EmptySpace pref="31" max="32767" attributes="0"/>
-                                  <Component id="botoStorage" min="-2" max="-2" attributes="0"/>
+                              <Group type="102" alignment="1" attributes="0">
+                                  <Component id="textA" min="-2" pref="142" max="-2" attributes="1"/>
+                                  <EmptySpace max="32767" attributes="0"/>
+                                  <Component id="buttonA" max="32767" attributes="0"/>
+                              </Group>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="103" alignment="1" groupAlignment="0" max="-2" attributes="0">
+                                      <Component id="TextE" alignment="1" max="32767" attributes="1"/>
+                                      <Component id="TextD" alignment="1" pref="257" max="32767" attributes="1"/>
+                                      <Component id="TextC" alignment="1" pref="257" max="32767" attributes="3"/>
+                                      <Component id="TextB" alignment="1" pref="257" max="32767" attributes="3"/>
+                                      <Component id="TextF" pref="257" max="32767" attributes="1"/>
+                                  </Group>
+                                  <Component id="comboOp" alignment="1" min="-2" pref="257" max="-2" attributes="1"/>
                               </Group>
                           </Group>
                       </Group>
@@ -79,19 +83,27 @@
                               <Component id="jLabel2" alignment="0" min="-2" pref="75" max="-2" attributes="0"/>
                               <Component id="GNALabel" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace min="-2" pref="7" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jTextFielLabel" alignment="0" pref="239" max="32767" attributes="0"/>
-                              <Component id="textDescripcio" alignment="1" pref="239" max="32767" attributes="1"/>
                               <Group type="102" attributes="0">
+                                  <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
                                   <Component id="blockName" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                               </Group>
-                              <Component id="GNACombo" alignment="1" max="32767" attributes="0"/>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="textDescripcio" alignment="1" max="32767" attributes="1"/>
+                                      <Component id="jTextFielLabel" alignment="1" max="32767" attributes="0"/>
+                                  </Group>
+                              </Group>
+                              <Group type="102" alignment="1" attributes="0">
+                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                  <Component id="GNACombo" max="32767" attributes="0"/>
+                              </Group>
                           </Group>
                       </Group>
                   </Group>
-                  <EmptySpace max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -108,13 +120,10 @@
                           <Component id="blockName" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
-                  <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="8" pref="8" max="8" attributes="0"/>
-                          <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <Component id="textDescripcio" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="textDescripcio" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
@@ -129,15 +138,15 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="jLabelX" alignment="0" min="-2" pref="18" max="-2" attributes="0"/>
-                      <Group type="103" alignment="0" groupAlignment="3" attributes="0">
-                          <Component id="comboOp" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="botoStorage" alignment="3" min="-2" pref="21" max="-2" attributes="0"/>
-                      </Group>
+                      <Component id="comboOp" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="9" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                       <Component id="jLabelA" max="32767" attributes="1"/>
-                      <Component id="textA" alignment="0" min="-2" max="-2" attributes="1"/>
+                      <Group type="103" alignment="0" groupAlignment="3" attributes="0">
+                          <Component id="textA" alignment="3" min="-2" max="-2" attributes="1"/>
+                          <Component id="buttonA" alignment="3" min="-2" pref="21" max="-2" attributes="0"/>
+                      </Group>
                   </Group>
                   <EmptySpace min="-2" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
@@ -169,7 +178,7 @@
                       <Component id="jLabelF" min="-2" pref="18" max="-2" attributes="0"/>
                       <Component id="TextF" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="botoOK" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="botoCancel" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -210,6 +219,9 @@
         <Component class="javax.swing.JTextField" name="textA">
         </Component>
         <Component class="javax.swing.JTextField" name="TextB">
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="TextBActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="TextC">
         </Component>
@@ -265,12 +277,9 @@
             <Property name="horizontalAlignment" type="int" value="4"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="botoStorage">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="storages..."/>
-          </Properties>
+        <Component class="javax.swing.JButton" name="buttonA">
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botoStorageActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonAActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JComboBox" name="comboOp">

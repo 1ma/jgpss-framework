@@ -21,7 +21,6 @@ package model;
 import model.entities.Storage;
 import model.entities.Xact;
 import model.reports.TxtReport;
-import model.blocks.Proces;
 import model.blocks.Generate;
 import model.blocks.Bloc;
 import model.blocks.Facility;
