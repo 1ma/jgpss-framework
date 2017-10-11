@@ -148,13 +148,7 @@ public class BlockDescriptionView extends JDialog {
                 TextF.setVisible(false);
                 break;
             case Constants.idDepart:
-            case Constants.idQueue:
-                jLabelA.setText(Constants.A);
-                jLabelB.setText(Constants.B);
-                TextC.setVisible(false);
-                TextD.setVisible(false);
-                TextE.setVisible(false);
-                TextF.setVisible(false);
+            case Constants.idQueue:               
             case Constants.idAssign:
             case Constants.idLoop:
                 jLabelA.setText(Constants.A);

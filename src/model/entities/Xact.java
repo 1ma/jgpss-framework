@@ -40,6 +40,7 @@ public class Xact implements Serializable, Cloneable {
     
     @Getter @Setter private Proces proces;
     @Getter @Setter private Bloc bloc;
+    @Getter @Setter private Bloc scheduledBloc;
     @Getter @Setter private int ID;
     @Getter @Setter private float creatTime;
     @Getter @Setter private float moveTime;

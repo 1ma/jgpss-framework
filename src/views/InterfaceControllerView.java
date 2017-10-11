@@ -21,7 +21,9 @@ package views;
 import java.io.*;
 import java.awt.*;
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import model.Model;
+import model.reports.Report;
 import persistence.FileFilterTxt;
 import utils.Constants;
 import utils.VarGlobals;
@@ -438,6 +440,31 @@ public class InterfaceControllerView extends javax.swing.JFrame implements Seria
         model.setTC(VarGlobals.TC);
         try {
             model.execute(false);
+            ReportType reportType = new ReportType(this, true);
+            reportType.setLocationRelativeTo(this);
+            reportType.setVisible(true);
+            
+            Report report = VarGlobals.selectedReport;
+
+            if (VarGlobals.continuar) {
+
+                try {
+                    JFileChooser fc = new JFileChooser(System.getProperty("user.dir"));
+                    FileNameExtensionFilter filter = new FileNameExtensionFilter("", report.getType());
+                    fc.setFileFilter(filter);
+                    fc.setDialogType(JFileChooser.SAVE_DIALOG);
+                    fc.showSaveDialog(this); 
+                    File Guardar = fc.getSelectedFile();
+                    
+                    if (Guardar != null) {
+                        String path = fc.getSelectedFile().getAbsolutePath();
+                        report.createReport(model, path);
+                    }
+                } catch (IOException ioe) {
+                    generarPantallaError(Constants.errortxt);
+                }
+            }
+
         } catch (Exception ex) {
             mostrarDialogo("Ok", "Cancel", ex.getMessage(), "Runtime Error");
         }
@@ -484,7 +511,7 @@ public class InterfaceControllerView extends javax.swing.JFrame implements Seria
             mostrarDialogo("Ok", "Cancel", ex.getMessage(), "Runtime Error");
         }
 
-        //S'asigna el model a executar a la pantalla de simulaci� de pas a pas.
+        //S'asigna el model a executar a la pantalla de simulaci? de pas a pas.
         Pant.setModel(model);
     }//GEN-LAST:event_StepActionPerformed
 
@@ -592,7 +619,7 @@ public class InterfaceControllerView extends javax.swing.JFrame implements Seria
             FileFilterTxt filter = new FileFilterTxt();
             fc.setFileFilter(filter);
             fc.setDialogType(JFileChooser.SAVE_DIALOG);
-            fc.showSaveDialog(this); //Muestra el di�logo
+            fc.showSaveDialog(this); //Muestra el di?logo
             File Guardar = fc.getSelectedFile();
             if (Guardar != null) {
                 VarGlobals.urlGuardar = fc.getSelectedFile().getAbsolutePath();
@@ -615,7 +642,7 @@ public class InterfaceControllerView extends javax.swing.JFrame implements Seria
                         return;
                     }
                 }
-                //mirar si l'artxiu t� extensi� .txt
+                //mirar si l'artxiu t? extensi? .txt
                 String nomFile = Guardar.getName();
                 String extensio = "";
                 if (nomFile.length() > 3) {
@@ -659,7 +686,7 @@ public class InterfaceControllerView extends javax.swing.JFrame implements Seria
         //filtrar per arxius txt
         FileFilterTxt filter = new FileFilterTxt();
         fc.setFileFilter(filter);
-        int sel = fc.showOpenDialog(this); //Muestra el di�logo
+        int sel = fc.showOpenDialog(this); //Muestra el di?logo
         if (sel == 0) {
             try {
                 File f = new File(fc.getSelectedFile().getAbsolutePath());
@@ -691,7 +718,7 @@ public class InterfaceControllerView extends javax.swing.JFrame implements Seria
                         generarPantallaError(Constants.errorRecuperar);
                     }
                 } else {
-                    //no se ha podido leer? archivo vac�o
+                    //no se ha podido leer? archivo vac?o
                 }
             } catch (java.io.FileNotFoundException fnfex) {
                 generarPantallaError(Constants.errorInterno + fnfex.toString());

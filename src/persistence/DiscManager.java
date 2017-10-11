@@ -564,7 +564,7 @@ public class DiscManager {
             while ((s = entrada.readLine()) != null) {
                 if (s.equals("")) {
                     pro = new Proces(nomProces, getGPSSmodel());
-                    blocs = new ArrayList<>();                    
+                    blocs = new ArrayList<>();
                     pro.setPosx(xini);
                     pro.setPosy(yini);
                     pro.setFinposx(xfin);
@@ -587,13 +587,13 @@ public class DiscManager {
 
                     } else if ((cont > 3)) {
                         Bloc bloc = crearBloc(s, pro, getGPSSmodel());
-                        bloc.setPos(pro.lastPos());
                         blocs.add(bloc);
+                        bloc.setPos(pro.lastPos());
                         yfin = yfin + Constants.y;
                     }
                     cont++;
                 }
-            }            
+            }
             m.setNomModel(nomModel);
             m.setDescripModel(descModel);
             m.setProces(p);
@@ -838,7 +838,7 @@ public class DiscManager {
                 Priority pri = new Priority(
                         strComentari, strLabel, Integer.parseInt(valors[0]));
                 b = pri;
-                break;           
+                break;
         }
         b.setModel(model);
         b.setProces(proces);

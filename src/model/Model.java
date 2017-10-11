@@ -414,7 +414,6 @@ public final class Model implements Serializable {
         }
         updateCurrentCount();
         System.out.println("Simulation terminated");
-        report(new TxtReport(this));
     }
 
     /**
@@ -483,15 +482,7 @@ public final class Model implements Serializable {
                 } while (xactB != null);
             }
         });
-    }
-
-    private void report(Report report) throws Exception {
-
-        System.out.println("Init report");
-        report.createReport();
-        System.out.println("Finished report");
-
-    }
+    }  
 
     /**
      * Updates the current count of the Blocs that has xact left

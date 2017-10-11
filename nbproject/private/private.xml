@@ -3,18 +3,7 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/Users/eZe/Repositorios/jgpss-framework/src/model/rng/RNG.java</file>
-            <file>file:/Users/eZe/Repositorios/jgpss-framework/src/model/rng/Exponential.java</file>
-            <file>file:/Users/eZe/Repositorios/jgpss-framework/src/model/Model.java</file>
-            <file>file:/Users/eZe/Repositorios/jgpss-framework/src/model/rng/Uniform.java</file>
-            <file>file:/Users/eZe/Repositorios/jgpss-framework/resources/model/GNA.txt</file>
-            <file>file:/Users/eZe/Repositorios/jgpss-framework/src/model/blocks/Generate.java</file>
-            <file>file:/Users/eZe/Repositorios/jgpss-framework/resources/reports/GNA.txt</file>
-            <file>file:/Users/eZe/Repositorios/jgpss-framework/src/views/BlockDescriptionView.java</file>
-            <file>file:/Users/eZe/Repositorios/jgpss-framework/src/utils/VarGlobals.java</file>
-            <file>file:/Users/eZe/Repositorios/jgpss-framework/test/model/rng/ExponentialTest.java</file>
-            <file>file:/Users/eZe/Repositorios/jgpss-framework/src/persistence/DiscManager.java</file>
-            <file>file:/Users/eZe/Repositorios/jgpss-framework/test/model/rng/UniformTest.java</file>
+            <file>file:/Users/eZe/Repositorios/jgpss-framework/src/views/PanelModelView.java</file>
         </group>
     </open-files>
 </project-private>

@@ -21,6 +21,7 @@ import java.io.Serializable;
 import java.util.HashMap;
 import model.blocks.Bloc;
 import model.Model;
+import model.reports.Report;
 import model.rng.Uniform;
 import persistence.DDiscManager;
 import model.rng.RNG;
@@ -121,7 +122,12 @@ public class VarGlobals implements Serializable {
     public static enum GNAType {
         UNIFORM
     }
-
+    
+    /**
+     * Selected report type
+     */
+    public static Report selectedReport;   
+    
     /**
      * Creates a new instance of VarGlobals.
      */

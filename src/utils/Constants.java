@@ -644,13 +644,13 @@ public class Constants {
      * SAVEVALUE text.
      */
     public final static String savevalue = "SAVEVALUE";
-    
-     /**
+
+    /**
      * FUNCTION text.
      */
     public final static String function = "FUNCTION";
-    
-     /**
+
+    /**
      * MATRIX text.
      */
     public final static String matrix = "MATRIX";
@@ -691,7 +691,7 @@ public class Constants {
      * Storages text.
      */
     public final static String tituloStorages = "Storages";
-    
+
     /**
      * Seize text
      */
@@ -731,6 +731,21 @@ public class Constants {
      * To define the layout of the JGPSS system.
      */
     public static int jPanelModelHeight = 613;
+
+    /**
+     * Txt report type
+     */
+    public static String txtReport = "txt";
+
+    /**
+     * Pdf report type
+     */
+    public static String pdfReport = "pdf";
+
+    /**
+     * 
+     */
+    public static String csvReport = "csv";
 
     public static HashMap<Integer, String> blocName;
 

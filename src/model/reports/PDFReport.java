@@ -19,16 +19,20 @@
 package model.reports;
 
 import model.Model;
-
-
+import utils.Constants;
 
 /**
  *
  * @author Ezequiel Andujar Montes
  */
-public interface Report {
-    
-    void createReport(Model model, String path) throws Exception;
-    String getType();
-    
+public class PDFReport implements Report {
+
+    @Override
+    public void createReport(Model model, String path) throws Exception {
+    }    
+
+    @Override
+    public String getType() {
+        return Constants.pdfReport;
+    }
 }

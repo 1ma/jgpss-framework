@@ -18,30 +18,28 @@
  */
 package model.reports;
 
-import model.blocks.Facility;
 import java.io.File;
 import java.io.PrintWriter;
 import java.sql.Timestamp;
 import java.util.stream.Collectors;
 import lombok.Cleanup;
 import model.Model;
-import utils.Constants;
+import model.blocks.Facility;
 
 /**
  *
  * @author Ezequiel Andujar Montes
  */
-public class TxtReport implements Report {
-   
-    private Model model;
+public class CSVReport implements Report {
 
+    private Model model;
+    
     @Override
     public void createReport(Model model, String path) throws Exception {
 
-        this.model = model;
-        String extension = ".txt";
+        this.model = model;        
         
-        File file = new File(path + extension);
+        File file = new File(path + getType());
 
         @Cleanup
         PrintWriter writer = new PrintWriter(file);
@@ -53,7 +51,12 @@ public class TxtReport implements Report {
         printStorageInfo(writer);
         printSavesValues(writer);
         printCEC(writer);
-        printFEC(writer);        
+        printFEC(writer);           
+    }
+
+    @Override
+    public String getType() {
+        return "csv";
     }
 
     private void printGeneralInfo(PrintWriter writer) {
@@ -254,10 +257,5 @@ public class TxtReport implements Report {
             });
         });
         writer.println();
-    }
-
-    @Override
-    public String getType() {        
-        return Constants.txtReport;
     }
 }

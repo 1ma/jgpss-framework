@@ -19,6 +19,8 @@
 package model.blocks;
 
 import java.util.PriorityQueue;
+import lombok.Getter;
+import lombok.Setter;
 import model.entities.Xact;
 import utils.Constants;
 
@@ -26,6 +28,7 @@ import utils.Constants;
  * A class representing the TRANSFER block.
  *
  * @author Pau Fonseca i Casas
+ * @author Ezequiel Andujar Montes
  * @version 1
  * @see     <a href="http://www-eio.upc.es/~Pau/index.php?q=node/28">Project
  * website</a>
@@ -36,11 +39,11 @@ import utils.Constants;
  */
 public class Transfer extends Bloc {
 
-    private String A;
-    private String B;
-    private String C;
-    private String D;
-    private final PriorityQueue<Xact> BloquedXacts;
+    @Getter @Setter private String A;
+    @Getter @Setter private String B;
+    @Getter @Setter private String C;
+    @Getter @Setter private String D;
+    @Getter @Setter private PriorityQueue<Xact> BloquedXacts;
 
     /**
      * String identifying Both TRANSFERs.
@@ -114,79 +117,6 @@ public class Transfer extends Bloc {
         this.C = C;
         this.D = D;
         BloquedXacts = new PriorityQueue<>(1000, getModel().getPriorityComparator());
-
-    }
-
-    /**
-     * To get the zero parameter (type of the transfer).
-     *
-     * @return the parameter.
-     */
-    public String getA() {
-        return A;
-    }
-
-    /**
-     * To set the zero parameter (type of the transfer).
-     *
-     * @param A the new parameter.
-     */
-    public void setA(String A) {
-        this.A = A;
-    }
-
-    /**
-     * To get the first parameter.
-     *
-     * @return the parameter.
-     */
-    public String getB() {
-        return B;
-    }
-
-    /**
-     * To set the first parameter.
-     *
-     * @param B the new parameter.
-     */
-    public void setB(String B) {
-        this.B = B;
-    }
-
-    /**
-     * To get the second parameter.
-     *
-     * @return the parameter.
-     */
-    public String getC() {
-        return C;
-    }
-
-    /**
-     * To set the second parameter.
-     *
-     * @param C the new parameter.
-     */
-    public void setC(String C) {
-        this.C = C;
-    }
-
-    /**
-     * To get the third parameter.
-     *
-     * @return the parameter.
-     */
-    public String getD() {
-        return D;
-    }
-
-    /**
-     * To set the third parameter.
-     *
-     * @param D the new parameter.
-     */
-    public void setD(String D) {
-        this.D = D;
     }
 
     /**
@@ -469,13 +399,16 @@ public class Transfer extends Bloc {
 
     private int blocIndex(String B) {
 
-        for (int k = 0; k < getProces().getBlocs().size(); k++) {
-            Bloc b = getProces().getBlocs().get(k);
-            if (b.getLabel().equals(B)) {
-                return k;
-            }
+        Bloc block = getProces().getBlocs().stream()//
+                .filter(b -> b.getLabel().equals(B))//
+                .findFirst()//
+                .orElse(null);
+
+        if (block == null) {
+            return -1;
         }
-        return -1;
+
+        return getProces().getBlocs().indexOf(block);
     }
 
     @Override
