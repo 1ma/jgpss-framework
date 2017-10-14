@@ -312,7 +312,7 @@ public class InterfaceControllerView extends javax.swing.JFrame implements Seria
 
     private void modelmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modelmActionPerformed
 
-        OpenNewModelView pOpenModel = new OpenNewModelView(VarGlobals.model.getNomModel(), VarGlobals.model.getDescripModel());
+        OpenNewModelView pOpenModel = new OpenNewModelView(VarGlobals.model.getName(), VarGlobals.model.getDescription());
         pOpenModel.setLocationRelativeTo(this);
         pOpenModel.setVisible(true);
         pOpenModel.dispose();
@@ -442,14 +442,13 @@ public class InterfaceControllerView extends javax.swing.JFrame implements Seria
             model.execute(false);
             ReportType reportType = new ReportType(this, true);
             reportType.setLocationRelativeTo(this);
-            reportType.setVisible(true);
-            
+            reportType.setVisible(true);            
             Report report = VarGlobals.selectedReport;
 
             if (VarGlobals.continuar) {
 
                 try {
-                    JFileChooser fc = new JFileChooser(System.getProperty("user.dir"));
+                    JFileChooser fc = new JFileChooser();
                     FileNameExtensionFilter filter = new FileNameExtensionFilter("", report.getType());
                     fc.setFileFilter(filter);
                     fc.setDialogType(JFileChooser.SAVE_DIALOG);
@@ -460,7 +459,7 @@ public class InterfaceControllerView extends javax.swing.JFrame implements Seria
                         String path = fc.getSelectedFile().getAbsolutePath();
                         report.createReport(model, path);
                     }
-                } catch (IOException ioe) {
+                } catch (Exception e) {
                     generarPantallaError(Constants.errortxt);
                 }
             }
@@ -486,7 +485,6 @@ public class InterfaceControllerView extends javax.swing.JFrame implements Seria
 }//GEN-LAST:event_MatrixActionPerformed
 
     private void InitialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InitialActionPerformed
-        // TODO add your handling code here:
         InitialView initialView = new InitialView(this, false);
         initialView.setLocationRelativeTo(this);
         initialView.setVisible(true);
@@ -516,6 +514,11 @@ public class InterfaceControllerView extends javax.swing.JFrame implements Seria
     }//GEN-LAST:event_StepActionPerformed
 
     private void AmpervariablesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AmpervariablesActionPerformed
+
+        AmperVariableView amperVariableView = new AmperVariableView(this, false);
+        amperVariableView.setLocationRelativeTo(this);
+        amperVariableView.setVisible(true);
+        
     }//GEN-LAST:event_AmpervariablesActionPerformed
 
     private void mostrarNewModel() {

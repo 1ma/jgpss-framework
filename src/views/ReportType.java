@@ -20,8 +20,10 @@ package views;
 
 import java.awt.Frame;
 import model.Model;
+import model.reports.CSVReport;
 import model.reports.PDFReport;
 import model.reports.TxtReport;
+import utils.Constants;
 import utils.VarGlobals;
 
 /**
@@ -41,8 +43,9 @@ public class ReportType extends javax.swing.JDialog {
      * @param modal
      */
     public ReportType(Frame parent, boolean modal) {
-        super(parent, modal);
+        super(parent, Constants.simulationEnd, modal);
         initComponents();
+        endSimLabel.setText("<html><div style='text-align:center;'>Choose the report file type</div></html>");
     }
 
     /**
@@ -56,10 +59,13 @@ public class ReportType extends javax.swing.JDialog {
 
         txtButton = new javax.swing.JButton();
         pdfButton = new javax.swing.JButton();
+        pdfButton1 = new javax.swing.JButton();
+        endSimLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         txtButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/txt.png"))); // NOI18N
+        txtButton.setToolTipText("txt ");
         txtButton.setPreferredSize(null);
         txtButton.setSize(new java.awt.Dimension(150, 150));
         txtButton.addActionListener(new java.awt.event.ActionListener() {
@@ -69,12 +75,22 @@ public class ReportType extends javax.swing.JDialog {
         });
 
         pdfButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/pdf.png"))); // NOI18N
-        pdfButton.setActionCommand("");
+        pdfButton.setToolTipText("pdf");
         pdfButton.setPreferredSize(new java.awt.Dimension(100, 100));
         pdfButton.setSize(new java.awt.Dimension(150, 150));
         pdfButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pdfButtonActionPerformed(evt);
+            }
+        });
+
+        pdfButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/csv.png"))); // NOI18N
+        pdfButton1.setToolTipText("csv");
+        pdfButton1.setPreferredSize(new java.awt.Dimension(100, 100));
+        pdfButton1.setSize(new java.awt.Dimension(150, 150));
+        pdfButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pdfButton1ActionPerformed(evt);
             }
         });
 
@@ -84,19 +100,27 @@ public class ReportType extends javax.swing.JDialog {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(18, 18, 18)
-                .addComponent(txtButton, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(pdfButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(endSimLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(txtButton, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(pdfButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(pdfButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(20, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(32, 32, 32)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(40, Short.MAX_VALUE)
+                .addComponent(endSimLabel)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(pdfButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(pdfButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtButton, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(16, Short.MAX_VALUE))
+                .addGap(19, 19, 19))
         );
 
         pack();
@@ -118,8 +142,17 @@ public class ReportType extends javax.swing.JDialog {
         setVisible(false);
     }//GEN-LAST:event_pdfButtonActionPerformed
 
+    private void pdfButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pdfButton1ActionPerformed
+        VarGlobals.selectedReport = new CSVReport();
+        VarGlobals.continuar = true;
+        dispose();
+        setVisible(false);
+    }//GEN-LAST:event_pdfButton1ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel endSimLabel;
     private javax.swing.JButton pdfButton;
+    private javax.swing.JButton pdfButton1;
     private javax.swing.JButton txtButton;
     // End of variables declaration//GEN-END:variables
 }

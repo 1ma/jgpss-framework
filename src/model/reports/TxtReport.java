@@ -39,9 +39,8 @@ public class TxtReport implements Report {
     public void createReport(Model model, String path) throws Exception {
 
         this.model = model;
-        String extension = ".txt";
         
-        File file = new File(path + extension);
+        File file = new File(path + "." + getType());
 
         @Cleanup
         PrintWriter writer = new PrintWriter(file);
@@ -58,12 +57,14 @@ public class TxtReport implements Report {
 
     private void printGeneralInfo(PrintWriter writer) {
 
-        writer.println("JGPSS model report" + " - " + model.getNomModel());
-        writer.println(new Timestamp(System.currentTimeMillis()) + "\n");
+        writer.println("JGPSS Model Report");
+        writer.println(String.format("%s - %s",model.getName(), model.getDescription()));
+        writer.println(new Timestamp(System.currentTimeMillis()));
+        writer.println();
 
         int totalBlocks = model.getProces().stream().mapToInt(p -> p.getBlocs().size()).sum();
         writer.println(String.format("%-12s %-12s %-10s %-15s %-10s", "START TIME", "END TIME", "BLOCKS", "FACILITIES", "STORAGES"));
-        writer.println(String.format("%-12f %-12f %-10d %-15d %-10d", 0.000f, model.getRelativeClock(), totalBlocks, model.getFacilities().size(), model.getStorages().size()));
+        writer.println(String.format("%-12.4f %-12.4f %-10d %-15d %-10d", 0.000f, model.getRelativeClock(), totalBlocks, model.getFacilities().size(), model.getStorages().size()));
         writer.println("\n");
     }
 
@@ -178,10 +179,12 @@ public class TxtReport implements Report {
                     float utilizationTime = model.getRelativeClock() != 0 ? f.getUtilizationTime() / model.getRelativeClock() : 0;
                     int bloquedXacts = model.getBEC().get(name) != null ? model.getBEC().get(name).size() : 0;
 
-                    writer.println(String.format("%-12s%-12d%-10d%-15d%-10d%-10d%-10d%-10f%-10f%-10d",
+                    writer.println(String.format("%-12s%-12d%-10d%-15d%-10d%-10d%-10d%-10.4f%-10.4f%-10d",
                             name, capacity, unusedStorageUnits, minUsage, maxUsage, entries, avl, aveC, utilizationTime, bloquedXacts));
 
                 });
+        
+        writer.println();
     }
 
     private void printSavesValues(PrintWriter writer) {
@@ -215,7 +218,7 @@ public class TxtReport implements Report {
             int assem = x.getAssemblySet();
             int current = x.getBloc().getPos();
 
-            writer.println(String.format("%-6s%-6d%-10f%-12f%-10d%-10d%-10s%-10s",
+            writer.println(String.format("%-6s%-6d%-10.4f%-12.4f%-10d%-10d%-10s%-10s",
                     "", xn, pri, m1, assem, current, "", ""));
 
             x.getTransactionParameters().entrySet().stream().forEach(es -> {
@@ -243,7 +246,7 @@ public class TxtReport implements Report {
             int assem = x.getAssemblySet();
             int current = x.getBloc().getPos();
 
-            writer.println(String.format("%-6s%-6d%-10f%-12f%-10d%-10d%-10s%-10s",
+            writer.println(String.format("%-6s%-6d%-10.4f%-12.4f%-10d%-10d%-10s%-10s",
                     "", xn, pri, m1, assem, current, "", ""));
 
             x.getTransactionParameters().entrySet().stream().forEach(es -> {

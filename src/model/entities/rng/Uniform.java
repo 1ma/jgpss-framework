@@ -16,19 +16,42 @@
  * AUTHORIZES YOU TO USE THE SOFTWARE IN ACCORDANCE WITH THE TERMS SET OUT IN
  * THE LICENSE AGREEMENT.
  */
-package model.reports;
+package model.entities.rng;
 
-import model.Model;
-
-
+import java.util.Random;
+import lombok.NoArgsConstructor;
 
 /**
+ * A class implementing the RNG and GVA of the JGPSS system. Complete this class
+ * with all the GVA you need.
  *
+ * @author Pau Fonseca i Casas
  * @author Ezequiel Andujar Montes
+ * @version 1
+ * @see     <a href="http://www-eio.upc.es/~Pau/index.php?q=node/28">Project
+ * website</a>
+ * @serialData
  */
-public interface Report {
-    
-    void createReport(Model model, String path) throws Exception;
-    
-    String getType();    
+@NoArgsConstructor
+public class Uniform implements RNG {
+
+    @Override
+    public Float generate(float A, float B) {
+        
+        float min = A - B;
+        float max = A + B;
+        
+        Random rnd = new Random();
+        return min + rnd.nextFloat() * (max - min);
+    }
+
+    @Override
+    public String name() {
+        return "Uniform";
+    }
+
+    @Override
+    public Float generate() {
+        return new Random().nextFloat();
+    }
 }

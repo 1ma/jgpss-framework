@@ -33,13 +33,13 @@ import model.blocks.Facility;
 public class CSVReport implements Report {
 
     private Model model;
-    
+
     @Override
     public void createReport(Model model, String path) throws Exception {
 
-        this.model = model;        
-        
-        File file = new File(path + getType());
+        this.model = model;
+
+        File file = new File(path + "." + getType());
 
         @Cleanup
         PrintWriter writer = new PrintWriter(file);
@@ -51,7 +51,7 @@ public class CSVReport implements Report {
         printStorageInfo(writer);
         printSavesValues(writer);
         printCEC(writer);
-        printFEC(writer);           
+        printFEC(writer);
     }
 
     @Override
@@ -61,29 +61,34 @@ public class CSVReport implements Report {
 
     private void printGeneralInfo(PrintWriter writer) {
 
-        writer.println("JGPSS model report" + " - " + model.getNomModel());
-        writer.println(new Timestamp(System.currentTimeMillis()) + "\n");
+        writer.println(String.format("%-12s;%-12s", "GPSS MODEL REPORT", "TIMESTAMP"));
+        writer.println(String.format("%-12s;%-12s", model.getName(), new Timestamp(System.currentTimeMillis()).toString()));
+        writer.println();
+        writer.println();
 
         int totalBlocks = model.getProces().stream().mapToInt(p -> p.getBlocs().size()).sum();
-        writer.println(String.format("%-12s %-12s %-10s %-15s %-10s", "START TIME", "END TIME", "BLOCKS", "FACILITIES", "STORAGES"));
-        writer.println(String.format("%-12f %-12f %-10d %-15d %-10d", 0.000f, model.getRelativeClock(), totalBlocks, model.getFacilities().size(), model.getStorages().size()));
-        writer.println("\n");
+        writer.println(String.format("%-12s;%-12s;%-10s;%-15s;%-10s", "START TIME", "END TIME", "BLOCKS", "FACILITIES", "STORAGES"));
+        writer.println(String.format("%-12f;%-12f;%-10d;%-15d;%-10d", 0.000f, model.getRelativeClock(), totalBlocks, model.getFacilities().size(), model.getStorages().size()));
+        writer.println();
+        writer.println();
     }
 
     private void printBlockInfo(PrintWriter writer) {
 
         model.getProces().forEach(p -> {
-
-            writer.println("PROCESS: " + p.getDescpro() + "\n");
-            writer.println(String.format("%-12s %-6s %-12s %-14s %-10s %-10s", "LABEL", "LOC", "BLOCK TYPE", "ENTRY COUNT", "CURRENT COUNT", "RETRY"));
+            
+            writer.println(String.format("%-12s;%-12s", "PROCES NAME", p.getDescpro()));
+            writer.println();
+            writer.println(String.format("%-12s;%-6s;%-12s;%-14s;%-10s;%-10s", "LABEL", "LOC", "BLOCK TYPE", "ENTRY COUNT", "CURRENT COUNT", "RETRY"));
 
             p.getBlocs().forEach(b -> {
 
-                writer.println(String.format("%-12s %-6d %-12s %-14d %-14d %-10d", b.getLabel(), b.getPos(), b.name(), b.getEntryCount(), b.getCurrentCount(), b.getRetryCount()));
+                writer.println(String.format("%-12s;%-6d;%-12s;%-14d;%-14d;%-10d", b.getLabel(), b.getPos(), b.name(), b.getEntryCount(), b.getCurrentCount(), b.getRetryCount()));
 
             });
             writer.println();
         });
+        writer.println();
         writer.println();
     }
 
@@ -105,7 +110,7 @@ public class CSVReport implements Report {
                     Facility facility = es.getValue();
                     String fn = es.getKey();
 
-                    writer.println(String.format("%-12s%-12s%-10s%-15s%-10s%-10s%-10s%-10s",
+                    writer.println(String.format("%-12s;%-12s;%-10s;%-15s;%-10s;%-10s;%-10s;%-10s",
                             "FACILITY", "ENTRIES", "UTIL.", "AVE. TIME", "AVAIL.", "OWNER", "INTER", "DELAY"));
 
                     String facilityName = fn;
@@ -117,12 +122,13 @@ public class CSVReport implements Report {
                     int premptXacts = model.getPreemptedXacts().get(fn) != null ? model.getPreemptedXacts().get(fn).size() : 0;
                     int blockedXacts = model.getBEC().get(fn) != null ? model.getBEC().get(fn).size() : 0;
 
-                    String f = String.format("%-12s%-12d%-10f%-15f%-10d%-10s%-10d%-10d",
+                    String f = String.format("%-12s;%-12d;%-10f;%-15f;%-10d;%-10s;%-10d;%-10d",
                             fn, facilityCounter, utilizationTime, avgTime, available,
                             ownXactID, premptXacts, blockedXacts);
 
                     writer.println(f);
                 });
+        writer.println();
         writer.println();
     }
 
@@ -132,7 +138,7 @@ public class CSVReport implements Report {
             return;
         }
 
-        writer.println(String.format("%-12s%-12s%-10s%-15s%-10s%-10s%-10s%-10s%-10s",
+        writer.println(String.format("%-12s;%-12s;%-10s;%-15s;%-10s;%-10s;%-10s;%-10s;%-10s",
                 "QUEUE", "MAX", "CONT.", "ENTRY", "ENTRY(0)", "AVE.CONT.", "AVE.TIME", "AVE.()-0", "RETRY"));
 
         model.getQueues().forEach((qn, queue) -> {
@@ -146,11 +152,12 @@ public class CSVReport implements Report {
             float avgTimeZ = queue.getAvgTime(true);
             int retry = queue.getRetry();
 
-            writer.println(String.format("%-12s%-12d%-10d%-15d%-10d%-10f%-10f%-10f%-10d",
+            writer.println(String.format("%-12s;%-12d;%-10d;%-15d;%-10d;%-10f;%-10f;%-10f;%-10d",
                     qn, max, cont, entry, entryZ, avgContent, avgTime, avgTimeZ, retry));
 
         });
-
+        writer.println();
+        writer.println();
     }
 
     private void printStorageInfo(PrintWriter writer) {
@@ -162,7 +169,7 @@ public class CSVReport implements Report {
             return;
         }
 
-        writer.println(String.format("%-12s%-12s%-10s%-15s%-10s%-10s%-10s%-10s%-10s%-10s",
+        writer.println(String.format("%-12s;%-12s;%-10s;%-15s;%-10s;%-10s;%-10s;%-10s;%-10s;%-10s",
                 "STORAGE", "CAP.", "REM.", "MIN.", "MAX", "ENTRIES", "AVL", "AVE.C", "UTIL", "DELAY"));
 
         model.getFacilities().entrySet().stream()//
@@ -181,10 +188,12 @@ public class CSVReport implements Report {
                     float utilizationTime = model.getRelativeClock() != 0 ? f.getUtilizationTime() / model.getRelativeClock() : 0;
                     int bloquedXacts = model.getBEC().get(name) != null ? model.getBEC().get(name).size() : 0;
 
-                    writer.println(String.format("%-12s%-12d%-10d%-15d%-10d%-10d%-10d%-10f%-10f%-10d",
+                    writer.println(String.format("%-12s;%-12d;%-10d;%-15d;%-10d;%-10d;%-10d;%-10f;%-10f;%-10d",
                             name, capacity, unusedStorageUnits, minUsage, maxUsage, entries, avl, aveC, utilizationTime, bloquedXacts));
 
                 });
+        writer.println();
+        writer.println();
     }
 
     private void printSavesValues(PrintWriter writer) {
@@ -193,13 +202,15 @@ public class CSVReport implements Report {
             return;
         }
 
-        writer.println(String.format("%-10s%-10s", "SAVEVALUE", "VALUE"));
+        writer.println(String.format("%-10s;%-10s", "SAVEVALUE", "VALUE"));
 
         model.getSaveValues().forEach(sv -> {
 
-            writer.println(String.format("%-10s%-10f", sv.getName(), sv.getValue()));
+            writer.println(String.format("%-10s;%-10f", sv.getName(), sv.getValue()));
 
         });
+        writer.println();
+        writer.println();
     }
 
     private void printCEC(PrintWriter writer) {
@@ -208,7 +219,7 @@ public class CSVReport implements Report {
             return;
         }
 
-        writer.println(String.format("%-6s%-6s%-10s%-12s%-10s%-10s%-10s%-10s%-10s", "CEC", "XN", "PRI", "M1", "ASSEM", "CURRENT", "NEXT", "PARAMETER", "VALUES"));
+        writer.println(String.format("%-6s;%-6s;%-10s;%-12s;%-10s;%-10s;%-10s;%-10s;%-10s", "CEC", "XN", "PRI", "M1", "ASSEM", "CURRENT", "NEXT", "PARAMETER", "VALUES"));
 
         model.getCEC().forEach(x -> {
 
@@ -218,16 +229,17 @@ public class CSVReport implements Report {
             int assem = x.getAssemblySet();
             int current = x.getBloc().getPos();
 
-            writer.println(String.format("%-6s%-6d%-10f%-12f%-10d%-10d%-10s%-10s",
+            writer.println(String.format("%-6s;%-6d;%-10f;%-12f;%-10d;%-10d;%-10s;%-10s",
                     "", xn, pri, m1, assem, current, "", ""));
 
             x.getTransactionParameters().entrySet().stream().forEach(es -> {
 
-                writer.println(String.format("%-6s%-6s%-10s%-12s%-10s%-10s%-10s%-10s",
+                writer.println(String.format("%-6s;%-6s;%-10s;%-12s;%-10s;%-10s;%-10s;%-10s",
                         "", "", "", "", "", "", es.getKey(), es.getValue()));
 
             });
         });
+        writer.println();
         writer.println();
     }
 
@@ -236,7 +248,7 @@ public class CSVReport implements Report {
             return;
         }
 
-        writer.println(String.format("%-6s%-6s%-10s%-12s%-10s%-10s%-10s%-10s%-10s", "FEC", "XN", "PRI", "M1", "ASSEM", "CURRENT", "NEXT", "PARAMETER", "VALUES"));
+        writer.println(String.format("%-6s;%-6s;%-10s;%-12s;%-10s;%-10s;%-10s;%-10s;%-10s", "FEC", "XN", "PRI", "M1", "ASSEM", "CURRENT", "NEXT", "PARAMETER", "VALUES"));
 
         model.getFEC().forEach(x -> {
 
@@ -246,16 +258,17 @@ public class CSVReport implements Report {
             int assem = x.getAssemblySet();
             int current = x.getBloc().getPos();
 
-            writer.println(String.format("%-6s%-6d%-10f%-12f%-10d%-10d%-10s%-10s",
+            writer.println(String.format("%-6s;%-6d;%-10f;%-12f;%-10d;%-10d;%-10s;%-10s",
                     "", xn, pri, m1, assem, current, "", ""));
 
             x.getTransactionParameters().entrySet().stream().forEach(es -> {
 
-                writer.println(String.format("%-6s%-6s%-10s%-12s%-10s%-10s%-10s%-10s",
+                writer.println(String.format("%-6s;%-6s;%-10s;%-12s;%-10s;%-10s;%-10s;%-10s",
                         "", "", "", "", "", "", es.getKey(), es.getValue()));
 
             });
         });
+        writer.println();
         writer.println();
     }
 }

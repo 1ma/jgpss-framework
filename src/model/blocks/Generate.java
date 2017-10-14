@@ -24,7 +24,7 @@ import lombok.Setter;
 import model.entities.Xact;
 import utils.Constants;
 import utils.VarGlobals;
-import model.rng.RNG;
+import model.entities.rng.RNG;
 
 /**
  * A class representing the GENERATE block.

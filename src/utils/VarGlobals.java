@@ -22,9 +22,9 @@ import java.util.HashMap;
 import model.blocks.Bloc;
 import model.Model;
 import model.reports.Report;
-import model.rng.Uniform;
+import model.entities.rng.Uniform;
 import persistence.DDiscManager;
-import model.rng.RNG;
+import model.entities.rng.RNG;
 
 /**
  * A class representing the gloval variables of the model.

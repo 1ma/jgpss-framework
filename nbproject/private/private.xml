@@ -3,7 +3,19 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/Users/eZe/Repositorios/jgpss-framework/src/model/blocks/Transfer.java</file>
+            <file>file:/Users/eZe/Repositorios/jgpss-framework/resources/reports/generate%20test.txt</file>
+            <file>file:/Users/eZe/Repositorios/jgpss-framework/src/model/entities/Xact.java</file>
+            <file>file:/Users/eZe/Repositorios/jgpss-framework/src/views/InterfaceControllerView.java</file>
+            <file>file:/Users/eZe/Repositorios/jgpss-framework/src/views/RunView.java</file>
+            <file>file:/Users/eZe/Repositorios/jgpss-framework/src/model/reports/TxtReport.java</file>
+            <file>file:/Users/eZe/Repositorios/jgpss-framework/src/model/reports/CSVReport.java</file>
+            <file>file:/Users/eZe/Repositorios/jgpss-framework/src/model/reports/PDFReport.java</file>
+            <file>file:/Users/eZe/Repositorios/jgpss-framework/src/views/ReportType.java</file>
+            <file>file:/Users/eZe/Repositorios/jgpss-framework/src/model/reports/Report.java</file>
+            <file>file:/Users/eZe/Repositorios/jgpss-framework/src/utils/Constants.java</file>
             <file>file:/Users/eZe/Repositorios/jgpss-framework/src/views/PanelModelView.java</file>
+            <file>file:/Users/eZe/Repositorios/jgpss-framework/src/persistence/DiscManager.java</file>
         </group>
     </open-files>
 </project-private>

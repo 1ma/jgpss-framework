@@ -31,8 +31,9 @@ import java.io.*;
 import java.util.ArrayList;
 import lombok.NoArgsConstructor;
 import model.*;
+import model.entities.AmperVariable;
 import model.entities.SaveValue;
-import model.rng.RNG;
+import model.entities.rng.RNG;
 
 /**
  * Clase que escribe y lee de disco objetos serializables.
@@ -110,6 +111,7 @@ public class DiscManager {
         writeTitle(model, textModel);
         writeStorages(model, textModel);
         writeSaveValues(model, textModel);
+        writeAmperVariables(model, textModel);
         writeEndEntities(textModel);
         writeProcess(model, textModel);
 
@@ -496,6 +498,7 @@ public class DiscManager {
         ArrayList<Proces> p = new ArrayList<>();
         ArrayList<Storage> storages = new ArrayList<>();
         ArrayList<SaveValue> saveValues = new ArrayList<>();
+        ArrayList<AmperVariable<?>> amperVariables = new ArrayList<>();
         ArrayList<Bloc> blocs = new ArrayList<>();
         String nomModel = "";
         String descModel = "";
@@ -545,15 +548,31 @@ public class DiscManager {
                     String vEntity[] = s.split(Constants.espacio);
                     String entityName = vEntity[0];
                     String entityType = vEntity[1];
+                    String entityValue = vEntity[2];
 
                     switch (entityType) {
-                        case Constants.storages:
+                        case Constants.INTEGER:
+                            Integer iValue = new Integer(entityValue);
+                            AmperVariable<Integer> avi = new AmperVariable<>(entityName, iValue);
+                            amperVariables.add(avi);
+                            break;
+
+                        case Constants.REAL:
+                            Float fValue = new Float(entityValue);
+                            AmperVariable<Float> avf = new AmperVariable<>(entityName, fValue);
+                            amperVariables.add(avf);
+                            break;
+
+                        case Constants.STRING:
+                            AmperVariable<String> avs = new AmperVariable<>(entityName, entityValue);
+                            amperVariables.add(avs);
+                            break;
+
+                        case Constants.STORAGE:
                             storages.add(new Storage(entityName, new Integer(vEntity[2])));
                             break;
-                        case Constants.savevalue:
+                        case Constants.SAVEVALUE:
                             saveValues.add(new SaveValue(entityName, new Float(vEntity[2])));
-                            break;
-                        default:
                             break;
                     }
                 }
@@ -594,8 +613,8 @@ public class DiscManager {
                     cont++;
                 }
             }
-            m.setNomModel(nomModel);
-            m.setDescripModel(descModel);
+            m.setName(nomModel);
+            m.setDescription(descModel);
             m.setProces(p);
             m.setStorages(storages);
             m.setSaveValues(saveValues);
@@ -864,11 +883,11 @@ public class DiscManager {
         textModel.append(Constants.saltoLinea);
         textModel.append(Constants.asterisco);
         textModel.append(Constants.espacio);
-        textModel.append(model.getNomModel());
+        textModel.append(model.getName());
         textModel.append(Constants.saltoLinea);
         textModel.append(Constants.asterisco);
         textModel.append(Constants.espacio);
-        textModel.append(model.getDescripModel());
+        textModel.append(model.getDescription());
         textModel.append(Constants.saltoLinea);
         textModel.append(Constants.asterisco);
         textModel.append(Constants.saltoLinea);
@@ -883,7 +902,7 @@ public class DiscManager {
         model.getStorages().forEach(st -> {
             textModel.append(st.getNom());
             textModel.append(Constants.espacio);
-            textModel.append(Constants.storages);
+            textModel.append(Constants.STORAGE);
             textModel.append(Constants.espacio);
             textModel.append(st.getValor());
             textModel.append(Constants.saltoLinea);
@@ -934,10 +953,38 @@ public class DiscManager {
         saveValues.forEach(sv -> {
             textModel.append(sv.getName());
             textModel.append(Constants.espacio);
-            textModel.append(Constants.savevalue);
+            textModel.append(Constants.SAVEVALUE);
             textModel.append(Constants.espacio);
             textModel.append(sv.getValue());
             textModel.append(Constants.saltoLinea);
+        });
+    }
+
+    private void writeAmperVariables(Model model, StringBuffer textModel) {
+
+        if (model.getAmperVariables().isEmpty()) {
+            return;
+        }
+
+        model.getAmperVariables().forEach(av -> {
+
+            String amperVariableType = "";
+
+            if (av.getValue() instanceof Float) {
+                amperVariableType = Constants.REAL;
+            } else if (av.getValue() instanceof Integer) {
+                amperVariableType = Constants.INTEGER;
+            } else if (av.getValue() instanceof String) {
+                amperVariableType = Constants.STRING;
+            }
+
+            textModel.append(av.getName());
+            textModel.append(Constants.espacio);
+            textModel.append(amperVariableType);
+            textModel.append(Constants.espacio);
+            textModel.append(av.getValue());
+            textModel.append(Constants.saltoLinea);
+
         });
     }
 

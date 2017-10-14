@@ -93,13 +93,13 @@ public class Savevalue extends Bloc {
         float value = getModel().getSaveValue(A).getValue();
 
         if (B.endsWith("-")) {
-            float sValue = Float.parseFloat(getModel().evaluateExpression(B.split("\\-")[0], tr));
+            float sValue = Float.parseFloat(B.split("\\-")[0]);
             sv.setValue(value - sValue);
         } else if (B.endsWith("+")) {
-            float sValue = Float.parseFloat(getModel().evaluateExpression(B.split("\\+")[0], tr));
+            float sValue = Float.parseFloat(B.split("\\+")[0]);
             sv.setValue(value + sValue);
         } else {
-            float sValue = Float.parseFloat(getModel().evaluateExpression(B, tr));
+            float sValue = Float.parseFloat(B);
             sv.setValue(sValue);
         }
         return nextBloc(tr);

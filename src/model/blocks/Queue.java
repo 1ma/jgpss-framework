@@ -22,7 +22,7 @@ import java.util.HashMap;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import model.QueueReport;
+import model.entities.QueueReport;
 import model.entities.Xact;
 import utils.Constants;
 

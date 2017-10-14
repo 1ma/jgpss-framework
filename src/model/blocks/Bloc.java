@@ -26,7 +26,7 @@ import lombok.Getter;
 import lombok.Setter;
 import model.Model;
 import model.entities.Xact;
-import model.rng.RNG;
+import model.entities.rng.RNG;
 
 /**
  * A class representing the ASSIGN GPSS block.

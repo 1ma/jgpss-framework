@@ -3,10 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package model;
+package model.entities;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
+import model.Model;
+import model.TimeRecord;
 
 /**
  * Register the queue statistics

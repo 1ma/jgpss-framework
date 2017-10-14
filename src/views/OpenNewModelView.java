@@ -51,8 +51,8 @@ public class OpenNewModelView extends javax.swing.JDialog {
         this.setTitle(Constants.tituloNewModel);
         consultar = true;
         botoAcceptar.setVisible(false);
-        textDescrpModel.setText(VarGlobals.model.getDescripModel());
-        textNomModel.setText(VarGlobals.model.getNomModel());
+        textDescrpModel.setText(VarGlobals.model.getDescription());
+        textNomModel.setText(VarGlobals.model.getName());
         textDescrpModel.setEnabled(false);
         textNomModel.setEnabled(false);
 
@@ -172,14 +172,14 @@ public class OpenNewModelView extends javax.swing.JDialog {
                 //tot correcte
                 if (!modificar) {
                     VarGlobals.model = new Model();
-                    VarGlobals.model.setDescripModel(textDescrpModel.getText());
-                    VarGlobals.model.setNomModel(textNomModel.getText());
+                    VarGlobals.model.setDescription(textDescrpModel.getText());
+                    VarGlobals.model.setName(textNomModel.getText());
                     VarGlobals.dg.SetModel(VarGlobals.model);
                     VarGlobals.continuar = true;
                     VarGlobals.esModificat = true;
                 } else {
-                    VarGlobals.model.setDescripModel(textDescrpModel.getText());
-                    VarGlobals.model.setNomModel(textNomModel.getText());
+                    VarGlobals.model.setDescription(textDescrpModel.getText());
+                    VarGlobals.model.setName(textNomModel.getText());
                 }
             } else {
                 tancar = cridarError(Constants.ErrorDescripModel);

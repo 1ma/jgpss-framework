@@ -30,7 +30,7 @@ import java.util.stream.Stream;
 import model.*;
 import utils.Constants;
 import utils.VarGlobals;
-import model.rng.RNG;
+import model.entities.rng.RNG;
 
 /**
  *

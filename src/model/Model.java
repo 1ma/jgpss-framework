@@ -18,17 +18,19 @@
  */
 package model;
 
+import model.entities.QueueReport;
 import model.entities.Storage;
 import model.entities.Xact;
-import model.reports.TxtReport;
 import model.blocks.Generate;
 import model.blocks.Bloc;
 import model.blocks.Facility;
 import java.io.Serializable;
 import java.util.*;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import model.entities.AmperVariable;
 import model.entities.SaveValue;
-import model.reports.Report;
 import utils.Constants;
 
 /**
@@ -47,11 +49,15 @@ public final class Model implements Serializable {
 
     static final long serialVersionUID = 42L;
 
-    private String nomModel;
-    private String DescripModel;
+    @Getter @Setter
+    private String name;
+    @Getter @Setter
+    private String description;
     private ArrayList<Proces> proces;
     private ArrayList<Storage> storages;
     private ArrayList<SaveValue> saveValues;
+    @Getter @Setter
+    private ArrayList<AmperVariable<?>> amperVariables;
     private ArrayList<Matrix<Float>> matrix;
 
     /**
@@ -103,6 +109,7 @@ public final class Model implements Serializable {
         storages = new ArrayList<>();
         saveValues = new ArrayList<>();
         matrix = new ArrayList<>();
+        amperVariables = new ArrayList<>();
 
         CEC = new PriorityQueue<>(1000, this.getPriorityComparator());
         FEC = new PriorityQueue<>(1000, this.getTimeComparator());
@@ -112,7 +119,6 @@ public final class Model implements Serializable {
         facilities = new HashMap<>();
 
         queues = new HashMap<>();
-
     }
 
     public Comparator<Xact> getPriorityComparator() {

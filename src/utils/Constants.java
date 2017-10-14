@@ -1,7 +1,6 @@
 package utils;
 
 import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Software end-user license agreement.
@@ -638,22 +637,23 @@ public class Constants {
     /**
      * STORAGE text.
      */
-    public final static String storages = "STORAGE";
+    public final static String STORAGE = "STORAGE";
 
     /**
      * SAVEVALUE text.
      */
-    public final static String savevalue = "SAVEVALUE";
-
+    public final static String SAVEVALUE = "SAVEVALUE";   
+   
+    
     /**
      * FUNCTION text.
      */
-    public final static String function = "FUNCTION";
+    public final static String FUNCTION = "FUNCTION";
 
     /**
      * MATRIX text.
      */
-    public final static String matrix = "MATRIX";
+    public final static String MATRIX = "MATRIX";
 
     /**
      * Open icon.
@@ -743,11 +743,23 @@ public class Constants {
     public static String pdfReport = "pdf";
 
     /**
-     * 
+     *
      */
     public static String csvReport = "csv";
 
     public static HashMap<Integer, String> blocName;
+
+    public static String simulationEnd = "Simulation end";
+
+    /**
+     * Amper variables title
+     */
+    public static String AmperVariableTitle = "Amper Variables";
+
+    public final static String INTEGER = "INTEGER";
+    public final static String REAL = "REAL";
+    public final static String STRING = "STRING";
+    
 
     /**
      * New instance of constants.

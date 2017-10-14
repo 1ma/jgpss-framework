@@ -157,35 +157,14 @@ public class RunView extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_jButtonGoActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    @SuppressWarnings("Convert2Lambda")
-    public static void main(String args[]) {
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                RunView dialog = new RunView(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
-    }
-
     private int mostrarDialogo(String opcion1, String opcion2, String mensaje, String titulo) {
-        int sel = 0;
 
         Object[] options = {
             opcion1,
             opcion2
         };
 
-        sel = javax.swing.JOptionPane.showOptionDialog(
+        return javax.swing.JOptionPane.showOptionDialog(
                 frame,
                 mensaje,
                 titulo,
@@ -194,8 +173,6 @@ public class RunView extends javax.swing.JDialog {
                 null,
                 options, options[0]
         );
-        return sel;
-
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

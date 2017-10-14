@@ -16,15 +16,21 @@
  * AUTHORIZES YOU TO USE THE SOFTWARE IN ACCORDANCE WITH THE TERMS SET OUT IN
  * THE LICENSE AGREEMENT.
  */
-package model.rng;
+package model.entities;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  *
  * @author Ezequiel Andujar Montes
+ * @param <T>
  */
-public interface RNG {
-    
-    Float generate(float A, float B);
-    Float generate();
-    String name();
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
+public class AmperVariable<T> {    
+    private String name;
+    private T value;    
 }

@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import model.entities.SaveValue;
+import model.entities.AmperVariable;
 import utils.Constants;
 import utils.VarGlobals;
 
@@ -34,12 +34,12 @@ import utils.VarGlobals;
  * @author Ezequiel Andujar Montes
  */
 @SuppressWarnings({"rawtypes", "unchecked"})
-public class InitialView extends javax.swing.JDialog {
+public class AmperVariableView extends javax.swing.JDialog {
 
     private final static long serialVersionUID = 1L;
 
-    SaveValue saveValueAux = null;
-    int posSaveValue = -1;
+    AmperVariable amperVariableAux = null;
+    int posAmperVariable = -1;
 
     /**
      * Creates new form PantallaStorages
@@ -47,9 +47,9 @@ public class InitialView extends javax.swing.JDialog {
      * @param parent
      * @param verOK
      */
-    public InitialView(Frame parent, boolean verOK) {
+    public AmperVariableView(Frame parent, boolean verOK) {
 
-        super(parent, Constants.SaveValueTitle, true);
+        super(parent, Constants.AmperVariableTitle, true);
         initComponents();
         initListeners();
         populateCombo();
@@ -60,7 +60,7 @@ public class InitialView extends javax.swing.JDialog {
         if (!verOK) {
             botoOK.setVisible(false);
         } else {
-            String saveValueName = comboSaveValues.getSelectedItem().toString();
+            String saveValueName = comboAmperVariables.getSelectedItem().toString();
             String saveValue = TextValor.getText();
             botoOK.setEnabled(!saveValueName.isEmpty() && !saveValue.isEmpty());
             botoSave.setVisible(false);
@@ -73,8 +73,8 @@ public class InitialView extends javax.swing.JDialog {
      * @return
      */
     private String getSelectedSavelValue() {
-        return VarGlobals.model.getSaveValues().stream()//
-                .filter(s -> s.getName().equals((String) comboSaveValues.getSelectedItem()))//
+        return VarGlobals.model.getAmperVariables().stream()//
+                .filter(s -> s.getName().equals((String) comboAmperVariables.getSelectedItem()))//
                 .map(s -> String.valueOf(s.getValue()))//
                 .findFirst()//                 
                 .orElse("");
@@ -89,27 +89,31 @@ public class InitialView extends javax.swing.JDialog {
     private void initComponents() {
 
         jTextField1 = new javax.swing.JTextField();
+        buttonGroup1 = new javax.swing.ButtonGroup();
+        buttonGroup2 = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
-        comboSaveValues = new javax.swing.JComboBox();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        comboAmperVariables = new javax.swing.JComboBox();
+        variableLable = new javax.swing.JLabel();
+        valueLabel = new javax.swing.JLabel();
         TextValor = new javax.swing.JTextField();
         botoOK = new javax.swing.JButton();
         botoSave = new javax.swing.JButton();
         botoCanel = new javax.swing.JButton();
+        typeLabel = new javax.swing.JLabel();
+        comboType = new javax.swing.JComboBox();
 
         jTextField1.setText("jTextField1");
 
-        comboSaveValues.setEditable(true);
-        comboSaveValues.addActionListener(new java.awt.event.ActionListener() {
+        comboAmperVariables.setEditable(true);
+        comboAmperVariables.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                comboSaveValuesActionPerformed(evt);
+                comboAmperVariablesActionPerformed(evt);
             }
         });
 
-        jLabel1.setText("Initial");
+        variableLable.setText("Variable");
 
-        jLabel2.setText("Value:");
+        valueLabel.setText("Value");
 
         TextValor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -138,41 +142,59 @@ public class InitialView extends javax.swing.JDialog {
             }
         });
 
+        typeLabel.setText("Type");
+
+        comboType.setEditable(true);
+        comboType.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Float", "Integer", "String" }));
+        comboType.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboTypeActionPerformed(evt);
+            }
+        });
+
         org.jdesktop.layout.GroupLayout jPanel1Layout = new org.jdesktop.layout.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel1Layout.createSequentialGroup()
+            .add(jPanel1Layout.createSequentialGroup()
                 .add(41, 41, 41)
                 .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
                     .add(jPanel1Layout.createSequentialGroup()
                         .add(botoCanel)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 140, Short.MAX_VALUE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 148, Short.MAX_VALUE)
                         .add(botoSave)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(botoOK))
                     .add(jPanel1Layout.createSequentialGroup()
                         .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(jLabel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 130, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                            .add(jLabel2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 148, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 15, Short.MAX_VALUE)
+                            .add(variableLable, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 130, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .add(valueLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 148, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .add(typeLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 234, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
                             .add(TextValor)
-                            .add(comboSaveValues, 0, 150, Short.MAX_VALUE))))
+                            .add(comboAmperVariables, 0, 150, Short.MAX_VALUE)
+                            .add(org.jdesktop.layout.GroupLayout.TRAILING, comboType, 0, 150, Short.MAX_VALUE))))
                 .add(61, 61, 61))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(jPanel1Layout.createSequentialGroup()
                 .add(71, 71, 71)
+                .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
+                    .add(comboAmperVariables, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(jPanel1Layout.createSequentialGroup()
+                        .add(5, 5, 5)
+                        .add(variableLable, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                 .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(comboSaveValues, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(jLabel1))
-                .add(24, 24, 24)
-                .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(jLabel2)
+                    .add(typeLabel)
+                    .add(comboType, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 12, Short.MAX_VALUE)
+                .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(valueLabel)
                     .add(TextValor, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 41, Short.MAX_VALUE)
+                .add(18, 18, 18)
                 .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(botoOK)
                     .add(botoSave)
@@ -203,13 +225,26 @@ public class InitialView extends javax.swing.JDialog {
     private void botoSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botoSaveActionPerformed
 
         try {
-            if (!savelValueExists((String) comboSaveValues.getSelectedItem())) {
-                saveValueAux = new SaveValue((String) comboSaveValues.getSelectedItem(), new Float(TextValor.getText()));
-                VarGlobals.model.getSaveValues().add(saveValueAux);
+            if (!amperVariableExists((String) comboAmperVariables.getSelectedItem())) {
+
+                switch (comboType.getSelectedItem().toString()) {
+                    case "Float":
+                        amperVariableAux = new AmperVariable<>((String) comboAmperVariables.getSelectedItem(), new Float(TextValor.getText()));
+                        break;
+                    case "String":
+                        amperVariableAux = new AmperVariable<>((String) comboAmperVariables.getSelectedItem(), TextValor.getText());
+
+                        break;
+                    case "Integer":
+                        amperVariableAux = new AmperVariable<>((String) comboAmperVariables.getSelectedItem(), Boolean.valueOf(TextValor.getText()));
+                        break;
+                }
+
+                VarGlobals.model.getAmperVariables().add(amperVariableAux);
                 botoOK.setEnabled(true);
                 populateCombo();
             } else {
-                VarGlobals.model.getSaveValues().get(posSaveValue).setValue(new Float(TextValor.getText()));
+                VarGlobals.model.getSaveValues().get(posAmperVariable).setValue(new Float(TextValor.getText()));
             }
         } catch (NumberFormatException nf) {
             generarPantallaError(Constants.errorDades);
@@ -222,24 +257,24 @@ public class InitialView extends javax.swing.JDialog {
         perror.setVisible(true);
         perror.dispose();
     }
-    private void comboSaveValuesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboSaveValuesActionPerformed
+    private void comboAmperVariablesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboAmperVariablesActionPerformed
 
-        String storageName = (String) comboSaveValues.getSelectedItem();
-        String storageValue = TextValor.getText();
+        String aVariableName = (String) comboAmperVariables.getSelectedItem();
+        String aVariableValue = TextValor.getText();
 
-        if (!storageName.isEmpty()) {
-            if (savelValueExists(storageName)) {
-                TextValor.setText(String.valueOf(saveValueAux.getValue()));
+        if (!aVariableName.isEmpty()) {
+            if (amperVariableExists(aVariableName)) {
+                TextValor.setText(String.valueOf(amperVariableAux.getValue()));
             }
         }
-        botoSave.setEnabled(!storageName.isEmpty() && !storageValue.isEmpty());
-        botoOK.setEnabled(!storageName.isEmpty() && !storageValue.isEmpty());
-    }//GEN-LAST:event_comboSaveValuesActionPerformed
+        botoSave.setEnabled(!aVariableName.isEmpty() && !aVariableValue.isEmpty());
+        botoOK.setEnabled(!aVariableName.isEmpty() && !aVariableValue.isEmpty());
+    }//GEN-LAST:event_comboAmperVariablesActionPerformed
 
     private void botoOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botoOKActionPerformed
 
         VarGlobals.continuar = true;
-        String selectedSaveValue = (String) comboSaveValues.getSelectedItem();        
+        String selectedSaveValue = (String) comboAmperVariables.getSelectedItem();
         VarGlobals.nameSaveValueSelected = selectedSaveValue;
         setVisible(false);
         dispose();
@@ -249,33 +284,38 @@ public class InitialView extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_TextValorActionPerformed
 
+    private void comboTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboTypeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_comboTypeActionPerformed
+
     private void populateCombo() {
-        if (VarGlobals.model.getSaveValues().size() > 0) {
-            comboSaveValues.setModel(new DefaultComboBoxModel(getSaveValuesNames(VarGlobals.model.getSaveValues())));
-            comboSaveValues.setEnabled(true);
-            if (saveValueAux != null) {
-                comboSaveValues.setSelectedItem(saveValueAux.getName());
-                TextValor.setText(String.valueOf(saveValueAux.getValue()));
+        if (VarGlobals.model.getAmperVariables().size() > 0) {
+            comboAmperVariables.setModel(new DefaultComboBoxModel(getAmperVariablesNames(VarGlobals.model.getAmperVariables())));
+            comboAmperVariables.setEnabled(true);
+            if (amperVariableAux != null) {
+                comboAmperVariables.setSelectedItem(amperVariableAux.getName());
+                TextValor.setText(String.valueOf(amperVariableAux.getValue()));
             }
         }
     }
 
-    private Object[] getSaveValuesNames(ArrayList<SaveValue> vStorages) {
+    private Object[] getAmperVariablesNames(ArrayList<AmperVariable<?>> aVariables) {
 
-        return vStorages.stream()//
+        return aVariables.stream()//
                 .map(s -> s.getName())//
                 .collect(Collectors.toList())//
                 .toArray();
     }
 
-    private boolean savelValueExists(String titol) {
+    private boolean amperVariableExists(String titol) {
         boolean b = false;
-        SaveValue st;
-        for (int i = 0; ((i < VarGlobals.model.getSaveValues().size()) && !b); i++) {
-            st = VarGlobals.model.getSaveValues().get(i);
-            if (st.getName().equals(titol)) {
-                saveValueAux = VarGlobals.model.getSaveValues().get(i);
-                posSaveValue = i;
+        AmperVariable aV;
+
+        for (int i = 0; ((i < VarGlobals.model.getAmperVariables().size()) && !b); i++) {
+            aV = VarGlobals.model.getAmperVariables().get(i);
+            if (aV.getName().equals(titol)) {
+                amperVariableAux = VarGlobals.model.getAmperVariables().get(i);
+                posAmperVariable = i;
                 b = true;
             }
         }
@@ -288,11 +328,15 @@ public class InitialView extends javax.swing.JDialog {
     private javax.swing.JButton botoCanel;
     private javax.swing.JButton botoOK;
     private javax.swing.JButton botoSave;
-    private javax.swing.JComboBox comboSaveValues;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
+    private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.ButtonGroup buttonGroup2;
+    private javax.swing.JComboBox comboAmperVariables;
+    private javax.swing.JComboBox comboType;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JLabel typeLabel;
+    private javax.swing.JLabel valueLabel;
+    private javax.swing.JLabel variableLable;
     // End of variables declaration//GEN-END:variables
 
     private void initListeners() {
@@ -317,7 +361,7 @@ public class InitialView extends javax.swing.JDialog {
 
     private void checkInputValues() {
 
-        String saveValueName = (String) comboSaveValues.getSelectedItem();
+        String saveValueName = (String) comboAmperVariables.getSelectedItem();
         String saveValue = TextValor.getText();
         botoSave.setEnabled(!saveValueName.isEmpty() && !saveValue.isEmpty());
     }

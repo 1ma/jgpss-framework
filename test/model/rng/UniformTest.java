@@ -18,6 +18,7 @@
  */
 package model.rng;
 
+import model.entities.rng.Uniform;
 import junit.framework.TestCase;
 
 /**
