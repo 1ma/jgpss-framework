@@ -1,13 +1,13 @@
-Software end-user license agreement
+/*Software end-user license agreement
 
 NOTICE TO THE USER: BY COPYING, INSTALLING OR USING THIS SOFTWARE OR PART OF THIS SOFTWARE, YOU AGREE TO THE TERMS AND CONDITIONS OF THIS AGREEMENT AS IF IT WERE A WRITTEN AGREEMENT NEGOTIATED AND SIGNED BY YOU. THIS AGREEMENT IS ENFORCEABLE AGAINST YOU AND ANY OTHER LEGAL PERSON ACTING ON YOUR BEHALF. 
 IF, AFTER READING THE TERMS AND CONDITIONS HEREIN, YOU DO NOT AGREE TO THEM, YOU MAY NOT INSTALL THIS SOFTWARE ON YOUR COMPUTER. 
 UPC IS THE OWNER OF ALL THE INTELLECTUAL PROPERTY OF THE SOFTWARE AND ONLY AUTHORIZES YOU TO USE THE SOFTWARE IN ACCORDANCE WITH THE TERMS SET OUT IN THIS AGREEMENT.
 
 	1. Definitions
-“Software” means (a) all the information provided in this agreement, including but not limited to (i) software files, source code, object code, and other computer information belonging to UPC; (ii) written material and explanatory files (“Documentation”); and (b) any modified versions and copies of this information, such as improvements, updates and additions to the information provided to you by  UPC at any time, insofar as they are not the object of another agreement (collectively, "Updates").
-“User” means the natural or legal person who accepts the terms and conditions of this agreement.
-“Computer” means a computer device that accepts information in digital or similar form and processes that information to achieve a specific result based on a sequence of instructions.
+ï¿½Softwareï¿½ means (a) all the information provided in this agreement, including but not limited to (i) software files, source code, object code, and other computer information belonging to UPC; (ii) written material and explanatory files (ï¿½Documentationï¿½); and (b) any modified versions and copies of this information, such as improvements, updates and additions to the information provided to you by  UPC at any time, insofar as they are not the object of another agreement (collectively, "Updates").
+ï¿½Userï¿½ means the natural or legal person who accepts the terms and conditions of this agreement.
+ï¿½Computerï¿½ means a computer device that accepts information in digital or similar form and processes that information to achieve a specific result based on a sequence of instructions.
 2. Intellectual Property
 The Software and the authorized copies are the property of UPC. This agreement shall not imply the waiver or transfer, in whole or in part, of this ownership by UPC. 
 The Software is protected by law, including, but not limited to, the laws of Spain and other countries on intellectual property, and by the applicable international agreements.
@@ -36,4 +36,4 @@ In order to withdraw the authorization, the Licensor shall send an e-mail to the
 7.4 The user may not bring any action which may arise from this agreement more than two years after the cause of said action, unless otherwise established by Spanish law, without the possibility of contractual waiver or limitation. 
 7.5 This license is indefinite and failure to comply with it by the user may give rise to legal action by  UPC at any time.
 7.6  UPC shall not be liable for noncompliance with their obligations when said noncompliance is due to force majeure.
-7.7 This agreement is governed by Spanish law and the courts of Barcelona shall be the authority competent to resolve any conflicts that may arise from this agreement.
+7.7 This agreement is governed by Spanish law and the courts of Barcelona shall be the authority competent to resolve any conflicts that may arise from this agreement.*/
